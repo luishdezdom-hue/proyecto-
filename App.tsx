@@ -613,7 +613,7 @@ const App: React.FC = () => {
       case ViewState.CAFETERIA:
         return <CafeteriaSection />;
       case ViewState.MAP:
-        return <CampusMap />;
+        return <CampusMap userRole={currentUser?.role} />;
       case ViewState.CAREER_GUIDANCE:
         return <CareerGuidanceSection onSubmitJobSearch={handleJobApplication} />;
       case ViewState.GAMES:
