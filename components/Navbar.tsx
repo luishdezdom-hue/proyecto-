@@ -10,7 +10,11 @@ import {
   X,
   Users,
   Star,
-  ChevronDown
+  ChevronDown,
+  BookOpen,
+  Coffee,
+  Map,
+  Briefcase
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -20,12 +24,14 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [teachersDropdownOpen, setTeachersDropdownOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
 
   const handleNavigate = (view: ViewState) => {
     onNavigate(view);
     setIsOpen(false);
-    setDropdownOpen(false);
+    setTeachersDropdownOpen(false);
+    setServicesDropdownOpen(false);
   };
 
   return (
@@ -64,8 +70,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               {/* Docentes Dropdown */}
               <div 
                 className="relative group"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
+                onMouseEnter={() => setTeachersDropdownOpen(true)}
+                onMouseLeave={() => setTeachersDropdownOpen(false)}
               >
                 <button
                   className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
@@ -80,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 </button>
 
                 {/* Dropdown Menu */}
-                <div className={`absolute left-0 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-200 origin-top-left ${dropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                <div className={`absolute left-0 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-200 origin-top-left ${teachersDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
                   <div className="py-1">
                     <button
                       onClick={() => handleNavigate(ViewState.ATTENDANCE)}
@@ -109,6 +115,52 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 <Trophy className="h-4 w-4 mr-2" />
                 Torneos
               </button>
+
+              {/* Servicios Dropdown */}
+              <div 
+                className="relative group"
+                onMouseEnter={() => setServicesDropdownOpen(true)}
+                onMouseLeave={() => setServicesDropdownOpen(false)}
+              >
+                <button
+                  className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    [ViewState.LIBRARY, ViewState.CAFETERIA, ViewState.MAP].includes(currentView) 
+                      ? 'bg-white/30 text-white shadow-md' 
+                      : 'text-white/80 hover:bg-white/20 hover:text-white'
+                  }`}
+                >
+                  <Briefcase className="h-4 w-4 mr-2" />
+                  Servicios
+                  <ChevronDown className="h-3 w-3 ml-1" />
+                </button>
+
+                <div className={`absolute left-0 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-200 origin-top-left ${servicesDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                  <div className="py-1">
+                    <button
+                      onClick={() => handleNavigate(ViewState.LIBRARY)}
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                    >
+                      <BookOpen className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      Biblioteca
+                    </button>
+                    <button
+                      onClick={() => handleNavigate(ViewState.CAFETERIA)}
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                    >
+                      <Coffee className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      Cafetería
+                    </button>
+                    <button
+                      onClick={() => handleNavigate(ViewState.MAP)}
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                    >
+                      <Map className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      Mapa del Campus
+                    </button>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -143,6 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               Agenda
             </button>
             
+            {/* Docentes Mobile Group */}
             <div className="space-y-1 pl-4 border-l-2 border-white/20 ml-2">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider pl-3">Docentes</span>
               <button
@@ -168,6 +221,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               <Trophy className="h-5 w-5 mr-3" />
               Torneos
             </button>
+
+            {/* Servicios Mobile Group */}
+            <div className="space-y-1 pl-4 border-l-2 border-white/20 ml-2 mt-2">
+              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider pl-3">Servicios</span>
+              <button
+                onClick={() => handleNavigate(ViewState.LIBRARY)}
+                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+              >
+                <BookOpen className="h-5 w-5 mr-3" />
+                Biblioteca
+              </button>
+              <button
+                onClick={() => handleNavigate(ViewState.CAFETERIA)}
+                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+              >
+                <Coffee className="h-5 w-5 mr-3" />
+                Cafetería
+              </button>
+              <button
+                onClick={() => handleNavigate(ViewState.MAP)}
+                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+              >
+                <Map className="h-5 w-5 mr-3" />
+                Mapa
+              </button>
+            </div>
           </div>
         </div>
       )}

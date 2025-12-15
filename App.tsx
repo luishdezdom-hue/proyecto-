@@ -5,6 +5,9 @@ import { CalendarSection } from './components/CalendarSection';
 import { AttendanceTracker } from './components/AttendanceTracker';
 import { TeacherEvaluation } from './components/TeacherEvaluation';
 import { Tournaments } from './components/Tournaments';
+import { LibrarySection } from './components/LibrarySection';
+import { CafeteriaSection } from './components/CafeteriaSection';
+import { CampusMap } from './components/CampusMap';
 import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType } from './types';
 import { generateUniversityInsights } from './services/geminiService';
 import { Bot, X } from 'lucide-react';
@@ -82,6 +85,12 @@ const App: React.FC = () => {
         return <TeacherEvaluation teachers={teachers} />;
       case ViewState.TOURNAMENTS:
         return <Tournaments />;
+      case ViewState.LIBRARY:
+        return <LibrarySection />;
+      case ViewState.CAFETERIA:
+        return <CafeteriaSection />;
+      case ViewState.MAP:
+        return <CampusMap />;
       default:
         return <NewsSection />;
     }
