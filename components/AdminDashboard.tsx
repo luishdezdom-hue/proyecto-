@@ -1,6 +1,6 @@
 import React from 'react';
 import { AdvisoryRegistration, LibraryReservation, JobApplication, Teacher, TeacherRating, User } from '../types';
-import { Table, FileSpreadsheet, Star, Users } from 'lucide-react';
+import { Table, FileSpreadsheet, Star, Users, Settings, ToggleLeft, ToggleRight, Layout } from 'lucide-react';
 
 interface AdminDashboardProps {
   advisories: AdvisoryRegistration[];
@@ -9,6 +9,8 @@ interface AdminDashboardProps {
   teacherRatings: TeacherRating[];
   teachers: Teacher[];
   registeredUsers?: User[];
+  enabledSections?: Record<string, boolean>;
+  onToggleSection?: (section: string) => void;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ 
@@ -17,7 +19,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   jobApplications, 
   teacherRatings,
   teachers,
-  registeredUsers = []
+  registeredUsers = [],
+  enabledSections = {},
+  onToggleSection
 }) => {
 
   const calculateAverageStars = (teacherId: string) => {
@@ -50,7 +54,35 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-slate-900 mb-2">Panel de Administrador</h2>
-      <p className="text-slate-500 mb-8">Visualización de datos y respuestas de formularios.</p>
+      <p className="text-slate-500 mb-8">Visualización de datos y gestión de la plataforma.</p>
+
+      {/* --- MODULE MANAGEMENT SECTION --- */}
+      {onToggleSection && (
+        <div className="mb-12">
+          <TableHeader title="GESTIÓN DE MÓDULOS DEL SISTEMA" icon={<Settings className="w-4 h-4" />} />
+          <div className="bg-white border-x border-b border-slate-300 p-6 rounded-b-lg shadow-sm">
+            <p className="text-sm text-slate-500 mb-4">Activa o desactiva las secciones visibles para alumnos y docentes.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(enabledSections).map(([key, isEnabled]) => (
+                <div key={key} className={`flex items-center justify-between p-3 rounded-lg border ${isEnabled ? 'bg-green-50 border-green-200' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="flex items-center">
+                    <Layout className={`w-4 h-4 mr-2 ${isEnabled ? 'text-green-600' : 'text-slate-400'}`} />
+                    <span className={`text-sm font-semibold ${isEnabled ? 'text-slate-800' : 'text-slate-500'}`}>
+                      {key.replace(/_/g, ' ')}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => onToggleSection(key)}
+                    className={`focus:outline-none transition-colors ${isEnabled ? 'text-green-600 hover:text-green-700' : 'text-slate-400 hover:text-slate-600'}`}
+                  >
+                    {isEnabled ? <ToggleRight className="w-8 h-8" /> : <ToggleLeft className="w-8 h-8" />}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* --- USERS DATABASE TABLE --- */}
       <TableHeader title="BASE DE DATOS DE ALUMNOS REGISTRADOS" icon={<Users className="w-4 h-4" />} />

@@ -257,6 +257,27 @@ const App: React.FC = () => {
   const [absences, setAbsences] = useState<AbsenceRecord[]>([]);
   const [events, setEvents] = useState<UniversityEvent[]>(MOCK_EVENTS);
 
+  // --- ENABLED SECTIONS STATE (ADMIN CONTROL) ---
+  const [enabledSections, setEnabledSections] = useState<Record<string, boolean>>({
+    [ViewState.CALENDAR]: true,
+    [ViewState.ATTENDANCE]: true,
+    [ViewState.TEACHER_INFO]: true,
+    [ViewState.TEACHER_EVALUATION]: true,
+    [ViewState.ADVISORY]: true,
+    [ViewState.LIBRARY]: true,
+    [ViewState.CAFETERIA]: true,
+    [ViewState.MAP]: true,
+    [ViewState.CAREER_GUIDANCE]: true,
+    [ViewState.GAMES]: true,
+  });
+
+  const handleToggleSection = (section: string) => {
+    setEnabledSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   // --- COLLECTED DATA STATE (For Admin Dashboard) ---
   const [advisoryRegistrations, setAdvisoryRegistrations] = useState<AdvisoryRegistration[]>([]);
   const [libraryReservations, setLibraryReservations] = useState<LibraryReservation[]>([]);
@@ -572,52 +593,54 @@ const App: React.FC = () => {
             teacherRatings={teacherRatings}
             teachers={teachers}
             registeredUsers={registeredUsers} // Pass DB
+            enabledSections={enabledSections}
+            onToggleSection={handleToggleSection}
         />;
       case ViewState.NEWS:
         return <NewsSection />;
       case ViewState.CALENDAR:
-        return <CalendarSection 
+        return enabledSections[ViewState.CALENDAR] ? <CalendarSection 
           events={events} 
           absences={absences} 
           teachers={teachers} 
           onAddEvent={handleAddEvent} 
           userRole={currentUser?.role}
           userCareer={currentUser?.career}
-        />;
+        /> : <NewsSection />;
       case ViewState.ATTENDANCE:
-        return <AttendanceTracker 
+        return enabledSections[ViewState.ATTENDANCE] ? <AttendanceTracker 
             teachers={teachers} 
             absences={absences} 
             onToggleAbsence={handleToggleAbsence} 
             readOnly={currentUser?.role !== 'ADMIN'} 
             userCareer={userCareer}
-        />;
+        /> : <NewsSection />;
       case ViewState.TEACHER_EVALUATION:
-        return <TeacherEvaluation 
+        return enabledSections[ViewState.TEACHER_EVALUATION] ? <TeacherEvaluation 
             teachers={teachers} 
             onSubmitEvaluation={handleRateTeacher} 
             userCareer={userCareer}
-        />;
+        /> : <NewsSection />;
       case ViewState.TEACHER_INFO:
-        return <TeacherInfoSection 
+        return enabledSections[ViewState.TEACHER_INFO] ? <TeacherInfoSection 
           teachers={teachers} 
           userCareer={userCareer}
-        />;
+        /> : <NewsSection />;
       case ViewState.ADVISORY:
-        return <AdvisorySection 
+        return enabledSections[ViewState.ADVISORY] ? <AdvisorySection 
           onRegister={handleRegisterAdvisory} 
           userCareer={userCareer}
-        />;
+        /> : <NewsSection />;
       case ViewState.LIBRARY:
-        return <LibrarySection onReserve={handleReserveBook} />;
+        return enabledSections[ViewState.LIBRARY] ? <LibrarySection onReserve={handleReserveBook} /> : <NewsSection />;
       case ViewState.CAFETERIA:
-        return <CafeteriaSection />;
+        return enabledSections[ViewState.CAFETERIA] ? <CafeteriaSection /> : <NewsSection />;
       case ViewState.MAP:
-        return <CampusMap userRole={currentUser?.role} />;
+        return enabledSections[ViewState.MAP] ? <CampusMap userRole={currentUser?.role} /> : <NewsSection />;
       case ViewState.CAREER_GUIDANCE:
-        return <CareerGuidanceSection onSubmitJobSearch={handleJobApplication} />;
+        return enabledSections[ViewState.CAREER_GUIDANCE] ? <CareerGuidanceSection onSubmitJobSearch={handleJobApplication} /> : <NewsSection />;
       case ViewState.GAMES:
-        return <GamesSection />;
+        return enabledSections[ViewState.GAMES] ? <GamesSection /> : <NewsSection />;
       default:
         return <NewsSection />;
     }
@@ -630,6 +653,7 @@ const App: React.FC = () => {
         onNavigate={setCurrentView} 
         isAdmin={currentUser?.role === 'ADMIN'}
         onLogout={handleLogout}
+        enabledSections={enabledSections}
       />
       
       <main className="flex-grow">
