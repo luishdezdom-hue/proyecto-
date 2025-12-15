@@ -44,6 +44,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     </div>
   );
 
+  // Group teachers by career
+  const careers = ["Ingeniería en TIC'S", "Ingeniería Industrial", "Licenciatura en Derecho"];
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-slate-900 mb-2">Panel de Administrador</h2>
@@ -92,15 +95,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200">
-            {teachers.map((teacher, idx) => (
-              <tr key={teacher.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                <td className="px-4 py-2 border-r font-medium">{teacher.name}</td>
-                <td className="px-4 py-2 border-r text-slate-500">{teacher.department}</td>
-                <td className="px-4 py-2 text-center font-bold text-yellow-600 flex justify-center items-center">
-                   {calculateAverageStars(teacher.id)} <Star className="w-3 h-3 ml-1 fill-yellow-500 text-yellow-500" />
-                </td>
-              </tr>
-            ))}
+            {careers.map((career) => {
+              const careerTeachers = teachers.filter(t => t.career === career);
+              if (careerTeachers.length === 0) return null;
+
+              return (
+                <React.Fragment key={career}>
+                  {/* Career Divider Row */}
+                  <tr className="bg-green-50 border-y border-green-200">
+                    <td colSpan={3} className="px-4 py-2 font-bold text-green-800 text-xs uppercase tracking-wider">
+                      {career}
+                    </td>
+                  </tr>
+                  
+                  {/* Teachers for this career */}
+                  {careerTeachers.map((teacher, idx) => (
+                    <tr key={teacher.id} className="bg-white hover:bg-slate-50 transition-colors">
+                      <td className="px-4 py-3 border-r font-medium border-b border-slate-100">{teacher.name}</td>
+                      <td className="px-4 py-3 border-r text-slate-500 border-b border-slate-100">{teacher.department}</td>
+                      <td className="px-4 py-3 text-center font-bold text-yellow-600 flex justify-center items-center border-b border-slate-100">
+                        {calculateAverageStars(teacher.id)} <Star className="w-3 h-3 ml-1 fill-yellow-500 text-yellow-500" />
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -166,43 +186,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <td className="px-4 py-2 border-r">{item.career}</td>
                   <td className="px-4 py-2 border-r font-medium">{item.bookTitle}</td>
                   <td className="px-4 py-2">{item.bookAuthor}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* --- JOB OFFERS TABLE --- */}
-      <TableHeader title="SOLICITUDES DE OFERTA LABORAL" />
-      <div className="overflow-x-auto border-x border-b border-slate-300 bg-white mb-8">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-xs">
-            <tr>
-              <th className="px-4 py-3 border-b border-r">Fecha</th>
-              <th className="px-4 py-3 border-b border-r">Carrera</th>
-              <th className="px-4 py-3 border-b border-r text-center">Promedio</th>
-              <th className="px-4 py-3 border-b">Características / Habilidades Registradas</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {jobApplications.length === 0 ? (
-              <tr><td colSpan={4} className="p-4 text-center text-slate-400 italic">No hay solicitudes.</td></tr>
-            ) : (
-              jobApplications.map((item, idx) => (
-                <tr key={item.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                  <td className="px-4 py-2 border-r whitespace-nowrap">{item.timestamp.toLocaleDateString()}</td>
-                  <td className="px-4 py-2 border-r">{item.career}</td>
-                  <td className="px-4 py-2 border-r text-center font-bold">{item.average}</td>
-                  <td className="px-4 py-2">
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                      {item.specs.map((spec, i) => (
-                        <div key={i} className="text-xs text-slate-600 truncate bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                           {i+1}. {spec}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
                 </tr>
               ))
             )}
