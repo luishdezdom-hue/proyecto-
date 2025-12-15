@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Briefcase, Users, Linkedin, CheckSquare, MessageSquare, Award, ArrowRight, Download, Eye, X, Search, GraduationCap, Building, CheckCircle2 } from 'lucide-react';
+import { FileText, Users, Linkedin, CheckSquare, MessageSquare, Award, Download, Eye, X, Briefcase } from 'lucide-react';
 import { JobApplication } from '../types';
 
 const MODERN_CV_TEMPLATE = `NOMBRE COMPLETO
@@ -111,51 +111,14 @@ ANÁLISIS Y TÉCNICA
 - Implementé
 `;
 
-type CareerType = "Ingeniería en TIC'S" | "Ingeniería Industrial" | "Licenciatura en Derecho";
-
-const CAREER_SPECS: Record<CareerType, string[]> = {
-    "Ingeniería en TIC'S": [
-        "Nivel de Inglés Técnico",
-        "Lenguajes de Programación Domiandos",
-        "Experiencia en Bases de Datos",
-        "Frameworks (React, Angular, etc.)",
-        "Conocimientos de Cloud/DevOps",
-        "Link a Portafolio/GitHub"
-    ],
-    "Ingeniería Industrial": [
-        "Nivel de Inglés",
-        "Certificaciones (Six Sigma/ISO)",
-        "Software CAD/Simulación",
-        "Experiencia en Logística/Almacén",
-        "Conocimientos de Seguridad Industrial",
-        "Manejo de ERPs (SAP, Oracle)"
-    ],
-    "Licenciatura en Derecho": [
-        "Nivel de Inglés Legal",
-        "Rama de Especialización",
-        "Experiencia en Juicios Orales",
-        "Redacción Jurídica",
-        "Conocimiento de Reformas 2024",
-        "Prácticas en Juzgados/Despachos"
-    ]
-};
-
 interface CareerGuidanceSectionProps {
     onSubmitJobSearch?: (data: Omit<JobApplication, 'id' | 'timestamp'>) => void;
 }
 
 export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ onSubmitJobSearch }) => {
-  const [activeTab, setActiveTab] = useState<'CV' | 'INTERVIEW' | 'JOB_OFFER'>('CV');
+  const [activeTab, setActiveTab] = useState<'CV' | 'INTERVIEW'>('CV');
   const [modalOpen, setModalOpen] = useState(false);
   const [currentExample, setCurrentExample] = useState<{title: string, content: React.ReactNode} | null>(null);
-
-  // Job Offer Form State
-  const [jobForm, setJobForm] = useState({
-      career: '' as CareerType | '',
-      average: '',
-      specs: ['', '', '', '', '', '']
-  });
-  const [showJobResult, setShowJobResult] = useState(false);
 
   const downloadFile = (filename: string, content: string) => {
     const element = document.createElement("a");
@@ -280,26 +243,6 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
     setModalOpen(true);
   };
 
-  const handleSpecChange = (index: number, value: string) => {
-      const newSpecs = [...jobForm.specs];
-      newSpecs[index] = value;
-      setJobForm({...jobForm, specs: newSpecs});
-  };
-
-  const handleSearchJobs = (e: React.FormEvent) => {
-      e.preventDefault();
-      
-      if (onSubmitJobSearch && jobForm.career) {
-          onSubmitJobSearch({
-              career: jobForm.career,
-              average: jobForm.average,
-              specs: jobForm.specs
-          });
-      }
-
-      setShowJobResult(true);
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 relative">
       {/* Example Modal */}
@@ -329,7 +272,7 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
 
       <div className="text-center mb-12">
         <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
-          <Briefcase className="w-10 h-10 mr-4 text-[#FF8FE9]" />
+          <Briefcase className="w-10 h-10 mr-4 text-[#41F73B]" />
           Orientación Laboral
         </h2>
         <p className="text-slate-500 mt-3 text-lg">Herramientas y consejos para impulsar tu carrera profesional.</p>
@@ -341,7 +284,7 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
           onClick={() => setActiveTab('CV')}
           className={`px-6 py-3 rounded-full text-sm font-bold transition-all flex items-center ${
             activeTab === 'CV'
-              ? 'bg-[#FF8FE9] text-white shadow-lg ring-2 ring-[#ff76e5] ring-offset-2'
+              ? 'bg-[#41F73B] text-white shadow-lg ring-2 ring-green-400 ring-offset-2'
               : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
           }`}
         >
@@ -352,23 +295,12 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
           onClick={() => setActiveTab('INTERVIEW')}
           className={`px-6 py-3 rounded-full text-sm font-bold transition-all flex items-center ${
             activeTab === 'INTERVIEW'
-              ? 'bg-[#FF8FE9] text-white shadow-lg ring-2 ring-[#ff76e5] ring-offset-2'
+              ? 'bg-[#41F73B] text-white shadow-lg ring-2 ring-green-400 ring-offset-2'
               : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
           }`}
         >
           <MessageSquare className="w-4 h-4 mr-2" />
           Entrevistas de Trabajo
-        </button>
-        <button
-          onClick={() => setActiveTab('JOB_OFFER')}
-          className={`px-6 py-3 rounded-full text-sm font-bold transition-all flex items-center ${
-            activeTab === 'JOB_OFFER'
-              ? 'bg-[#FF8FE9] text-white shadow-lg ring-2 ring-[#ff76e5] ring-offset-2'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-          }`}
-        >
-          <Search className="w-4 h-4 mr-2" />
-          Oferta Laboral
         </button>
       </div>
 
@@ -462,151 +394,13 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
               </div>
             </div>
           )}
-
-          {activeTab === 'JOB_OFFER' && (
-            <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden animate-fade-in">
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">Encuentra tu Práctica u Oferta Ideal</h3>
-                <p className="text-slate-600 mb-6 text-sm">
-                   Completa tu perfil académico para encontrar vacantes adaptadas a tus habilidades.
-                </p>
-
-                {!showJobResult ? (
-                    <form onSubmit={handleSearchJobs} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="col-span-1 md:col-span-2">
-                                <label className="block text-sm font-bold text-slate-700 mb-2">Carrera</label>
-                                <select 
-                                    required
-                                    className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] bg-white"
-                                    value={jobForm.career}
-                                    onChange={(e) => {
-                                        setJobForm({
-                                            ...jobForm, 
-                                            career: e.target.value as CareerType,
-                                            specs: ['', '', '', '', '', '']
-                                        });
-                                    }}
-                                >
-                                    <option value="">Selecciona tu carrera...</option>
-                                    <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
-                                    <option value="Ingeniería Industrial">Ingeniería Industrial</option>
-                                    <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">Promedio Final</label>
-                                <input 
-                                    type="number" 
-                                    step="0.1" 
-                                    min="0" 
-                                    max="10"
-                                    required
-                                    placeholder="Ej. 9.2"
-                                    className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
-                                    value={jobForm.average}
-                                    onChange={(e) => setJobForm({...jobForm, average: e.target.value})}
-                                />
-                            </div>
-                        </div>
-
-                        {jobForm.career && (
-                            <div className="animate-fade-in bg-slate-50 p-6 rounded-xl border border-slate-200 mt-4">
-                                <h4 className="font-bold text-slate-700 mb-4 flex items-center">
-                                    <GraduationCap className="w-5 h-5 mr-2 text-[#FF8FE9]" />
-                                    Características Específicas: {jobForm.career}
-                                </h4>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {CAREER_SPECS[jobForm.career].map((label, idx) => (
-                                        <div key={idx}>
-                                            <label className="block text-xs font-semibold text-slate-600 mb-1">{label}</label>
-                                            <input 
-                                                type="text" 
-                                                required
-                                                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8FE9]"
-                                                value={jobForm.specs[idx]}
-                                                onChange={(e) => handleSpecChange(idx, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="pt-2">
-                             <button 
-                                type="submit"
-                                disabled={!jobForm.career || !jobForm.average}
-                                className="w-full bg-[#FF8FE9] hover:bg-[#ff76e5] text-white font-bold py-4 rounded-xl shadow-lg transition-transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                             >
-                                <Search className="w-5 h-5 mr-2" />
-                                Buscar Ofertas Compatibles
-                             </button>
-                        </div>
-                    </form>
-                ) : (
-                    <div className="animate-scale-up">
-                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-center text-green-800">
-                             <CheckCircle2 className="w-6 h-6 mr-3" />
-                             <div>
-                                 <p className="font-bold">Perfil Analizado Exitosamente</p>
-                                 <p className="text-xs">Basado en tu promedio de {jobForm.average} y habilidades.</p>
-                             </div>
-                             <button onClick={() => setShowJobResult(false)} className="ml-auto text-sm underline font-medium hover:text-green-900">Modificar búsqueda</button>
-                        </div>
-
-                        <h4 className="font-bold text-slate-800 mb-4">Mejor coincidencia encontrada:</h4>
-                        
-                        <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 bg-[#FF8FE9] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">98% Match</div>
-                            
-                            <div className="flex items-start mb-4">
-                                <div className="bg-slate-100 p-3 rounded-lg mr-4">
-                                    <Building className="w-8 h-8 text-slate-600" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-[#d147a3] transition-colors">
-                                        {jobForm.career === "Ingeniería en TIC'S" ? "Desarrollador Full Stack Jr." :
-                                         jobForm.career === "Ingeniería Industrial" ? "Ingeniero de Procesos Jr." :
-                                         "Abogado Corporativo Jr."}
-                                    </h3>
-                                    <p className="text-slate-500 text-sm">TechCorp Solutions | Ciudad de México (Híbrido)</p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3 mb-6">
-                                <div className="flex items-center text-sm text-slate-600">
-                                    <CheckSquare className="w-4 h-4 mr-2 text-green-500" />
-                                    <span>Requisito Promedio: 8.5+ (Tu: {jobForm.average})</span>
-                                </div>
-                                <div className="flex items-center text-sm text-slate-600">
-                                    <CheckSquare className="w-4 h-4 mr-2 text-green-500" />
-                                    <span>Inglés: {jobForm.specs[0]} (Requerido: Intermedio)</span>
-                                </div>
-                                <div className="flex items-center text-sm text-slate-600">
-                                    <CheckSquare className="w-4 h-4 mr-2 text-green-500" />
-                                    <span>Habilidad Clave: {jobForm.specs[2]}</span>
-                                </div>
-                            </div>
-
-                            <button className="w-full border-2 border-[#FF8FE9] text-[#d147a3] font-bold py-2 rounded-lg hover:bg-[#FF8FE9] hover:text-white transition-colors">
-                                Aplicar Ahora
-                            </button>
-                        </div>
-                    </div>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Sidebar Resources */}
         <div className="space-y-6">
-            {activeTab !== 'JOB_OFFER' && (
             <div className="bg-gradient-to-br from-purple-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg sticky top-24">
                 <h3 className="font-bold text-xl mb-2">Recursos Descargables</h3>
-                <p className="text-purple-100 text-sm mb-4">Plantillas editables (.txt) para comenzar.</p>
+                <p className="text-purple-100 text-sm mb-4">Plantillas editables (.pdf) para comenzar.</p>
                 
                 <div className="space-y-4">
                     {/* Modern CV */}
@@ -616,10 +410,10 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
                         </div>
                         <div className="flex gap-2">
                              <button 
-                                onClick={() => downloadFile('Plantilla_CV_Moderno.txt', MODERN_CV_TEMPLATE)}
+                                onClick={() => downloadFile('Plantilla_CV_Moderno.pdf', MODERN_CV_TEMPLATE)}
                                 className="flex-1 bg-white text-purple-700 hover:bg-purple-50 text-xs font-bold py-2 rounded-lg flex items-center justify-center transition-colors"
                              >
-                                <Download className="w-3 h-3 mr-1" /> Descargar
+                                <Download className="w-3 h-3 mr-1" /> Descargar PDF
                              </button>
                              <button 
                                 onClick={() => openExample('MODERN')}
@@ -637,10 +431,10 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
                         </div>
                         <div className="flex gap-2">
                              <button 
-                                onClick={() => downloadFile('Plantilla_CV_Academico.txt', ACADEMIC_CV_TEMPLATE)}
+                                onClick={() => downloadFile('Plantilla_CV_Academico.pdf', ACADEMIC_CV_TEMPLATE)}
                                 className="flex-1 bg-white text-purple-700 hover:bg-purple-50 text-xs font-bold py-2 rounded-lg flex items-center justify-center transition-colors"
                              >
-                                <Download className="w-3 h-3 mr-1" /> Descargar
+                                <Download className="w-3 h-3 mr-1" /> Descargar PDF
                              </button>
                              <button 
                                 onClick={() => openExample('ACADEMIC')}
@@ -658,10 +452,10 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
                         </div>
                          <div className="flex gap-2">
                              <button 
-                                onClick={() => downloadFile('Lista_Verbos_Accion.txt', VERBS_LIST)}
+                                onClick={() => downloadFile('Lista_Verbos_Accion.pdf', VERBS_LIST)}
                                 className="flex-1 bg-white text-purple-700 hover:bg-purple-50 text-xs font-bold py-2 rounded-lg flex items-center justify-center transition-colors"
                              >
-                                <Download className="w-3 h-3 mr-1" /> Descargar
+                                <Download className="w-3 h-3 mr-1" /> Descargar PDF
                              </button>
                              <button 
                                 onClick={() => openExample('VERBS')}
@@ -673,7 +467,6 @@ export const CareerGuidanceSection: React.FC<CareerGuidanceSectionProps> = ({ on
                     </div>
                 </div>
             </div>
-            )}
         </div>
       </div>
     </div>

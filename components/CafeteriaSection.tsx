@@ -59,7 +59,7 @@ export const CafeteriaSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="text-center mb-10">
         <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
-          <Coffee className="w-10 h-10 mr-4 text-[#FF8FE9]" />
+          <Coffee className="w-10 h-10 mr-4 text-[#41F73B]" />
           Cafetería Universitaria
         </h2>
         <p className="text-slate-500 mt-3 text-lg">Menú del día y lista de precios.</p>
@@ -70,7 +70,7 @@ export const CafeteriaSection: React.FC = () => {
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           {MENU_ITEMS.map((section, idx) => (
             <div key={idx} className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 h-fit">
-              <div className="bg-[#FF8FE9] p-4 text-white flex items-center justify-center">
+              <div className="bg-[#41F73B] p-4 text-white flex items-center justify-center">
                 {section.category === 'Desayunos' && <Utensils className="w-6 h-6 mr-2" />}
                 {section.category === 'Comida' && <Sandwich className="w-6 h-6 mr-2" />}
                 {section.category === 'Bebidas y Snacks' && <Coffee className="w-6 h-6 mr-2" />}
@@ -82,19 +82,19 @@ export const CafeteriaSection: React.FC = () => {
                   <button 
                     key={i} 
                     onClick={() => addToCart(item)}
-                    className="w-full text-left p-4 hover:bg-pink-50 transition-colors group flex justify-between items-center"
+                    className="w-full text-left p-4 hover:bg-green-50 transition-colors group flex justify-between items-center"
                   >
                     <div className="flex-1 pr-4">
                       <div className="flex justify-between items-start mb-1">
-                        <h4 className="font-bold text-slate-800 group-hover:text-[#d147a3]">{item.name}</h4>
+                        <h4 className="font-bold text-slate-800 group-hover:text-green-700">{item.name}</h4>
                       </div>
                       <p className="text-xs text-slate-500 mb-2">{item.desc}</p>
-                      <span className="font-bold text-[#FF8FE9] inline-flex items-center text-sm bg-pink-100 px-2 py-0.5 rounded-full">
+                      <span className="font-bold text-green-600 inline-flex items-center text-sm bg-green-100 px-2 py-0.5 rounded-full">
                         <CircleDollarSign className="w-3 h-3 mr-1" />
                         ${item.price}
                       </span>
                     </div>
-                    <div className="bg-slate-100 p-2 rounded-full text-slate-400 group-hover:bg-[#FF8FE9] group-hover:text-white transition-all">
+                    <div className="bg-slate-100 p-2 rounded-full text-slate-400 group-hover:bg-[#41F73B] group-hover:text-white transition-all">
                       <Plus className="w-5 h-5" />
                     </div>
                   </button>
@@ -108,7 +108,7 @@ export const CafeteriaSection: React.FC = () => {
         <div className="w-full xl:w-96 bg-white rounded-2xl shadow-xl border border-slate-100 p-6 xl:sticky xl:top-24 animate-fade-in">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
             <h3 className="text-xl font-bold text-slate-800 flex items-center">
-              <ShoppingBag className="w-6 h-6 mr-2 text-[#FF8FE9]" />
+              <ShoppingBag className="w-6 h-6 mr-2 text-[#41F73B]" />
               Tu Pedido
             </h3>
             <span className="text-xs font-semibold bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
@@ -163,7 +163,7 @@ export const CafeteriaSection: React.FC = () => {
                   <span className="text-2xl font-bold text-slate-900">${total.toFixed(2)}</span>
                 </div>
                 
-                <button className="w-full bg-[#FF8FE9] hover:bg-[#ff76e5] text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-[1.02] flex items-center justify-center">
+                <button className="w-full bg-[#41F73B] hover:bg-green-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-[1.02] flex items-center justify-center">
                   Confirmar Pedido
                 </button>
                 <p className="text-[10px] text-center text-slate-400 mt-3">
@@ -176,12 +176,12 @@ export const CafeteriaSection: React.FC = () => {
       </div>
 
       <div className="mt-12 bg-slate-900 text-white rounded-2xl p-8 text-center shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
         <h3 className="text-2xl font-bold mb-4">¿Hambre entre clases?</h3>
         <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
           Haz tus pedidos anticipados a través de WhatsApp y recoge sin hacer fila.
         </p>
-        <button className="bg-[#FF8FE9] hover:bg-[#ff76e5] text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
+        <button className="bg-[#41F73B] hover:bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
           Ver número de pedidos
         </button>
       </div>

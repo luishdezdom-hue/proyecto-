@@ -34,12 +34,12 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
     <div className="max-w-7xl mx-auto px-4 py-8 relative">
       <div className="text-center mb-10">
         <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
-          <User className="w-10 h-10 mr-4 text-[#FF8FE9]" />
+          <User className="w-10 h-10 mr-4 text-[#41F73B]" />
           Información Docente
         </h2>
         <p className="text-slate-500 mt-3 text-lg">Conoce la trayectoria y especialidad de tus profesores.</p>
         {userCareer && (
-             <span className="inline-block mt-2 bg-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full border border-pink-200">
+             <span className="inline-block mt-2 bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full border border-green-200">
                   Mostrando docentes de: {userCareer}
              </span>
         )}
@@ -51,7 +51,7 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
         <input 
           type="text" 
           placeholder="Buscar profesor por nombre o materia..." 
-          className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] shadow-sm"
+          className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -63,7 +63,7 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
          
          return (
             <div key={career} className="mb-12">
-               <h3 className="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-[#FF8FE9] pl-4">{career}</h3>
+               <h3 className="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-[#41F73B] pl-4">{career}</h3>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {careerTeachers.map(teacher => (
                     <div 
@@ -71,14 +71,14 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
                         onClick={() => setSelectedTeacher(teacher)}
                         className="bg-white rounded-xl shadow-sm hover:shadow-xl border border-slate-100 p-6 flex flex-col items-center cursor-pointer transition-all hover:-translate-y-1 group"
                     >
-                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-slate-50 group-hover:border-[#FF8FE9] transition-colors">
+                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-slate-50 group-hover:border-[#41F73B] transition-colors">
                             <img src={teacher.photoUrl} alt={teacher.name} className="w-full h-full object-cover" />
                         </div>
                         <h4 className="font-bold text-slate-800 text-center mb-1 line-clamp-2 min-h-[3rem]">{teacher.name}</h4>
                         <p className="text-xs text-slate-500 text-center uppercase tracking-wide bg-slate-50 px-2 py-1 rounded-full w-full truncate">
                             {teacher.department}
                         </p>
-                        <button className="mt-4 text-xs font-bold text-[#FF8FE9] hover:text-[#d147a3] flex items-center">
+                        <button className="mt-4 text-xs font-bold text-[#41F73B] hover:text-green-700 flex items-center">
                             Ver Perfil <ArrowRightIcon className="w-3 h-3 ml-1" />
                         </button>
                     </div>
@@ -106,7 +106,7 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
             </button>
 
             {/* Header with Photo */}
-            <div className="bg-gradient-to-r from-[#FF8FE9] to-purple-500 p-8 pt-12 text-center relative">
+            <div className="bg-gradient-to-r from-[#41F73B] to-green-600 p-8 pt-12 text-center relative">
                 <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg mx-auto mb-4 overflow-hidden bg-white">
                     <img src={selectedTeacher.photoUrl} alt={selectedTeacher.name} className="w-full h-full object-cover" />
                 </div>
@@ -120,17 +120,17 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
             <div className="p-8 space-y-6">
                 <div>
                     <h4 className="flex items-center font-bold text-slate-800 mb-2 uppercase text-sm tracking-wider">
-                        <Award className="w-5 h-5 mr-2 text-[#FF8FE9]" />
+                        <Award className="w-5 h-5 mr-2 text-[#41F73B]" />
                         Especialidad
                     </h4>
-                    <p className="text-slate-600 bg-pink-50 p-3 rounded-lg border border-pink-100">
+                    <p className="text-slate-600 bg-green-50 p-3 rounded-lg border border-green-100">
                         {selectedTeacher.specialty || "Información no disponible."}
                     </p>
                 </div>
 
                 <div>
                     <h4 className="flex items-center font-bold text-slate-800 mb-2 uppercase text-sm tracking-wider">
-                        <GraduationCap className="w-5 h-5 mr-2 text-[#FF8FE9]" />
+                        <GraduationCap className="w-5 h-5 mr-2 text-[#41F73B]" />
                         Estudios / Carrera
                     </h4>
                     <p className="text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
@@ -140,7 +140,7 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
 
                 <div>
                     <h4 className="flex items-center font-bold text-slate-800 mb-2 uppercase text-sm tracking-wider">
-                        <BookOpen className="w-5 h-5 mr-2 text-[#FF8FE9]" />
+                        <BookOpen className="w-5 h-5 mr-2 text-[#41F73B]" />
                         Materia Impartida
                     </h4>
                     <p className="text-slate-600">

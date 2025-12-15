@@ -124,7 +124,7 @@ export const NewsSection: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
         <button 
           onClick={() => setSelectedArticle(null)}
-          className="flex items-center text-pink-600 font-semibold mb-6 hover:text-pink-800 transition-colors"
+          className="flex items-center text-green-600 font-semibold mb-6 hover:text-green-800 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Volver a Noticias
@@ -139,7 +139,7 @@ export const NewsSection: React.FC = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
                <div className="flex items-center space-x-3 text-white/90 text-sm font-medium mb-3">
-                  <span className="bg-[#FF8FE9] text-white px-3 py-1 rounded-full">{selectedArticle.category}</span>
+                  <span className="bg-[#41F73B] text-slate-900 px-3 py-1 rounded-full">{selectedArticle.category}</span>
                   <span className="flex items-center"><Clock className="w-4 h-4 mr-1" /> {selectedArticle.date}</span>
                </div>
                <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">
@@ -176,14 +176,14 @@ export const NewsSection: React.FC = () => {
           onClick={() => setActiveTab('INTERNAL')}
           className={`pb-3 px-1 text-sm font-bold transition-all flex items-center relative ${
             activeTab === 'INTERNAL'
-              ? 'text-[#FF8FE9]'
+              ? 'text-[#41F73B]'
               : 'text-slate-500 hover:text-slate-700'
           }`}
         >
           <GraduationCap className="w-5 h-5 mr-2" />
           Noticias Universitarias
           {activeTab === 'INTERNAL' && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8FE9] rounded-t-full"></span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#41F73B] rounded-t-full"></span>
           )}
         </button>
         
@@ -191,14 +191,14 @@ export const NewsSection: React.FC = () => {
           onClick={() => setActiveTab('EXTERNAL')}
           className={`pb-3 px-1 text-sm font-bold transition-all flex items-center relative ${
             activeTab === 'EXTERNAL'
-              ? 'text-[#FF8FE9]'
+              ? 'text-[#41F73B]'
               : 'text-slate-500 hover:text-slate-700'
           }`}
         >
           <Globe className="w-5 h-5 mr-2" />
           Noticias Externas
           {activeTab === 'EXTERNAL' && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8FE9] rounded-t-full"></span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#41F73B] rounded-t-full"></span>
           )}
         </button>
       </div>
@@ -212,7 +212,7 @@ export const NewsSection: React.FC = () => {
                 alt={item.title} 
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold text-pink-600 shadow-sm flex items-center">
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold text-green-600 shadow-sm flex items-center">
                 <Tag className="w-3 h-3 mr-1" />
                 {item.category}
               </div>
@@ -224,7 +224,7 @@ export const NewsSection: React.FC = () => {
                 <span>{item.date}</span>
               </div>
               
-              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight group-hover:text-[#FF8FE9] transition-colors">
+              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight group-hover:text-[#41F73B] transition-colors">
                 {item.title}
               </h3>
               
@@ -235,7 +235,7 @@ export const NewsSection: React.FC = () => {
               <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center">
                 <button 
                   onClick={() => setSelectedArticle(item)}
-                  className="text-pink-600 text-sm font-semibold hover:text-pink-800 flex items-center group"
+                  className="text-green-600 text-sm font-semibold hover:text-green-800 flex items-center group"
                 >
                   Leer más <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -243,7 +243,7 @@ export const NewsSection: React.FC = () => {
                 <button 
                   onClick={() => handleEnhanceSummary(item.id, item.title)}
                   disabled={loadingAi === item.id}
-                  className="text-xs flex items-center bg-pink-50 text-pink-700 px-2 py-1.5 rounded-lg hover:bg-pink-100 transition-colors disabled:opacity-50"
+                  className="text-xs flex items-center bg-green-50 text-green-700 px-2 py-1.5 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50"
                   title="Generate detailed summary with AI"
                 >
                   <Sparkles className={`w-3 h-3 mr-1 ${loadingAi === item.id ? 'animate-spin' : ''}`} />

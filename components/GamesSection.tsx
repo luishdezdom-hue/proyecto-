@@ -183,7 +183,7 @@ const TetrisGame = () => {
                 <div className="col-start-2 flex justify-center">
                      <button 
                         onClick={rotate} 
-                        className="bg-[#FF8FE9] hover:bg-[#ff76e5] text-white p-4 rounded-xl shadow-sm active:translate-y-1 transition-all"
+                        className="bg-[#41F73B] hover:bg-green-500 text-white p-4 rounded-xl shadow-sm active:translate-y-1 transition-all"
                     >
                         <RotateCw className="w-6 h-6" />
                     </button>
@@ -211,7 +211,7 @@ const TetrisGame = () => {
             </div>
 
             {gameOver && (
-                <button onClick={() => { setGrid(Array(TETRIS_ROWS).fill(Array(TETRIS_COLS).fill(0))); setScore(0); setGameOver(false); spawnPiece(); }} className="mt-4 bg-[#FF8FE9] text-white px-4 py-2 rounded font-bold">Reiniciar</button>
+                <button onClick={() => { setGrid(Array(TETRIS_ROWS).fill(Array(TETRIS_COLS).fill(0))); setScore(0); setGameOver(false); spawnPiece(); }} className="mt-4 bg-[#41F73B] text-white px-4 py-2 rounded font-bold">Reiniciar</button>
             )}
         </div>
     );
@@ -321,7 +321,7 @@ const PacmanGame = () => {
                             let content = null;
                             if (pacman.x === x && pacman.y === y) content = <div className="w-4 h-4 bg-yellow-400 rounded-full" />;
                             else if (ghost.x === x && ghost.y === y) content = <div className="w-4 h-4 bg-red-500 rounded-t-full" />;
-                            else if (cell === 2) content = <div className="w-1.5 h-1.5 bg-pink-300 rounded-full" />;
+                            else if (cell === 2) content = <div className="w-1.5 h-1.5 bg-green-300 rounded-full" />;
                             
                             return (
                                 <div key={x} className={`w-6 h-6 flex items-center justify-center ${cell === 1 ? 'bg-blue-900 border border-blue-800' : ''}`}>
@@ -371,7 +371,7 @@ const PacmanGame = () => {
                  setGameOver(false); 
                  setWin(false);
                  directionRef.current = {x:0, y:0};
-             }} className="mt-4 bg-[#FF8FE9] text-white px-4 py-2 rounded font-bold">Reiniciar</button>
+             }} className="mt-4 bg-[#41F73B] text-white px-4 py-2 rounded font-bold">Reiniciar</button>
         </div>
     );
 };
@@ -459,7 +459,7 @@ const WordSearchGame = () => {
                     <button 
                         key={c}
                         onClick={() => setCareer(c as keyof typeof CAREER_WORDS_MAP)}
-                        className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:bg-[#FF8FE9] hover:text-white transition-all w-full max-w-xs font-semibold"
+                        className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:bg-[#41F73B] hover:text-white transition-all w-full max-w-xs font-semibold"
                     >
                         {c}
                     </button>
@@ -471,8 +471,8 @@ const WordSearchGame = () => {
     return (
         <div className="flex flex-col items-center">
              <div className="flex justify-between w-full mb-4 px-2 items-center">
-                <button onClick={() => setCareer(null)} className="text-xs text-slate-500 hover:text-[#FF8FE9] underline">Cambiar carrera</button>
-                <span className="text-sm font-bold text-[#FF8FE9]">{career}</span>
+                <button onClick={() => setCareer(null)} className="text-xs text-slate-500 hover:text-[#41F73B] underline">Cambiar carrera</button>
+                <span className="text-sm font-bold text-[#41F73B]">{career}</span>
              </div>
 
              <div className="flex flex-wrap justify-center gap-2 mb-4">
@@ -490,7 +490,7 @@ const WordSearchGame = () => {
                             key={`${r}-${c}`}
                             onClick={() => handleCellClick(r, c)}
                             className={`w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-mono font-bold text-sm rounded transition-colors
-                                ${isCellSelected(r, c) ? 'bg-[#FF8FE9] text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700'}
+                                ${isCellSelected(r, c) ? 'bg-[#41F73B] text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700'}
                             `}
                          >
                              {char}
@@ -499,7 +499,7 @@ const WordSearchGame = () => {
                  ))}
              </div>
              {foundWords.length === CAREER_WORDS_MAP[career].length && <div className="mt-4 text-green-600 font-bold text-xl animate-bounce">¡Felicidades!</div>}
-             <button onClick={generateGrid} className="mt-6 flex items-center text-slate-500 hover:text-[#FF8FE9]">
+             <button onClick={generateGrid} className="mt-6 flex items-center text-slate-500 hover:text-[#41F73B]">
                  <RefreshCw className="w-4 h-4 mr-2" /> Reiniciar
              </button>
         </div>
@@ -570,7 +570,7 @@ const CrosswordGame = () => {
                     <button 
                         key={c}
                         onClick={() => { setCareer(c as any); setGridValues({}); setSolved(false); }}
-                        className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:bg-[#FF8FE9] hover:text-white transition-all w-full max-w-xs font-semibold"
+                        className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:bg-[#41F73B] hover:text-white transition-all w-full max-w-xs font-semibold"
                     >
                         {c}
                     </button>
@@ -593,8 +593,8 @@ const CrosswordGame = () => {
     return (
         <div className="flex flex-col items-center">
             <div className="flex justify-between w-full mb-4 px-2 items-center">
-                <button onClick={() => setCareer(null)} className="text-xs text-slate-500 hover:text-[#FF8FE9] underline">Cambiar carrera</button>
-                <span className="text-sm font-bold text-[#FF8FE9]">{career}</span>
+                <button onClick={() => setCareer(null)} className="text-xs text-slate-500 hover:text-[#41F73B] underline">Cambiar carrera</button>
+                <span className="text-sm font-bold text-[#41F73B]">{career}</span>
             </div>
 
             <div className="flex flex-col md:flex-row gap-8">
@@ -610,7 +610,7 @@ const CrosswordGame = () => {
                                             <input 
                                                 type="text" 
                                                 maxLength={1}
-                                                className="w-full h-full text-center font-bold text-slate-900 uppercase focus:outline-none focus:bg-pink-50"
+                                                className="w-full h-full text-center font-bold text-slate-900 uppercase focus:outline-none focus:bg-green-50"
                                                 value={gridValues[`${x},${y}`] || ''}
                                                 onChange={(e) => handleInputChange(x, y, e.target.value)}
                                             />
@@ -628,14 +628,14 @@ const CrosswordGame = () => {
                     <ul className="space-y-2 text-sm text-slate-600">
                         {data.words.map((w, i) => (
                             <li key={i}>
-                                <span className="font-bold text-[#FF8FE9]">{w.dir === 'H' ? 'Horiz' : 'Vert'}:</span> {w.clue}
+                                <span className="font-bold text-[#41F73B]">{w.dir === 'H' ? 'Horiz' : 'Vert'}:</span> {w.clue}
                             </li>
                         ))}
                     </ul>
                     
                     <button 
                         onClick={checkSolution}
-                        className="mt-6 w-full bg-[#FF8FE9] hover:bg-[#ff76e5] text-white font-bold py-2 rounded-lg transition-colors"
+                        className="mt-6 w-full bg-[#41F73B] hover:bg-green-500 text-white font-bold py-2 rounded-lg transition-colors"
                     >
                         Verificar
                     </button>
@@ -654,7 +654,7 @@ export const GamesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
-            <Gamepad2 className="w-10 h-10 mr-4 text-[#FF8FE9]" />
+            <Gamepad2 className="w-10 h-10 mr-4 text-[#41F73B]" />
             Zona de Juegos
           </h2>
           <p className="text-slate-500 mt-3 text-lg">Relájate un momento entre clases con estos clásicos.</p>
@@ -666,7 +666,7 @@ export const GamesSection: React.FC = () => {
                 onClick={() => setActiveGame('TETRIS')}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border border-slate-100 group text-center"
             >
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FF8FE9] transition-colors">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#41F73B] transition-colors">
                     <div className="grid grid-cols-2 gap-0.5">
                         <div className="w-2.5 h-2.5 bg-purple-500"></div><div className="w-2.5 h-2.5 bg-purple-500"></div>
                         <div className="w-2.5 h-2.5 bg-purple-500"></div><div className="w-2.5 h-2.5 bg-transparent"></div>
@@ -681,7 +681,7 @@ export const GamesSection: React.FC = () => {
                 onClick={() => setActiveGame('PACMAN')}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border border-slate-100 group text-center"
             >
-                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FF8FE9] transition-colors">
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#41F73B] transition-colors">
                     <div className="w-6 h-6 bg-yellow-400 rounded-full relative">
                         <div className="absolute right-0 top-1/2 -mt-3 w-3 h-3 bg-yellow-100 transform rotate-45"></div>
                     </div>
@@ -695,7 +695,7 @@ export const GamesSection: React.FC = () => {
                 onClick={() => setActiveGame('WORD_SEARCH')}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border border-slate-100 group text-center"
             >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FF8FE9] transition-colors">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#41F73B] transition-colors">
                     <span className="font-mono text-2xl font-bold text-blue-500 group-hover:text-white">ABC</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-1">Sopa de Letras</h3>
@@ -707,7 +707,7 @@ export const GamesSection: React.FC = () => {
                 onClick={() => setActiveGame('CROSSWORD')}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border border-slate-100 group text-center"
             >
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FF8FE9] transition-colors">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#41F73B] transition-colors">
                     <LayoutGrid className="w-8 h-8 text-green-600 group-hover:text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-1">Crucigrama</h3>
@@ -722,7 +722,7 @@ export const GamesSection: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
         <button 
             onClick={() => setActiveGame('MENU')}
-            className="flex items-center text-slate-500 hover:text-[#FF8FE9] font-bold mb-8 transition-colors"
+            className="flex items-center text-slate-500 hover:text-[#41F73B] font-bold mb-8 transition-colors"
         >
             <ArrowLeft className="w-5 h-5 mr-2" /> Volver al Menú
         </button>

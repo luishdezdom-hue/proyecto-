@@ -14,212 +14,212 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { GamesSection } from './components/GamesSection';
 import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType, AdvisoryRegistration, LibraryReservation, JobApplication, TeacherRating, User } from './types';
 import { generateUniversityInsights } from './services/geminiService';
-import { Bot, X, Lock, User as UserIcon, KeyRound, LogIn, UserPlus } from 'lucide-react';
+import { Bot, X, Lock, User as UserIcon, KeyRound, LogIn, UserPlus, GraduationCap, Briefcase } from 'lucide-react';
 
 // --- MOCK DATA SEEDING ---
 const MOCK_TEACHERS: Teacher[] = [
-  // TIC'S (7 Teachers)
-  { 
-    id: '1', 
-    name: 'ZARCO CARRILLO FRANCISCO JAVIER', 
-    department: 'FUNDAMENTOS DE REDES DE COMPUTADORAS', 
-    photoUrl: 'https://picsum.photos/seed/zarco/100', 
+  // TIC'S
+  {
+    id: 'tic-1',
+    name: 'ZARCO CARRILLO FRANCISCO JAVIER',
+    department: 'FUNDAMENTOS DE REDES DE COMPUTADORAS',
+    photoUrl: 'https://picsum.photos/seed/zarco/100',
     career: "Ingeniería en TIC'S",
     specialty: "Redes y Telecomunicaciones",
-    studies: "Ingeniería en Sistemas Computacionales, Maestría en Redes de Datos"
+    studies: "Maestría en Redes de Datos"
   },
-  { 
-    id: '4', 
-    name: 'ARIAS PERALTA HUMBERTO', 
-    department: 'COMUNICACIÓN ANALÓGICA Y DIGITAL', 
-    photoUrl: 'https://picsum.photos/seed/arias/100', 
+  {
+    id: 'tic-2',
+    name: 'SANDOVAL ARGAEZ BERENICE DAFNE',
+    department: 'INGENIERÍA FINANCIERA',
+    photoUrl: 'https://picsum.photos/seed/sandoval/100',
+    career: "Ingeniería en TIC'S",
+    specialty: "Finanzas y Economía",
+    studies: "Doctorado en Finanzas"
+  },
+  {
+    id: 'tic-3',
+    name: 'MARTINEZ AVILA YADHEE',
+    department: 'INVESTIGACIÓN DE OPERACIONES I',
+    photoUrl: 'https://picsum.photos/seed/martinez/100',
+    career: "Ingeniería en TIC'S",
+    specialty: "Optimización Matemática",
+    studies: "Maestría en Ciencias"
+  },
+  {
+    id: 'tic-4',
+    name: 'ARIAS PERALTA HUMBERTO',
+    department: 'COMUNICACIÓN ANALÓGICA Y DIGITAL',
+    photoUrl: 'https://picsum.photos/seed/arias/100',
     career: "Ingeniería en TIC'S",
     specialty: "Electrónica y Comunicaciones",
-    studies: "Ingeniería en Electrónica, Maestría en Telecomunicaciones"
+    studies: "Ingeniería en Electrónica"
   },
-  { 
-    id: '7', 
-    name: 'HERNANDEZ LARA DERLIS', 
-    department: 'ANÁLISIS Y DISEÑO DE CIRCUITOS DIGITALES', 
-    photoUrl: 'https://picsum.photos/seed/hernandez/100', 
+  {
+    id: 'tic-5',
+    name: 'COUTIÑO DIAZ EMILIO ALFONSO',
+    department: 'TALLER DE INVESTIGACIÓN I',
+    photoUrl: 'https://picsum.photos/seed/coutino/100',
     career: "Ingeniería en TIC'S",
-    specialty: "Sistemas Digitales y Embebidos",
-    studies: "Ingeniería Mecatrónica, Especialidad en Circuitos"
+    specialty: "Metodología de la Investigación",
+    studies: "Doctorado en Educación"
   },
-  { 
-    id: '19', 
-    name: 'JIMENEZ GARCIA ROBERTO', 
-    department: 'PROGRAMACIÓN WEB', 
-    photoUrl: 'https://picsum.photos/seed/roberto/100', 
+  {
+    id: 'tic-6',
+    name: 'ALTAMIRANO ORTEGA DALIA',
+    department: 'INGLÉS V',
+    photoUrl: 'https://picsum.photos/seed/altamirano/100',
     career: "Ingeniería en TIC'S",
-    specialty: "Desarrollo Full Stack",
-    studies: "Ingeniería en Computación, Maestría en Tecnologías Web"
+    specialty: "Lenguas Extranjeras",
+    studies: "Licenciatura en Enseñanza del Inglés"
   },
-  { 
-    id: '20', 
-    name: 'PEREZ LOPEZ ANA MARIA', 
-    department: 'ADMINISTRACIÓN DE BASES DE DATOS', 
-    photoUrl: 'https://picsum.photos/seed/ana/100', 
+  {
+    id: 'tic-7',
+    name: 'HERNANDEZ LARA DERLIS',
+    department: 'ANÁLISIS Y DISEÑO DE CIRCUITOS DIGITALES',
+    photoUrl: 'https://picsum.photos/seed/hernandez/100',
     career: "Ingeniería en TIC'S",
-    specialty: "Ciencia de Datos y Big Data",
-    studies: "Licenciatura en Informática, Maestría en Ciencias de Datos"
-  },
-  { 
-    id: '21', 
-    name: 'RAMIREZ TORRES LUIS', 
-    department: 'INGENIERÍA DE SOFTWARE', 
-    photoUrl: 'https://picsum.photos/seed/luis/100', 
-    career: "Ingeniería en TIC'S",
-    specialty: "Arquitectura de Software",
-    studies: "Ingeniería de Software, Certificación PMP"
-  },
-  { 
-    id: '22', 
-    name: 'SANCHEZ GOMEZ KARLA', 
-    department: 'SISTEMAS OPERATIVOS', 
-    photoUrl: 'https://picsum.photos/seed/karla/100', 
-    career: "Ingeniería en TIC'S",
-    specialty: "Sistemas Distribuidos y Linux",
-    studies: "Ingeniería Telemática, Maestría en Sistemas Computacionales"
+    specialty: "Sistemas Digitales",
+    studies: "Ingeniería Mecatrónica"
   },
 
-  // Ingeniería Industrial
-  { 
-    id: '3', 
-    name: 'MARTINEZ AVILA YADHEE', 
-    department: 'ADMINISTRACIÓN DE PROYECTOS', 
-    photoUrl: 'https://picsum.photos/seed/martinez/100', 
+  // INDUSTRIAL
+  {
+    id: 'ind-1',
+    name: 'MARTINEZ AVILA YADHEE',
+    department: 'ADMINISTRACIÓN DE PROYECTOS',
+    photoUrl: 'https://picsum.photos/seed/martinez/100',
     career: "Ingeniería Industrial",
     specialty: "Gestión de Proyectos",
-    studies: "Ingeniería Industrial, Maestría en Administración de Empresas (MBA)"
+    studies: "MBA"
   },
-  { 
-    id: '8', 
-    name: 'BADILLO FLORES ALEJANDRO', 
-    department: 'ADMINISTRACIÓN DE OPERACIONES II', 
-    photoUrl: 'https://picsum.photos/seed/badillo/100', 
+  {
+    id: 'ind-2',
+    name: 'BADILLO FLORES ALEJANDRO',
+    department: 'ADMINISTRACIÓN DE OPERACIONES II',
+    photoUrl: 'https://picsum.photos/seed/badillo/100',
     career: "Ingeniería Industrial",
     specialty: "Logística y Cadena de Suministro",
-    studies: "Ingeniería Industrial, Maestría en Logística Internacional"
+    studies: "Maestría en Logística Internacional"
   },
-  { 
-    id: '2', 
-    name: 'SANDOVAL ARGAEZ BERENICE DAFNE', 
-    department: 'INVESTIGACIÓN DE OPERACIONES I', 
-    photoUrl: 'https://picsum.photos/seed/sandoval/100', 
+  {
+    id: 'ind-3',
+    name: 'SANDOVAL ARGAEZ BERENICE DAFNE',
+    department: 'INVESTIGACIÓN DE OPERACIONES I',
+    photoUrl: 'https://picsum.photos/seed/sandoval/100',
     career: "Ingeniería Industrial",
     specialty: "Optimización de Procesos",
-    studies: "Ingeniería Química Industrial, Doctorado en Investigación de Operaciones"
+    studies: "Ingeniería Química Industrial"
   },
-  { 
-    id: '9', 
-    name: 'MARTINEZ VAZQUEZ VICTOR ISMAEL', 
-    department: 'ADMINISTRACIÓN DEL MANTENIMIENTO', 
-    photoUrl: 'https://picsum.photos/seed/victor/100', 
+  {
+    id: 'ind-4',
+    name: 'MARTINEZ VAZQUEZ VICTOR ISMAEL',
+    department: 'ADMINISTRACIÓN DEL MANTENIMIENTO',
+    photoUrl: 'https://picsum.photos/seed/victor/100',
     career: "Ingeniería Industrial",
-    specialty: "Mantenimiento Industrial y Seguridad",
-    studies: "Ingeniería Mecánica, Especialidad en Manufactura"
+    specialty: "Mantenimiento Industrial",
+    studies: "Ingeniería Mecánica"
   },
-  { 
-    id: '10', 
-    name: 'ESPEJEL ALMERAYA ALDO', 
-    department: 'ESTADÍSTICA II', 
-    photoUrl: 'https://picsum.photos/seed/aldo/100', 
+  {
+    id: 'ind-5',
+    name: 'ESPEJEL ALMERAYA ALDO',
+    department: 'ESTADÍSTICA II',
+    photoUrl: 'https://picsum.photos/seed/aldo/100',
     career: "Ingeniería Industrial",
-    specialty: "Estadística Aplicada y Control de Calidad",
-    studies: "Licenciatura en Matemáticas Aplicadas, Maestría en Estadística"
+    specialty: "Estadística Aplicada",
+    studies: "Licenciatura en Matemáticas"
   },
-  { 
-    id: '11', 
-    name: 'SANCHEZ MIRANDA SANDRA', 
-    department: 'ADMINISTRACIÓN DE LA CALIDAD', 
-    photoUrl: 'https://picsum.photos/seed/sandra/100', 
+  {
+    id: 'ind-6',
+    name: 'SANCHEZ MIRANDA SANDRA',
+    department: 'ADMINISTRACIÓN DE LA CALIDAD',
+    photoUrl: 'https://picsum.photos/seed/sandra/100',
     career: "Ingeniería Industrial",
-    specialty: "Sistemas de Gestión de Calidad (ISO)",
-    studies: "Ingeniería Industrial, Maestría en Calidad y Productividad"
+    specialty: "Sistemas de Gestión de Calidad",
+    studies: "Ingeniería Industrial"
   },
-  { 
-    id: '6', 
-    name: 'ALTAMIRANO ORTEGA DALIA', 
-    department: 'INGLÉS V', 
-    photoUrl: 'https://picsum.photos/seed/altamirano/100', 
+  {
+    id: 'ind-7',
+    name: 'ALTAMIRANO ORTEGA DALIA',
+    department: 'INGLÉS V',
+    photoUrl: 'https://picsum.photos/seed/altamirano/100',
     career: "Ingeniería Industrial",
-    specialty: "Enseñanza de Lenguas Extranjeras",
-    studies: "Licenciatura en Lenguas Modernas, Certificación Cambridge DELTA"
+    specialty: "Lenguas Extranjeras",
+    studies: "Licenciatura en Lenguas Modernas"
   },
 
-  // Licenciatura en Derecho
-  { 
-    id: '5', 
-    name: 'COUTIÑO DIAZ EMILIO ALFONSO', 
-    department: 'EXPRESIÓN ORAL Y ESCRITA', 
-    photoUrl: 'https://picsum.photos/seed/coutino/100', 
+  // DERECHO
+  {
+    id: 'der-1',
+    name: 'COUTIÑO DIAZ EMILIO ALFONSO',
+    department: 'EXPRESIÓN ORAL Y ESCRITA',
+    photoUrl: 'https://picsum.photos/seed/coutino/100',
     career: "Licenciatura en Derecho",
-    specialty: "Oratoria y Argumentación Jurídica",
-    studies: "Licenciatura en Derecho, Maestría en Juicios Orales"
+    specialty: "Oratoria Forense",
+    studies: "Licenciatura en Derecho"
   },
-  { 
-    id: '12', 
-    name: 'RAMÍREZ ALAÑA JOSE LUIS', 
-    department: 'FUNDAMENTOS DEL DERECHO', 
-    photoUrl: 'https://picsum.photos/seed/joseluis/100', 
+  {
+    id: 'der-2',
+    name: 'RAMÍREZ ALAÑA JOSE LUIS',
+    department: 'FUNDAMENTOS DEL DERECHO',
+    photoUrl: 'https://picsum.photos/seed/joseluis/100',
     career: "Licenciatura en Derecho",
     specialty: "Teoría General del Derecho",
-    studies: "Licenciatura en Derecho, Doctorado en Derecho Constitucional"
+    studies: "Doctorado en Derecho"
   },
-  { 
-    id: '13', 
-    name: 'CEDEÑO DORANTES SUSANA', 
-    department: 'DERECHOS DE LA PERSONA', 
-    photoUrl: 'https://picsum.photos/seed/susana/100', 
+  {
+    id: 'der-3',
+    name: 'CEDEÑO DORANTES SUSANA',
+    department: 'DERECHOS DE LA PERSONA',
+    photoUrl: 'https://picsum.photos/seed/susana/100',
     career: "Licenciatura en Derecho",
-    specialty: "Derecho Civil y Familiar",
-    studies: "Licenciatura en Derecho, Especialidad en Derecho Civil"
+    specialty: "Derecho Civil",
+    studies: "Especialidad en Derecho Civil"
   },
-  { 
-    id: '14', 
-    name: 'RIVAS DE LA VEGA ERIKA', 
-    department: 'IDENTIDAD Y CULTURA', 
-    photoUrl: 'https://picsum.photos/seed/erika/100', 
+  {
+    id: 'der-4',
+    name: 'RIVAS DE LA VEGA ERIKA',
+    department: 'IDENTIDAD Y CULTURA',
+    photoUrl: 'https://picsum.photos/seed/erika/100',
     career: "Licenciatura en Derecho",
     specialty: "Sociología Jurídica",
-    studies: "Licenciatura en Sociología, Maestría en Derechos Humanos"
+    studies: "Maestría en Derechos Humanos"
   },
-  { 
-    id: '15', 
-    name: 'VICTORIA RAMOS SANDRA IVARAKI', 
-    department: 'ACTIVIDADES DEPORTIVAS SOCIALES Y CULTURALES', 
-    photoUrl: 'https://picsum.photos/seed/victoria/100', 
+  {
+    id: 'der-5',
+    name: 'VICTORIA RAMOS SANDRA IVARAKI',
+    department: 'ACTIVIDADES DEPORTIVAS SOCIALES Y CULTURALES',
+    photoUrl: 'https://picsum.photos/seed/victoria/100',
     career: "Licenciatura en Derecho",
     specialty: "Desarrollo Humano",
-    studies: "Licenciatura en Psicología, Maestría en Educación"
+    studies: "Maestría en Educación"
   },
-  { 
-    id: '16', 
-    name: 'ALVAREZ PEREZ FATIMA ADRIANA', 
-    department: 'INSTITUCIONES DEL DERECHO ROMANO', 
-    photoUrl: 'https://picsum.photos/seed/fatima/100', 
+  {
+    id: 'der-6',
+    name: 'ALVAREZ PEREZ FATIMA ADRIANA',
+    department: 'INSTITUCIONES DEL DERECHO ROMANO',
+    photoUrl: 'https://picsum.photos/seed/fatima/100',
     career: "Licenciatura en Derecho",
     specialty: "Historia del Derecho",
-    studies: "Licenciatura en Derecho, Maestría en Derecho Romano"
+    studies: "Maestría en Derecho Romano"
   },
-  { 
-    id: '17', 
-    name: 'ATLITEC GODINEZ OSCAR CRISTOPHE', 
-    department: 'TEORÍA DEL ESTADO', 
-    photoUrl: 'https://picsum.photos/seed/oscar/100', 
+  {
+    id: 'der-7',
+    name: 'ATLITEC GODINEZ OSCAR CRISTOPHE',
+    department: 'TEORÍA DEL ESTADO',
+    photoUrl: 'https://picsum.photos/seed/oscar/100',
     career: "Licenciatura en Derecho",
-    specialty: "Derecho Constitucional y Administrativo",
-    studies: "Licenciatura en Ciencias Políticas, Doctorado en Derecho Público"
+    specialty: "Derecho Constitucional",
+    studies: "Doctorado en Derecho Público"
   },
-  { 
-    id: '18', 
-    name: 'RAMIREZ ALAÑA JOSE ALEJANDRO', 
-    department: 'FUNDAMENTOS DE DERECHOS HUMANOS', 
-    photoUrl: 'https://picsum.photos/seed/josealejandro/100', 
+  {
+    id: 'der-8',
+    name: 'RAMIREZ ALAÑA JOSE ALEJANDRO',
+    department: 'FUNDAMENTOS DE DERECHOS HUMANOS',
+    photoUrl: 'https://picsum.photos/seed/josealejandro/100',
     career: "Licenciatura en Derecho",
-    specialty: "Derecho Internacional de los DDHH",
-    studies: "Licenciatura en Derecho, Maestría en Derechos Humanos y Democracia"
+    specialty: "Derechos Humanos",
+    studies: "Maestría en Derechos Humanos y Democracia"
   },
 ];
 
@@ -234,7 +234,7 @@ const App: React.FC = () => {
   // --- AUTH STATE ---
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [authMode, setAuthMode] = useState<'LOGIN' | 'REGISTER_STUDENT' | 'REGISTER_TEACHER'>('LOGIN');
   
   // Login/Register Form State
   const [loginUsername, setLoginUsername] = useState('');
@@ -245,6 +245,7 @@ const App: React.FC = () => {
   const [regName, setRegName] = useState('');
   const [regUser, setRegUser] = useState('');
   const [regPass, setRegPass] = useState('');
+  const [regMatricula, setRegMatricula] = useState(''); // For Teacher
   const [regCareer, setRegCareer] = useState<string>("Ingeniería en TIC'S");
 
   // Database of Users (stored in Admin Dashboard)
@@ -269,7 +270,7 @@ const App: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   // --- AUTH HANDLERS ---
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegisterStudent = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
     
@@ -288,10 +289,35 @@ const App: React.FC = () => {
     };
 
     setRegisteredUsers([...registeredUsers, newUser]);
-    setIsRegistering(false);
+    setAuthMode('LOGIN');
     setLoginUsername(regUser);
     setLoginPassword('');
-    alert('Registro exitoso. Por favor inicia sesión.');
+    alert('Registro de alumno exitoso. Por favor inicia sesión.');
+  };
+
+  const handleRegisterTeacher = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+
+    // Use Matricula as username for teachers
+    if (registeredUsers.some(u => u.username === regMatricula)) {
+      setLoginError('Esta matrícula ya está registrada');
+      return;
+    }
+
+    const newUser: User = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: regName,
+      username: regMatricula, // Username is Matricula
+      password: regPass,
+      role: 'TEACHER'
+    };
+
+    setRegisteredUsers([...registeredUsers, newUser]);
+    setAuthMode('LOGIN');
+    setLoginUsername(regMatricula);
+    setLoginPassword('');
+    alert('Registro de docente exitoso. Por favor inicia sesión con tu matrícula.');
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -309,7 +335,7 @@ const App: React.FC = () => {
           return;
       }
 
-      // 2. Check Teacher (Starts with UMB)
+      // 2. Check Teacher (Legacy UMB start)
       if (loginUsername.startsWith('UMB')) {
          const teacherUser: User = { id: 'teacher', username: loginUsername, name: 'Docente UMB', role: 'TEACHER' };
          setCurrentUser(teacherUser);
@@ -318,10 +344,10 @@ const App: React.FC = () => {
          return;
       }
 
-      // 3. Check Registered Student
-      const student = registeredUsers.find(u => u.username === loginUsername && u.password === loginPassword);
-      if (student) {
-        setCurrentUser(student);
+      // 3. Check Registered User (Student or Teacher)
+      const user = registeredUsers.find(u => u.username === loginUsername && u.password === loginPassword);
+      if (user) {
+        setCurrentUser(user);
         setIsAuthenticated(true);
         setCurrentView(ViewState.NEWS);
       } else {
@@ -343,7 +369,9 @@ const App: React.FC = () => {
     if (currentUser?.role !== 'ADMIN') return;
 
     setAbsences(prev => {
-      const exists = prev.find(a => a.teacherId === teacherId && new Date(a.date).toDateString() === date.toDateString());
+      // Precise check including time
+      const exists = prev.find(a => a.teacherId === teacherId && a.date.getTime() === date.getTime());
+      
       if (exists) {
         return prev.filter(a => a.id !== exists.id);
       } else {
@@ -409,7 +437,7 @@ const App: React.FC = () => {
       return (
           <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
               <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
-                  <div className="bg-[#FF8FE9] p-8 text-center">
+                  <div className="bg-[#41F73B] p-8 text-center">
                       <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                           <LogIn className="w-8 h-8 text-white" />
                       </div>
@@ -418,30 +446,36 @@ const App: React.FC = () => {
                   </div>
                   
                   <div className="p-8">
-                      <div className="flex border-b border-slate-200 mb-6">
+                      <div className="flex border-b border-slate-200 mb-6 overflow-x-auto">
                         <button 
-                          className={`flex-1 py-2 text-sm font-bold ${!isRegistering ? 'text-[#FF8FE9] border-b-2 border-[#FF8FE9]' : 'text-slate-400'}`}
-                          onClick={() => setIsRegistering(false)}
+                          className={`flex-1 py-2 text-sm font-bold whitespace-nowrap px-2 ${authMode === 'LOGIN' ? 'text-[#41F73B] border-b-2 border-[#41F73B]' : 'text-slate-400'}`}
+                          onClick={() => setAuthMode('LOGIN')}
                         >
                           Iniciar Sesión
                         </button>
                         <button 
-                          className={`flex-1 py-2 text-sm font-bold ${isRegistering ? 'text-[#FF8FE9] border-b-2 border-[#FF8FE9]' : 'text-slate-400'}`}
-                          onClick={() => setIsRegistering(true)}
+                          className={`flex-1 py-2 text-sm font-bold whitespace-nowrap px-2 ${authMode === 'REGISTER_STUDENT' ? 'text-[#41F73B] border-b-2 border-[#41F73B]' : 'text-slate-400'}`}
+                          onClick={() => setAuthMode('REGISTER_STUDENT')}
                         >
-                          Registrar Alumno
+                          Reg. Alumno
+                        </button>
+                        <button 
+                          className={`flex-1 py-2 text-sm font-bold whitespace-nowrap px-2 ${authMode === 'REGISTER_TEACHER' ? 'text-[#41F73B] border-b-2 border-[#41F73B]' : 'text-slate-400'}`}
+                          onClick={() => setAuthMode('REGISTER_TEACHER')}
+                        >
+                          Reg. Docente
                         </button>
                       </div>
 
-                      {isRegistering ? (
-                         <form onSubmit={handleRegister} className="space-y-4 animate-fade-in">
+                      {authMode === 'REGISTER_STUDENT' && (
+                         <form onSubmit={handleRegisterStudent} className="space-y-4 animate-fade-in">
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre Completo</label>
-                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:ring-[#FF8FE9] outline-none" required />
+                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Carrera</label>
-                                <select value={regCareer} onChange={e => setRegCareer(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:ring-[#FF8FE9] outline-none bg-white" required>
+                                <select value={regCareer} onChange={e => setRegCareer(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required>
                                     <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
                                     <option value="Ingeniería Industrial">Ingeniería Industrial</option>
                                     <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
@@ -449,16 +483,37 @@ const App: React.FC = () => {
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Usuario</label>
-                                <input type="text" value={regUser} onChange={e => setRegUser(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:ring-[#FF8FE9] outline-none" required />
+                                <input type="text" value={regUser} onChange={e => setRegUser(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña</label>
-                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:ring-[#FF8FE9] outline-none" required />
+                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
-                            <button type="submit" className="w-full bg-[#FF8FE9] text-white font-bold py-3 rounded-xl hover:bg-[#ff76e5]">Registrarse</button>
+                            <button type="submit" className="w-full bg-[#41F73B] text-white font-bold py-3 rounded-xl hover:bg-green-500">Registrarse</button>
                          </form>
-                      ) : (
+                      )}
+                      
+                      {authMode === 'REGISTER_TEACHER' && (
+                         <form onSubmit={handleRegisterTeacher} className="space-y-4 animate-fade-in">
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre Completo</label>
+                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Matrícula</label>
+                                <input type="text" value={regMatricula} onChange={e => setRegMatricula(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required placeholder="Será tu usuario" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña</label>
+                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                            </div>
+                            {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
+                            <button type="submit" className="w-full bg-[#41F73B] text-white font-bold py-3 rounded-xl hover:bg-green-500">Registrar Docente</button>
+                         </form>
+                      )}
+
+                      {authMode === 'LOGIN' && (
                         <form onSubmit={handleLogin} className="space-y-4 animate-fade-in">
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1 ml-1">Usuario</label>
@@ -469,7 +524,7 @@ const App: React.FC = () => {
                                         value={loginUsername}
                                         onChange={(e) => setLoginUsername(e.target.value)}
                                         placeholder="Nombre de usuario"
-                                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] transition-shadow"
+                                        className="w-full pl-10 pr-4 py-3 border border-black bg-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
                                         required
                                     />
                                 </div>
@@ -484,16 +539,15 @@ const App: React.FC = () => {
                                         value={loginPassword}
                                         onChange={(e) => setLoginPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] transition-shadow"
+                                        className="w-full pl-10 pr-4 py-3 border border-black bg-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
                                     />
                                 </div>
-                                <p className="text-[10px] text-slate-400 mt-1 ml-1">Docentes: Iniciar con usuario "UMB..."</p>
                             </div>
                             {loginError && <p className="text-red-500 text-xs text-center">{loginError}</p>}
 
                             <button 
                                 type="submit"
-                                className="w-full bg-[#FF8FE9] hover:bg-[#ff76e5] text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 mt-4"
+                                className="w-full bg-[#41F73B] hover:bg-green-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 mt-4"
                             >
                                 Iniciar Sesión
                             </button>
@@ -507,6 +561,8 @@ const App: React.FC = () => {
 
   // --- MAIN APP RENDER ---
   const renderContent = () => {
+    const userCareer = currentUser?.role === 'STUDENT' ? currentUser.career : undefined;
+
     switch (currentView) {
       case ViewState.ADMIN_DASHBOARD:
         return <AdminDashboard 
@@ -534,18 +590,23 @@ const App: React.FC = () => {
             absences={absences} 
             onToggleAbsence={handleToggleAbsence} 
             readOnly={currentUser?.role !== 'ADMIN'} 
+            userCareer={userCareer}
         />;
       case ViewState.TEACHER_EVALUATION:
-        return <TeacherEvaluation teachers={teachers} onSubmitEvaluation={handleRateTeacher} />;
+        return <TeacherEvaluation 
+            teachers={teachers} 
+            onSubmitEvaluation={handleRateTeacher} 
+            userCareer={userCareer}
+        />;
       case ViewState.TEACHER_INFO:
         return <TeacherInfoSection 
           teachers={teachers} 
-          userCareer={currentUser?.role === 'STUDENT' ? currentUser.career : undefined}
+          userCareer={userCareer}
         />;
       case ViewState.ADVISORY:
         return <AdvisorySection 
           onRegister={handleRegisterAdvisory} 
-          userCareer={currentUser?.role === 'STUDENT' ? currentUser.career : undefined}
+          userCareer={userCareer}
         />;
       case ViewState.LIBRARY:
         return <LibrarySection onReserve={handleReserveBook} />;
@@ -586,7 +647,7 @@ const App: React.FC = () => {
         {!isChatOpen && (
           <button 
             onClick={() => setIsChatOpen(true)}
-            className="bg-[#FF8FE9] hover:bg-[#ff76e5] text-white rounded-full p-4 shadow-lg transition-transform hover:scale-110 flex items-center justify-center"
+            className="bg-[#41F73B] hover:bg-green-500 text-white rounded-full p-4 shadow-lg transition-transform hover:scale-110 flex items-center justify-center"
           >
             <Bot className="w-6 h-6" />
           </button>
@@ -594,7 +655,7 @@ const App: React.FC = () => {
 
         {isChatOpen && (
           <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-80 sm:w-96 overflow-hidden flex flex-col" style={{maxHeight: '500px'}}>
-            <div className="bg-[#FF8FE9] p-4 text-white flex justify-between items-center">
+            <div className="bg-[#41F73B] p-4 text-white flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <Bot className="w-5 h-5" />
                 <span className="font-semibold">UMB Atenco AI Assistant</span>
@@ -607,7 +668,7 @@ const App: React.FC = () => {
             <div className="p-4 flex-grow overflow-y-auto bg-slate-50 min-h-[200px]">
               {chatResponse ? (
                 <div className="bg-white p-3 rounded-lg shadow-sm text-slate-700 text-sm border border-slate-100">
-                  <p className="font-semibold text-[#d147a3] mb-1">AI:</p>
+                  <p className="font-semibold text-green-600 mb-1">AI:</p>
                   {chatResponse}
                 </div>
               ) : (
@@ -618,9 +679,9 @@ const App: React.FC = () => {
               {isChatLoading && (
                 <div className="flex justify-center mt-4">
                   <div className="animate-pulse flex space-x-1">
-                    <div className="h-2 w-2 bg-pink-400 rounded-full"></div>
-                    <div className="h-2 w-2 bg-pink-400 rounded-full"></div>
-                    <div className="h-2 w-2 bg-pink-400 rounded-full"></div>
+                    <div className="h-2 w-2 bg-green-400 rounded-full"></div>
+                    <div className="h-2 w-2 bg-green-400 rounded-full"></div>
+                    <div className="h-2 w-2 bg-green-400 rounded-full"></div>
                   </div>
                 </div>
               )}
@@ -632,12 +693,12 @@ const App: React.FC = () => {
                 value={chatQuery}
                 onChange={(e) => setChatQuery(e.target.value)}
                 placeholder="Escribe tu pregunta..."
-                className="flex-grow text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                className="flex-grow text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
               />
               <button 
                 type="submit" 
                 disabled={isChatLoading || !chatQuery.trim()}
-                className="bg-[#FF8FE9] text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-[#ff76e5] disabled:opacity-50"
+                className="bg-[#41F73B] text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-500 disabled:opacity-50"
               >
                 Enviar
               </button>

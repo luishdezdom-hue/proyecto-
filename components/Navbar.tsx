@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
   };
 
   return (
-    <nav className="bg-[#FF8FE9] text-slate-900 shadow-lg sticky top-0 z-50">
+    <nav className="bg-[#41F73B] text-slate-900 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -97,23 +97,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
                   <div className="py-1">
                     <button
                       onClick={() => handleNavigate(ViewState.TEACHER_INFO)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <Info className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <Info className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Inf. Docente
                     </button>
                     <button
                       onClick={() => handleNavigate(ViewState.ATTENDANCE)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <UserX className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <UserX className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Asistencia
                     </button>
                     <button
                       onClick={() => handleNavigate(ViewState.TEACHER_EVALUATION)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <Star className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <Star className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Calificación de Docentes
                     </button>
                   </div>
@@ -152,23 +152,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
                   <div className="py-1">
                     <button
                       onClick={() => handleNavigate(ViewState.LIBRARY)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <BookOpen className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <BookOpen className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Biblioteca
                     </button>
                     <button
                       onClick={() => handleNavigate(ViewState.CAFETERIA)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <Coffee className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <Coffee className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Cafetería
                     </button>
                     <button
                       onClick={() => handleNavigate(ViewState.MAP)}
-                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-700 w-full text-left"
                     >
-                      <Map className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      <Map className="h-4 w-4 mr-2 text-slate-400 group-hover:text-green-700" />
                       Mapa del Campus
                     </button>
                   </div>
@@ -201,7 +201,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
                   <button
                     onClick={() => handleNavigate(ViewState.ADMIN_DASHBOARD)}
                     className={`flex items-center px-3 py-2 rounded-md text-sm font-bold border-2 border-white/50 transition-colors duration-200 ${
-                      currentView === ViewState.ADMIN_DASHBOARD ? 'bg-white text-[#d147a3] shadow-md' : 'text-white hover:bg-white/10'
+                      currentView === ViewState.ADMIN_DASHBOARD ? 'bg-white text-green-700 shadow-md' : 'text-white hover:bg-white/10'
                     }`}
                   >
                     <ShieldCheck className="h-4 w-4 mr-2" />
@@ -230,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-[#ff66d9] inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#ff4dd2] focus:outline-none"
+              className="bg-green-500 inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-green-600 focus:outline-none"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -240,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[#ff76e5] pb-3 pt-2">
+        <div className="md:hidden bg-green-500 pb-3 pt-2">
           <div className="px-2 space-y-1 sm:px-3">
              {isAdmin && (
                   <button

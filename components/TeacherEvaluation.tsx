@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Teacher, TeacherRating } from '../types';
-import { Star, Send, CheckCircle2 } from 'lucide-react';
+import { Star, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 
 interface TeacherEvaluationProps {
   teachers: Teacher[];
   onSubmitEvaluation?: (data: TeacherRating) => void;
+  userCareer?: string;
 }
 
 const QUESTIONS = [
@@ -25,10 +26,15 @@ const QUESTIONS = [
   "15. Satisfacción general con el docente"
 ];
 
-export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, onSubmitEvaluation }) => {
+export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, onSubmitEvaluation, userCareer }) => {
   const [selectedTeacherId, setSelectedTeacherId] = useState<string>('');
   const [ratings, setRatings] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  // Filter teachers by career if userCareer is provided
+  const visibleTeachers = userCareer 
+    ? teachers.filter(t => t.career === userCareer)
+    : teachers;
 
   const selectedTeacher = teachers.find(t => t.id === selectedTeacherId);
 
@@ -79,40 +85,53 @@ export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, 
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-slate-900">Calificación de Docentes</h2>
         <p className="text-slate-500 mt-2">Evalúa el desempeño de tus profesores. Tu opinión es anónima e importante.</p>
+        {userCareer && (
+             <span className="inline-block mt-2 bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full border border-green-200">
+                  Mostrando docentes de: {userCareer}
+             </span>
+        )}
       </div>
 
-      {/* Teacher Selection */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
-        <label className="block text-sm font-medium text-slate-700 mb-3">Selecciona un docente a evaluar:</label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {teachers.map(teacher => (
-            <button
-              key={teacher.id}
-              onClick={() => {
-                setSelectedTeacherId(teacher.id);
-                setRatings({}); // Reset ratings on change
-              }}
-              className={`flex items-center p-3 rounded-lg border transition-all duration-200 text-left
-                ${selectedTeacherId === teacher.id 
-                  ? 'border-[#FF8FE9] bg-pink-50 ring-1 ring-[#FF8FE9]' 
-                  : 'border-slate-200 hover:bg-slate-50'
-                }
-              `}
-            >
-              <img src={teacher.photoUrl} alt={teacher.name} className="w-10 h-10 rounded-full object-cover mr-3" />
-              <div className="overflow-hidden">
-                <p className="text-sm font-semibold text-slate-800 truncate">{teacher.name}</p>
-                <p className="text-xs text-slate-500 truncate">{teacher.department}</p>
-              </div>
-            </button>
-          ))}
+      {/* Teacher Selection List - Hidden if teacher is selected */}
+      {!selectedTeacher && (
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 animate-fade-in">
+          <label className="block text-sm font-medium text-slate-700 mb-3">Selecciona un docente a evaluar:</label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {visibleTeachers.map(teacher => (
+              <button
+                key={teacher.id}
+                onClick={() => {
+                  setSelectedTeacherId(teacher.id);
+                  setRatings({}); // Reset ratings on change
+                }}
+                className={`flex items-center p-3 rounded-lg border transition-all duration-200 text-left border-slate-200 hover:bg-slate-50 hover:shadow-md hover:-translate-y-0.5 group`}
+              >
+                <img src={teacher.photoUrl} alt={teacher.name} className="w-10 h-10 rounded-full object-cover mr-3 group-hover:ring-2 group-hover:ring-[#41F73B]" />
+                <div className="overflow-hidden">
+                  <p className="text-sm font-semibold text-slate-800 truncate">{teacher.name}</p>
+                  <p className="text-xs text-slate-500 truncate">{teacher.department}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+          {visibleTeachers.length === 0 && (
+              <p className="text-slate-400 text-sm italic">No se encontraron docentes para tu carrera.</p>
+          )}
         </div>
-      </div>
+      )}
 
+      {/* Survey Form - Shown only when teacher selected */}
       {selectedTeacher && (
-        <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-fade-in">
-          <div className="bg-[#FF8FE9]/10 p-6 border-b border-pink-100 flex items-center justify-between flex-wrap gap-4">
+        <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-slide-up">
+          <div className="bg-[#41F73B]/10 p-6 border-b border-green-100 flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center">
+              <button 
+                onClick={() => setSelectedTeacherId('')}
+                className="mr-4 p-2 rounded-full hover:bg-white/50 text-slate-600 transition-colors"
+                title="Volver a la lista"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
               <img src={selectedTeacher.photoUrl} alt={selectedTeacher.name} className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-sm mr-4" />
               <div>
                 <h3 className="text-xl font-bold text-slate-800">{selectedTeacher.name}</h3>
@@ -123,7 +142,7 @@ export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, 
               <div className="text-sm font-medium text-slate-500 mb-1">Progreso</div>
               <div className="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-[#FF8FE9] transition-all duration-500 ease-out"
+                  className="h-full bg-[#41F73B] transition-all duration-500 ease-out"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
@@ -168,7 +187,7 @@ export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, 
               className={`flex items-center px-6 py-3 rounded-lg font-bold text-white shadow-lg transition-all
                 ${answeredCount < QUESTIONS.length 
                   ? 'bg-slate-300 cursor-not-allowed' 
-                  : 'bg-[#FF8FE9] hover:bg-[#ff76e5] hover:shadow-xl hover:-translate-y-0.5'
+                  : 'bg-[#41F73B] hover:bg-green-500 hover:shadow-xl hover:-translate-y-0.5'
                 }
               `}
             >

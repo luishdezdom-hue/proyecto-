@@ -7,12 +7,12 @@ const CAREERS = ["Ingeniería en TIC'S", "Ingeniería Industrial", "Licenciatura
 const ADVISORIES: Record<string, { subject: string; tutor: string; time: string; room: string }[]> = {
   "Ingeniería en TIC'S": [
     { subject: "Fundamentos de Redes de Computadoras", tutor: "Zarco Carrillo Francisco Javier", time: "Lun/Mié 14:00 - 16:00", room: "Sala de Cómputo 1" },
-    { subject: "Comunicación Analógica y Digital", tutor: "Arias Peralta Humberto", time: "Mar/Jue 10:00 - 12:00", room: "Laboratorio Cisco" },
-    { subject: "Análisis y Diseño de Circuitos Digitales", tutor: "Hernandez Lara Derlis", time: "Vie 09:00 - 11:00", room: "Aula B-102" },
-    { subject: "Programación Web", tutor: "Jimenez Garcia Roberto", time: "Jue 12:00 - 14:00", room: "Aula B-105" },
-    { subject: "Administración de Bases de Datos", tutor: "Perez Lopez Ana Maria", time: "Lun 16:00 - 18:00", room: "Lab de Bases de Datos" },
-    { subject: "Ingeniería de Software", tutor: "Ramirez Torres Luis", time: "Mié 10:00 - 12:00", room: "Aula B-103" },
-    { subject: "Sistemas Operativos", tutor: "Sanchez Gomez Karla", time: "Vie 12:00 - 14:00", room: "Lab Linux" }
+    { subject: "Ingeniería Financiera", tutor: "Sandoval Argaez Berenice Dafne", time: "Mar/Jue 12:00 - 14:00", room: "Aula B-101" },
+    { subject: "Investigación de Operaciones I", tutor: "Martinez Avila Yadhee", time: "Vie 10:00 - 12:00", room: "Aula B-102" },
+    { subject: "Comunicación Analógica y Digital", tutor: "Arias Peralta Humberto", time: "Lun 16:00 - 18:00", room: "Laboratorio Cisco" },
+    { subject: "Taller de Investigación I", tutor: "Coutiño Diaz Emilio Alfonso", time: "Mar 09:00 - 11:00", room: "Aula B-105" },
+    { subject: "Inglés V", tutor: "Altamirano Ortega Dalia", time: "Mié 12:00 - 14:00", room: "Aula de Idiomas" },
+    { subject: "Análisis y Diseño de Circuitos Digitales", tutor: "Hernandez Lara Derlis", time: "Jue 14:00 - 16:00", room: "Lab Electrónica" }
   ],
   "Ingeniería Industrial": [
     { subject: "Administración de Proyectos", tutor: "Martinez Avila Yadhee", time: "Lun/Mié 12:00 - 14:00", room: "Aula B-201" },
@@ -120,7 +120,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
       {isModalOpen && selectedSubject && (
         <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
-            <div className="bg-[#FF8FE9] p-4 flex justify-between items-center text-white">
+            <div className="bg-[#41F73B] p-4 flex justify-between items-center text-white">
               <h3 className="font-bold text-lg flex items-center">
                 <Brain className="w-5 h-5 mr-2" />
                 Inscripción a Asesoría
@@ -146,7 +146,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                     required
                     value={formData.fullName}
                     onChange={e => setFormData({...formData, fullName: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
                     placeholder="Ej. María González López"
                   />
                 </div>
@@ -161,7 +161,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                       required
                       value={formData.group}
                       onChange={e => setFormData({...formData, group: e.target.value})}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
                       placeholder="Ej. 1801"
                     />
                   </div>
@@ -174,7 +174,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                       required
                       value={formData.matricula}
                       onChange={e => setFormData({...formData, matricula: e.target.value})}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
                       placeholder="Ej. 20210045"
                     />
                   </div>
@@ -192,13 +192,13 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                         onClick={() => setFormData({...formData, selectedTime: time})}
                         className={`px-4 py-3 rounded-lg border text-sm font-medium transition-all text-left flex justify-between items-center
                           ${formData.selectedTime === time 
-                            ? 'border-[#FF8FE9] bg-pink-50 text-[#d147a3] ring-1 ring-[#FF8FE9]' 
+                            ? 'border-[#41F73B] bg-green-50 text-green-700 ring-1 ring-[#41F73B]' 
                             : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                           }
                         `}
                       >
                         <span>{time}</span>
-                        {formData.selectedTime === time && <CheckCircle2 className="w-4 h-4 text-[#FF8FE9]" />}
+                        {formData.selectedTime === time && <CheckCircle2 className="w-4 h-4 text-[#41F73B]" />}
                       </button>
                     ))}
                   </div>
@@ -217,7 +217,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                 <button 
                   type="submit"
                   disabled={!formData.fullName || !formData.group || !formData.matricula || !formData.selectedTime}
-                  className="flex-1 py-2.5 bg-[#FF8FE9] text-white rounded-xl font-bold shadow-md hover:bg-[#ff76e5] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-2.5 bg-[#41F73B] text-white rounded-xl font-bold shadow-md hover:bg-green-500 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Confirmar
                 </button>
@@ -229,7 +229,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
 
       <div className="text-center mb-10">
         <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
-          <Brain className="w-10 h-10 mr-4 text-[#FF8FE9]" />
+          <Brain className="w-10 h-10 mr-4 text-[#41F73B]" />
           Asesorías Académicas
         </h2>
         <p className="text-slate-500 mt-3 text-lg">Refuerza tus conocimientos con tutorías especializadas.</p>
@@ -244,7 +244,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
             disabled={!!userCareer && userCareer !== career}
             className={`px-6 py-3 rounded-full text-sm font-bold transition-all transform hover:scale-105 ${
               selectedCareer === career
-                ? 'bg-[#FF8FE9] text-white shadow-lg ring-2 ring-[#ff76e5] ring-offset-2'
+                ? 'bg-[#41F73B] text-white shadow-lg ring-2 ring-green-400 ring-offset-2'
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:scale-100'
             }`}
           >
@@ -256,27 +256,27 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
       <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
         <div className="p-6 md:p-8 bg-slate-50 border-b border-slate-100">
             <h3 className="text-2xl font-bold text-slate-800 flex items-center">
-                <BookOpen className="w-6 h-6 mr-3 text-[#FF8FE9]" />
+                <BookOpen className="w-6 h-6 mr-3 text-[#41F73B]" />
                 Materias Disponibles - {selectedCareer}
             </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
             {ADVISORIES[selectedCareer].map((item, index) => (
-                <div key={index} className="p-6 hover:bg-pink-50/30 transition-colors group border-b border-slate-100 md:border-b-0 last:border-b-0">
+                <div key={index} className="p-6 hover:bg-green-50/30 transition-colors group border-b border-slate-100 md:border-b-0 last:border-b-0">
                     <div className="flex justify-between items-start mb-4">
                         <div className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
                             {item.room}
                         </div>
                         <button 
                             onClick={() => handleOpenModal(item)}
-                            className="text-sm font-semibold text-[#FF8FE9] hover:text-[#d147a3] flex items-center bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                            className="text-sm font-semibold text-[#41F73B] hover:text-green-700 flex items-center bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all"
                         >
                             Inscribirse <ArrowRight className="w-4 h-4 ml-1" />
                         </button>
                     </div>
                     
-                    <h4 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-[#FF8FE9] transition-colors">{item.subject}</h4>
+                    <h4 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-[#41F73B] transition-colors">{item.subject}</h4>
                     
                     <div className="space-y-2 mt-4">
                         <div className="flex items-center text-slate-600 text-sm">
@@ -297,7 +297,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
         </div>
         
         <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-            <p className="text-sm text-slate-500">¿No encuentras la materia que buscas? <a href="#" className="text-[#FF8FE9] font-bold hover:underline">Solicita una asesoría especial aquí</a>.</p>
+            <p className="text-sm text-slate-500">¿No encuentras la materia que buscas? <a href="#" className="text-[#41F73B] font-bold hover:underline">Solicita una asesoría especial aquí</a>.</p>
         </div>
       </div>
     </div>

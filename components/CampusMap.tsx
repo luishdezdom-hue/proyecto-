@@ -7,7 +7,7 @@ const LOCATIONS = [
   { id: 3, name: 'Edificio C - Laboratorios', icon: Microscope, desc: 'Labs de Cómputo, Química y Física.', color: 'bg-purple-500' },
   { id: 4, name: 'Biblioteca Central', icon: BookOpen, desc: 'Acervo, Cubículos de estudio.', color: 'bg-orange-500' },
   { id: 5, name: 'Canchas Deportivas', icon: Activity, desc: 'Fútbol, Básquetbol y Gimnasio.', color: 'bg-red-500' },
-  { id: 6, name: 'Cafetería', icon: MapPin, desc: 'Área de comida y esparcimiento.', color: 'bg-pink-500' },
+  { id: 6, name: 'Cafetería', icon: MapPin, desc: 'Área de comida y esparcimiento.', color: 'bg-[#41F73B]' },
   { id: 7, name: 'Auditorio', icon: Presentation, desc: 'Conferencias y eventos culturales.', color: 'bg-indigo-500' },
   { id: 9, name: 'Papelería', icon: Printer, desc: 'Impresiones y material escolar.', color: 'bg-yellow-600' },
   { id: 11, name: 'Centro de Cómputo', icon: Monitor, desc: 'Equipos especializados para Ingeniería.', color: 'bg-cyan-600' },
@@ -44,7 +44,7 @@ export const CampusMap: React.FC = () => {
                 </div>
 
                 {/* Cafeteria - Bottom of Col 1 (Reduced height to fit Papeleria) */}
-                <div className="col-span-1 row-span-3 bg-pink-100 border-2 border-pink-400 border-r-4 border-r-pink-300/50 border-dashed rounded-lg flex items-center justify-center p-2 text-center text-xs font-bold text-pink-800 shadow-sm flex-col relative">
+                <div className="col-span-1 row-span-3 bg-green-100 border-2 border-[#41F73B] border-r-4 border-r-green-300/50 border-dashed rounded-lg flex items-center justify-center p-2 text-center text-xs font-bold text-green-800 shadow-sm flex-col relative">
                     <div className="absolute right-[-18px] top-0 bottom-0 w-1 border-r-2 border-slate-300 border-dashed h-full"></div>
                     <MapPin className="w-6 h-6 mb-2 opacity-50" />
                     Cafetería

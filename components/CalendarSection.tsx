@@ -184,7 +184,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
 
       // Selection overrides background lightly or adds border
       const containerClass = isSelected 
-        ? `bg-pink-50 ring-2 ring-[#FF8FE9] ring-inset z-10` 
+        ? `bg-green-50 ring-2 ring-[#41F73B] ring-inset z-10` 
         : `${bgClass} border border-slate-100 hover:brightness-95`;
 
       days.push(
@@ -194,7 +194,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
           className={`h-10 sm:h-14 md:h-24 relative flex flex-col items-start justify-start p-1 transition-all duration-200 ${containerClass}`}
         >
           <span className={`text-xs sm:text-sm font-medium w-6 h-6 flex items-center justify-center rounded-full mb-1
-            ${isToday ? 'bg-[#FF8FE9] text-white' : 'text-slate-700'}
+            ${isToday ? 'bg-[#41F73B] text-slate-900' : 'text-slate-700'}
           `}>
             {d}
           </span>
@@ -221,15 +221,15 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
             {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
           </h2>
           {userRole === 'STUDENT' && (
-              <span className="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full border border-pink-200">
+              <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full border border-green-200">
                   Mostrando eventos para: {userCareer}
               </span>
           )}
           <div className="flex space-x-2">
-            <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-pink-100 text-slate-600">
+            <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-green-100 text-slate-600">
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-pink-100 text-slate-600">
+            <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-green-100 text-slate-600">
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
@@ -265,7 +265,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
 
         {/* Existing Events List */}
         <div className="mb-8">
-          <h4 className="text-sm font-semibold text-[#d147a3] uppercase tracking-wide mb-3 flex items-center">
+          <h4 className="text-sm font-semibold text-green-700 uppercase tracking-wide mb-3 flex items-center">
             <CalendarIcon className="w-4 h-4 mr-2" /> Agenda del Día
           </h4>
           {selectedDateEvents.length === 0 ? (
@@ -311,7 +311,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                 value={newEventTitle}
                 onChange={(e) => setNewEventTitle(e.target.value)}
                 placeholder="Ej. Entrega Final"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
               />
             </div>
 
@@ -320,7 +320,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
               <select 
                 value={newEventType}
                 onChange={(e) => setNewEventType(e.target.value as EventType)}
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
               >
                 <option value={EventType.LECTURE}>Clase</option>
                 <option value={EventType.EXAM}>Examen</option>
@@ -340,7 +340,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                     <select 
                         value={eventCareer}
                         onChange={(e) => setEventCareer(e.target.value)}
-                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] bg-white"
+                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
                     >
                         <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
                         <option value="Ingeniería Industrial">Ingeniería Industrial</option>
@@ -356,7 +356,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                         value={eventSubject}
                         onChange={(e) => setEventSubject(e.target.value)}
                         placeholder="Ej. Cálculo Diferencial"
-                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
                     />
                 </div>
                 </>
@@ -369,13 +369,13 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                 value={newEventLocation}
                 onChange={(e) => setNewEventLocation(e.target.value)}
                 placeholder="Ej. Aula B4"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
               />
             </div>
 
             {newEventType === EventType.VACATION && (
-              <div className="bg-pink-50 p-3 rounded-lg border border-pink-100">
-                <label className="block text-xs font-medium text-pink-700 mb-1 flex items-center">
+              <div className="bg-green-50 p-3 rounded-lg border border-green-100">
+                <label className="block text-xs font-medium text-green-700 mb-1 flex items-center">
                   <Clock className="w-3 h-3 mr-1" />
                   Fecha de Fin
                 </label>
@@ -384,7 +384,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                   value={endDateStr}
                   onChange={(e) => setEndDateStr(e.target.value)}
                   min={selectedDate.toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 text-sm border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] bg-white"
+                  className="w-full px-3 py-2 text-sm border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
                 />
               </div>
             )}
@@ -392,7 +392,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
             <button 
               onClick={handleCreateEvent}
               disabled={!newEventTitle.trim() || (newEventType === EventType.VACATION && !endDateStr)}
-              className="w-full bg-[#FF8FE9] text-white font-medium py-2 rounded-lg hover:bg-[#ff76e5] transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#41F73B] text-white font-medium py-2 rounded-lg hover:bg-green-500 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4 mr-2" />
               Guardar Evento

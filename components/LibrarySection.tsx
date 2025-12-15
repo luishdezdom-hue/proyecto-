@@ -103,7 +103,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
       {isModalOpen && selectedBook && (
         <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-scale-up">
-            <div className="bg-[#FF8FE9] p-4 flex justify-between items-center text-white">
+            <div className="bg-[#41F73B] p-4 flex justify-between items-center text-white">
               <h3 className="font-bold text-lg flex items-center">
                 <Book className="w-5 h-5 mr-2" />
                 Reservar Libro
@@ -135,7 +135,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:border-[#FF8FE9] outline-none transition-all text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm"
                     placeholder="Ej. Juan Pérez"
                   />
                 </div>
@@ -148,7 +148,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.career}
                     onChange={e => setFormData({...formData, career: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:border-[#FF8FE9] outline-none transition-all text-sm bg-white"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm bg-white"
                   >
                     <option value="">Selecciona tu carrera...</option>
                     <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
@@ -166,7 +166,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.matricula}
                     onChange={e => setFormData({...formData, matricula: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:border-[#FF8FE9] outline-none transition-all text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm"
                     placeholder="Ej. 202300159"
                   />
                 </div>
@@ -181,7 +181,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                   </button>
                   <button 
                     type="submit" 
-                    className="flex-1 py-2.5 bg-[#FF8FE9] text-white rounded-xl font-bold shadow-md hover:bg-[#ff76e5] hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                    className="flex-1 py-2.5 bg-[#41F73B] text-white rounded-xl font-bold shadow-md hover:bg-green-500 hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                   >
                     Confirmar Reserva
                   </button>
@@ -195,7 +195,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
       <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
         <div>
           <h2 className="text-3xl font-bold text-slate-900 flex items-center">
-            <BookOpen className="w-8 h-8 mr-3 text-[#FF8FE9]" />
+            <BookOpen className="w-8 h-8 mr-3 text-[#41F73B]" />
             Biblioteca Universitaria
           </h2>
           <p className="text-slate-500 mt-2">Consulta el acervo bibliográfico y disponibilidad.</p>
@@ -209,7 +209,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
               placeholder="Buscar por título o autor..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm"
             />
           </div>
         </div>
@@ -223,7 +223,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
             onClick={() => setFilter(cat)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               filter === cat 
-                ? 'bg-[#FF8FE9] text-white shadow-md' 
+                ? 'bg-[#41F73B] text-white shadow-md' 
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
             }`}
           >
@@ -244,7 +244,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
               </div>
             </div>
             <div className="p-4">
-              <span className="text-xs text-[#d147a3] font-semibold uppercase tracking-wider">{book.category}</span>
+              <span className="text-xs text-green-600 font-semibold uppercase tracking-wider">{book.category}</span>
               <h3 className="font-bold text-slate-800 text-lg leading-tight mt-1 mb-1 truncate" title={book.title}>{book.title}</h3>
               <p className="text-sm text-slate-500 mb-4">{book.author}</p>
               
@@ -254,7 +254,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                   disabled={!book.available}
                   className={`flex-1 text-sm font-medium py-2 rounded-lg transition-colors flex items-center justify-center
                   ${book.available 
-                    ? 'bg-slate-50 text-slate-700 hover:bg-[#FF8FE9] hover:text-white' 
+                    ? 'bg-slate-50 text-slate-700 hover:bg-[#41F73B] hover:text-white' 
                     : 'bg-slate-100 text-slate-400 cursor-not-allowed'}
                 `}>
                   <Book className="w-4 h-4 mr-2" />
