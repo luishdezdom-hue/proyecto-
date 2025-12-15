@@ -630,6 +630,8 @@ const App: React.FC = () => {
         return enabledSections[ViewState.ADVISORY] ? <AdvisorySection 
           onRegister={handleRegisterAdvisory} 
           userCareer={userCareer}
+          teacherName={currentUser?.role === 'TEACHER' ? currentUser.name : undefined}
+          registrations={advisoryRegistrations}
         /> : <NewsSection />;
       case ViewState.LIBRARY:
         return enabledSections[ViewState.LIBRARY] ? <LibrarySection onReserve={handleReserveBook} /> : <NewsSection />;

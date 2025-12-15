@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Users, Clock, CalendarCheck, Brain, ArrowRight, CheckCircle2, X, User, Hash, GraduationCap } from 'lucide-react';
+import { BookOpen, Users, Clock, CalendarCheck, Brain, ArrowRight, CheckCircle2, X, User, Hash, GraduationCap, ClipboardList } from 'lucide-react';
 import { AdvisoryRegistration } from '../types';
 
 const CAREERS = ["Ingeniería en TIC'S", "Ingeniería Industrial", "Licenciatura en Derecho"];
@@ -38,9 +38,11 @@ const ADVISORIES: Record<string, { subject: string; tutor: string; time: string;
 interface AdvisorySectionProps {
     onRegister?: (data: Omit<AdvisoryRegistration, 'id' | 'timestamp'>) => void;
     userCareer?: string;
+    teacherName?: string;
+    registrations?: AdvisoryRegistration[];
 }
 
-export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, userCareer }) => {
+export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, userCareer, teacherName, registrations = [] }) => {
   const [selectedCareer, setSelectedCareer] = useState<string>(userCareer || "Ingeniería en TIC'S");
   const [requestStatus, setRequestStatus] = useState<string | null>(null);
 
@@ -60,6 +62,110 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
     selectedTime: ''
   });
 
+  // --- TEACHER VIEW LOGIC ---
+  if (teacherName) {
+    // 1. Find teacher's subjects across all careers
+    const teacherSubjects: { subject: string; tutor: string; time: string; room: string; career: string }[] = [];
+    Object.entries(ADVISORIES).forEach(([career, careerList]) => {
+        careerList.forEach(item => {
+            // Normalize comparison (case insensitive just in case, though data is strict)
+            if (item.tutor.toLowerCase() === teacherName.toLowerCase()) {
+                teacherSubjects.push({ ...item, career });
+            }
+        });
+    });
+
+    return (
+        <div className="max-w-7xl mx-auto px-4 py-8 relative">
+            <div className="text-center mb-10">
+                <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
+                <Brain className="w-10 h-10 mr-4 text-[#41F73B]" />
+                Panel de Asesorías Docente
+                </h2>
+                <p className="text-slate-500 mt-3 text-lg">Gestión de materias y alumnos inscritos.</p>
+                <div className="mt-4 bg-green-50 text-green-800 px-4 py-2 rounded-full inline-block font-semibold border border-green-200">
+                    Profesor: {teacherName}
+                </div>
+            </div>
+
+            {teacherSubjects.length === 0 ? (
+                <div className="text-center py-12 bg-white rounded-2xl shadow border border-slate-100">
+                    <p className="text-slate-400 italic">No tienes materias de asesoría asignadas en este periodo.</p>
+                </div>
+            ) : (
+                <div className="space-y-8">
+                    {teacherSubjects.map((subjectItem, idx) => {
+                        // Filter registrations for this specific subject and tutor
+                        const students = registrations.filter(r => 
+                            r.subject === subjectItem.subject && 
+                            r.tutor.toLowerCase() === teacherName.toLowerCase()
+                        );
+
+                        return (
+                            <div key={idx} className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+                                <div className="bg-slate-50 p-6 border-b border-slate-100 flex justify-between items-center flex-wrap gap-4">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-slate-800">{subjectItem.subject}</h3>
+                                        <div className="flex items-center text-sm text-slate-500 mt-1 space-x-4">
+                                            <span className="flex items-center"><GraduationCap className="w-4 h-4 mr-1"/> {subjectItem.career}</span>
+                                            <span className="flex items-center"><Clock className="w-4 h-4 mr-1"/> {subjectItem.time}</span>
+                                            <span className="flex items-center bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-bold">{subjectItem.room}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center bg-[#41F73B]/20 text-green-800 px-3 py-1 rounded-lg">
+                                        <Users className="w-5 h-5 mr-2" />
+                                        <span className="font-bold">{students.length} Alumnos Inscritos</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-0">
+                                    {students.length === 0 ? (
+                                        <div className="p-8 text-center text-slate-400 flex flex-col items-center">
+                                            <ClipboardList className="w-12 h-12 mb-2 opacity-20" />
+                                            <p>Aún no hay alumnos registrados para esta materia.</p>
+                                        </div>
+                                    ) : (
+                                        <div className="overflow-x-auto">
+                                            <table className="min-w-full text-left text-sm">
+                                                <thead className="bg-slate-100 text-slate-600 font-bold uppercase text-xs">
+                                                    <tr>
+                                                        <th className="px-6 py-3 border-b border-slate-200">Nombre del Alumno</th>
+                                                        <th className="px-6 py-3 border-b border-slate-200">Matrícula</th>
+                                                        <th className="px-6 py-3 border-b border-slate-200">Grupo</th>
+                                                        <th className="px-6 py-3 border-b border-slate-200">Horario Solicitado</th>
+                                                        <th className="px-6 py-3 border-b border-slate-200">Fecha Registro</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-100">
+                                                    {students.map((student, sIdx) => (
+                                                        <tr key={sIdx} className="hover:bg-slate-50 transition-colors">
+                                                            <td className="px-6 py-3 font-medium text-slate-800 flex items-center">
+                                                                <User className="w-4 h-4 mr-2 text-slate-400" />
+                                                                {student.studentName}
+                                                            </td>
+                                                            <td className="px-6 py-3 font-mono text-slate-600">{student.matricula}</td>
+                                                            <td className="px-6 py-3">{student.group}</td>
+                                                            <td className="px-6 py-3 font-bold text-green-600">{student.time}</td>
+                                                            <td className="px-6 py-3 text-slate-400 text-xs">
+                                                                {student.timestamp.toLocaleDateString()}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+  }
+
+  // --- STUDENT VIEW LOGIC (Existing) ---
   const generateRandomSlots = () => {
     const slots: string[] = [];
     const usedHours = new Set<number>();
