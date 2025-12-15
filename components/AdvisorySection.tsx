@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, Users, Clock, CalendarCheck, Brain, ArrowRight, CheckCircle2, X, User, Hash, GraduationCap } from 'lucide-react';
 import { AdvisoryRegistration } from '../types';
 
@@ -6,32 +6,48 @@ const CAREERS = ["Ingeniería en TIC'S", "Ingeniería Industrial", "Licenciatura
 
 const ADVISORIES: Record<string, { subject: string; tutor: string; time: string; room: string }[]> = {
   "Ingeniería en TIC'S": [
-    { subject: "Programación Orientada a Objetos", tutor: "Ing. Francisco Zarco", time: "Lun/Mié 14:00 - 16:00", room: "Sala de Cómputo 1" },
-    { subject: "Redes de Computadoras", tutor: "Ing. Humberto Arias", time: "Mar/Jue 10:00 - 12:00", room: "Laboratorio Cisco" },
-    { subject: "Estructura de Datos", tutor: "Ing. Berenice Sandoval", time: "Vie 09:00 - 11:00", room: "Aula B-102" },
-    { subject: "Matemáticas Discretas", tutor: "Ing. Emilio Coutiño", time: "Jue 12:00 - 14:00", room: "Aula B-105" }
+    { subject: "Fundamentos de Redes de Computadoras", tutor: "Zarco Carrillo Francisco Javier", time: "Lun/Mié 14:00 - 16:00", room: "Sala de Cómputo 1" },
+    { subject: "Comunicación Analógica y Digital", tutor: "Arias Peralta Humberto", time: "Mar/Jue 10:00 - 12:00", room: "Laboratorio Cisco" },
+    { subject: "Análisis y Diseño de Circuitos Digitales", tutor: "Hernandez Lara Derlis", time: "Vie 09:00 - 11:00", room: "Aula B-102" },
+    { subject: "Programación Web", tutor: "Jimenez Garcia Roberto", time: "Jue 12:00 - 14:00", room: "Aula B-105" },
+    { subject: "Administración de Bases de Datos", tutor: "Perez Lopez Ana Maria", time: "Lun 16:00 - 18:00", room: "Lab de Bases de Datos" },
+    { subject: "Ingeniería de Software", tutor: "Ramirez Torres Luis", time: "Mié 10:00 - 12:00", room: "Aula B-103" },
+    { subject: "Sistemas Operativos", tutor: "Sanchez Gomez Karla", time: "Vie 12:00 - 14:00", room: "Lab Linux" }
   ],
   "Ingeniería Industrial": [
-    { subject: "Investigación de Operaciones", tutor: "Ing. Yadhee Martinez", time: "Lun/Mié 12:00 - 14:00", room: "Aula B-201" },
-    { subject: "Estudio del Trabajo", tutor: "Ing. Emilio Coutiño", time: "Mar 16:00 - 18:00", room: "Taller Industrial" },
-    { subject: "Logística y Cadena de Suministro", tutor: "Ing. Derlis Hernandez", time: "Jue 11:00 - 13:00", room: "Aula B-203" },
-    { subject: "Control de Calidad", tutor: "Ing. Dalia Altamirano", time: "Vie 10:00 - 12:00", room: "Laboratorio de Calidad" }
+    { subject: "Administración de Proyectos", tutor: "Martinez Avila Yadhee", time: "Lun/Mié 12:00 - 14:00", room: "Aula B-201" },
+    { subject: "Administración de Operaciones II", tutor: "Badillo Flores Alejandro", time: "Mar 16:00 - 18:00", room: "Taller Industrial" },
+    { subject: "Investigación de Operaciones I", tutor: "Sandoval Argaez Berenice Dafne", time: "Jue 11:00 - 13:00", room: "Aula B-203" },
+    { subject: "Administración del Mantenimiento", tutor: "Martinez Vazquez Victor Ismael", time: "Vie 10:00 - 12:00", room: "Laboratorio de Calidad" },
+    { subject: "Estadística II", tutor: "Espejel Almeraya Aldo", time: "Mié 09:00 - 11:00", room: "Aula B-204" },
+    { subject: "Administración de la Calidad", tutor: "Sanchez Miranda Sandra", time: "Lun 10:00 - 12:00", room: "Aula B-202" },
+    { subject: "Inglés V", tutor: "Altamirano Ortega Dalia", time: "Jue 14:00 - 16:00", room: "Aula de Idiomas" }
   ],
   "Licenciatura en Derecho": [
-    { subject: "Teoría General del Proceso", tutor: "Lic. Juan Pérez", time: "Lun 08:00 - 10:00", room: "Sala de Juicios Orales" },
-    { subject: "Derecho Penal", tutor: "Lic. Maria Lopez", time: "Mié 10:00 - 12:00", room: "Aula B-301" },
-    { subject: "Derecho Constitucional", tutor: "Lic. Pedro Sanchez", time: "Vie 14:00 - 16:00", room: "Aula B-302" },
-    { subject: "Derecho Laboral", tutor: "Lic. Ana Torres", time: "Mar 09:00 - 11:00", room: "Aula B-304" }
+    { subject: "Expresión Oral y Escrita", tutor: "Coutiño Diaz Emilio Alfonso", time: "Lun 08:00 - 10:00", room: "Sala de Juicios Orales" },
+    { subject: "Fundamentos del Derecho", tutor: "Ramírez Alaña Jose Luis", time: "Mié 10:00 - 12:00", room: "Aula B-301" },
+    { subject: "Derechos de la Persona", tutor: "Cedeño Dorantes Susana", time: "Vie 14:00 - 16:00", room: "Aula B-302" },
+    { subject: "Identidad y Cultura", tutor: "Rivas de la Vega Erika", time: "Mar 09:00 - 11:00", room: "Aula B-304" },
+    { subject: "Actividades Deportivas Soc. y Cult.", tutor: "Victoria Ramos Sandra Ivaraki", time: "Jue 16:00 - 18:00", room: "Canchas" },
+    { subject: "Instituciones del Derecho Romano", tutor: "Alvarez Perez Fatima Adriana", time: "Vie 08:00 - 10:00", room: "Aula B-303" },
+    { subject: "Teoría del Estado", tutor: "Atlitec Godinez Oscar Cristophe", time: "Lun 12:00 - 14:00", room: "Aula B-305" },
+    { subject: "Fundamentos de Derechos Humanos", tutor: "Ramirez Alaña Jose Alejandro", time: "Mié 16:00 - 18:00", room: "Aula B-306" }
   ]
 };
 
 interface AdvisorySectionProps {
     onRegister?: (data: Omit<AdvisoryRegistration, 'id' | 'timestamp'>) => void;
+    userCareer?: string;
 }
 
-export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister }) => {
-  const [selectedCareer, setSelectedCareer] = useState<string>("Ingeniería en TIC'S");
+export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, userCareer }) => {
+  const [selectedCareer, setSelectedCareer] = useState<string>(userCareer || "Ingeniería en TIC'S");
   const [requestStatus, setRequestStatus] = useState<string | null>(null);
+
+  // Sync prop change
+  useEffect(() => {
+    if (userCareer) setSelectedCareer(userCareer);
+  }, [userCareer]);
 
   // Form State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -224,11 +240,12 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister }) 
         {CAREERS.map(career => (
           <button
             key={career}
-            onClick={() => setSelectedCareer(career)}
+            onClick={() => !userCareer && setSelectedCareer(career)}
+            disabled={!!userCareer && userCareer !== career}
             className={`px-6 py-3 rounded-full text-sm font-bold transition-all transform hover:scale-105 ${
               selectedCareer === career
                 ? 'bg-[#FF8FE9] text-white shadow-lg ring-2 ring-[#ff76e5] ring-offset-2'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:scale-100'
             }`}
           >
             {career}

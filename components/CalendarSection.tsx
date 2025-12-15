@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { UniversityEvent, AbsenceRecord, EventType } from '../types';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Plus, Save, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Plus, Save, Clock, BookOpen, Briefcase } from 'lucide-react';
 
 interface CalendarSectionProps {
   events: UniversityEvent[];
   absences: AbsenceRecord[];
   teachers: any[]; // Passed to resolve names
   onAddEvent: (event: UniversityEvent) => void;
+  userRole?: 'ADMIN' | 'TEACHER' | 'STUDENT';
+  userCareer?: string;
 }
 
 const DAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -33,6 +35,16 @@ const getEventStyles = (type: EventType) => {
         dot: 'bg-purple-500',
         cellBg: 'bg-purple-50'
       };
+    case EventType.LECTURE:
+      return {
+        cardBg: 'bg-yellow-100',
+        border: 'border-yellow-500',
+        text: 'text-yellow-900',
+        subText: 'text-yellow-700',
+        badge: 'bg-white/50 text-yellow-800',
+        dot: 'bg-yellow-500',
+        cellBg: 'bg-yellow-50'
+      };
     default: // Green for others
       return {
         cardBg: 'bg-green-100',
@@ -46,7 +58,7 @@ const getEventStyles = (type: EventType) => {
   }
 };
 
-export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absences, teachers, onAddEvent }) => {
+export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absences, teachers, onAddEvent, userRole, userCareer }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   
@@ -55,6 +67,10 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
   const [newEventLocation, setNewEventLocation] = useState('');
   const [newEventType, setNewEventType] = useState<EventType>(EventType.LECTURE);
   const [endDateStr, setEndDateStr] = useState('');
+  
+  // Teacher Specific Fields
+  const [eventCareer, setEventCareer] = useState<string>("Ingeniería en TIC'S");
+  const [eventSubject, setEventSubject] = useState<string>('');
 
   // Calendar Logic
   const year = currentDate.getFullYear();
@@ -86,7 +102,9 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
           title: newEventTitle,
           location: newEventLocation,
           type: newEventType,
-          date: new Date(loopDate)
+          date: new Date(loopDate),
+          career: userRole === 'TEACHER' ? eventCareer : undefined,
+          subject: userRole === 'TEACHER' ? eventSubject : undefined
         };
         onAddEvent(newEvent);
         
@@ -100,7 +118,9 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
         title: newEventTitle,
         location: newEventLocation,
         type: newEventType,
-        date: selectedDate
+        date: selectedDate,
+        career: userRole === 'TEACHER' ? eventCareer : undefined,
+        subject: userRole === 'TEACHER' ? eventSubject : undefined
       };
       onAddEvent(newEvent);
     }
@@ -109,19 +129,30 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
     setNewEventTitle('');
     setNewEventLocation('');
     setEndDateStr('');
+    setEventSubject('');
   };
+
+  // Filter events based on role
+  const visibleEvents = useMemo(() => {
+    if (userRole === 'STUDENT' && userCareer) {
+        // Students see global events OR events for their career
+        return events.filter(e => !e.career || e.career === userCareer);
+    }
+    // Admin/Teachers see all (Teachers could filter by their own classes but for now they see all to manage)
+    return events;
+  }, [events, userRole, userCareer]);
 
   // Determine items for selected date
   const selectedDateEvents = useMemo(() => {
-    return events.filter(e => 
+    return visibleEvents.filter(e => 
       new Date(e.date).toDateString() === selectedDate.toDateString()
     );
-  }, [events, selectedDate]);
+  }, [visibleEvents, selectedDate]);
 
   // Optimize event lookup for the month
   const getDayEvents = (day: number) => {
     const checkDateStr = new Date(year, month, day).toDateString();
-    return events.filter(e => new Date(e.date).toDateString() === checkDateStr);
+    return visibleEvents.filter(e => new Date(e.date).toDateString() === checkDateStr);
   };
 
   const renderCalendarDays = () => {
@@ -189,6 +220,11 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
           <h2 className="text-2xl font-bold text-slate-800 capitalize">
             {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
           </h2>
+          {userRole === 'STUDENT' && (
+              <span className="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full border border-pink-200">
+                  Mostrando eventos para: {userCareer}
+              </span>
+          )}
           <div className="flex space-x-2">
             <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-pink-100 text-slate-600">
               <ChevronLeft className="w-5 h-5" />
@@ -217,7 +253,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
           <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div> Otros Eventos</div>
           <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div> Vacaciones</div>
           <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div> Examen</div>
-          <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-red-400 mr-2"></div> Maestro Ausente</div>
+          <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div> Clase</div>
         </div>
       </div>
 
@@ -245,6 +281,11 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                       <MapPin className="w-3 h-3 mr-1" />
                       {event.location || 'Campus Central'}
                     </p>
+                    {event.subject && (
+                        <p className={`text-xs mt-1 font-bold ${styles.subText}`}>
+                            {event.subject}
+                        </p>
+                    )}
                     <span className={`text-[10px] px-2 py-0.5 rounded-full mt-2 inline-block font-medium ${styles.badge}`}>
                       {event.type}
                     </span>
@@ -255,10 +296,11 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
           )}
         </div>
 
-        {/* Add New Event Form */}
-        <div className="border-t border-slate-100 pt-6">
+        {/* Add New Event Form (Restricted to Teachers and Admins) */}
+        {userRole !== 'STUDENT' && (
+        <div className="border-t border-slate-100 pt-6 animate-fade-in">
           <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-3 flex items-center">
-            <Plus className="w-4 h-4 mr-2" /> Agregar a mi Agenda
+            <Plus className="w-4 h-4 mr-2" /> Agregar a Agenda
           </h4>
           
           <div className="space-y-3">
@@ -268,18 +310,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                 type="text"
                 value={newEventTitle}
                 onChange={(e) => setNewEventTitle(e.target.value)}
-                placeholder="Ej. Vacaciones de Invierno"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Ubicación (Opcional)</label>
-              <input 
-                type="text"
-                value={newEventLocation}
-                onChange={(e) => setNewEventLocation(e.target.value)}
-                placeholder="Ej. Casa"
+                placeholder="Ej. Entrega Final"
                 className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
               />
             </div>
@@ -300,8 +331,50 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
               </select>
             </div>
 
+            {userRole === 'TEACHER' && (
+                <>
+                <div>
+                    <label className="block text-xs font-medium text-slate-500 mb-1 flex items-center">
+                        <Briefcase className="w-3 h-3 mr-1" /> Carrera Destino
+                    </label>
+                    <select 
+                        value={eventCareer}
+                        onChange={(e) => setEventCareer(e.target.value)}
+                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] bg-white"
+                    >
+                        <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
+                        <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                        <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-xs font-medium text-slate-500 mb-1 flex items-center">
+                        <BookOpen className="w-3 h-3 mr-1" /> Materia (Opcional)
+                    </label>
+                    <input 
+                        type="text"
+                        value={eventSubject}
+                        onChange={(e) => setEventSubject(e.target.value)}
+                        placeholder="Ej. Cálculo Diferencial"
+                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+                    />
+                </div>
+                </>
+            )}
+
+            <div>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Ubicación</label>
+              <input 
+                type="text"
+                value={newEventLocation}
+                onChange={(e) => setNewEventLocation(e.target.value)}
+                placeholder="Ej. Aula B4"
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9]"
+              />
+            </div>
+
             {newEventType === EventType.VACATION && (
-              <div className="animate-fade-in bg-pink-50 p-3 rounded-lg border border-pink-100">
+              <div className="bg-pink-50 p-3 rounded-lg border border-pink-100">
                 <label className="block text-xs font-medium text-pink-700 mb-1 flex items-center">
                   <Clock className="w-3 h-3 mr-1" />
                   Fecha de Fin
@@ -313,9 +386,6 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                   min={selectedDate.toISOString().split('T')[0]}
                   className="w-full px-3 py-2 text-sm border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8FE9] bg-white"
                 />
-                <p className="text-[10px] text-pink-600 mt-1">
-                  Se marcarán todos los días desde el {selectedDate.toLocaleDateString()} hasta la fecha seleccionada.
-                </p>
               </div>
             )}
 
@@ -329,6 +399,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
             </button>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

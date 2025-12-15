@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdvisoryRegistration, LibraryReservation, JobApplication, Teacher, TeacherRating } from '../types';
-import { Table, FileSpreadsheet, Star } from 'lucide-react';
+import { AdvisoryRegistration, LibraryReservation, JobApplication, Teacher, TeacherRating, User } from '../types';
+import { Table, FileSpreadsheet, Star, Users } from 'lucide-react';
 
 interface AdminDashboardProps {
   advisories: AdvisoryRegistration[];
@@ -8,6 +8,7 @@ interface AdminDashboardProps {
   jobApplications: JobApplication[];
   teacherRatings: TeacherRating[];
   teachers: Teacher[];
+  registeredUsers?: User[];
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ 
@@ -15,7 +16,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   libraryReservations, 
   jobApplications, 
   teacherRatings,
-  teachers
+  teachers,
+  registeredUsers = []
 }) => {
 
   const calculateAverageStars = (teacherId: string) => {
@@ -35,10 +37,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     return (totalStars / totalQuestions).toFixed(1);
   };
 
-  const TableHeader: React.FC<{ title: string }> = ({ title }) => (
+  const TableHeader: React.FC<{ title: string, icon?: React.ReactNode }> = ({ title, icon }) => (
     <div className="bg-green-400 text-white px-4 py-2 font-bold text-sm flex items-center border border-green-500 mt-8 mb-0 rounded-t-lg">
-      <FileSpreadsheet className="w-4 h-4 mr-2" />
-      {title}
+      {icon || <FileSpreadsheet className="w-4 h-4 mr-2" />}
+      <span className="ml-2">{title}</span>
     </div>
   );
 
@@ -46,6 +48,37 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-slate-900 mb-2">Panel de Administrador</h2>
       <p className="text-slate-500 mb-8">Visualización de datos y respuestas de formularios.</p>
+
+      {/* --- USERS DATABASE TABLE --- */}
+      <TableHeader title="BASE DE DATOS DE ALUMNOS REGISTRADOS" icon={<Users className="w-4 h-4" />} />
+      <div className="overflow-x-auto border-x border-b border-slate-300 bg-white mb-8">
+        <table className="min-w-full text-sm text-left">
+          <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-xs">
+            <tr>
+              <th className="px-4 py-3 border-b border-r">Usuario</th>
+              <th className="px-4 py-3 border-b border-r">Nombre</th>
+              <th className="px-4 py-3 border-b border-r">Carrera</th>
+              <th className="px-4 py-3 border-b">Rol</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-200">
+            {registeredUsers.length === 0 ? (
+              <tr><td colSpan={4} className="p-4 text-center text-slate-400 italic">No hay alumnos registrados.</td></tr>
+            ) : (
+              registeredUsers.map((user, idx) => (
+                <tr key={user.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
+                  <td className="px-4 py-2 border-r font-mono">{user.username}</td>
+                  <td className="px-4 py-2 border-r">{user.name}</td>
+                  <td className="px-4 py-2 border-r">{user.career}</td>
+                  <td className="px-4 py-2">
+                    <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded-full">{user.role}</span>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* --- TEACHER RATINGS TABLE --- */}
       <TableHeader title="PROMEDIO DE EVALUACIÓN DOCENTE" />

@@ -3,12 +3,23 @@ export enum ViewState {
   CALENDAR = 'CALENDAR',
   ATTENDANCE = 'ATTENDANCE',
   TEACHER_EVALUATION = 'TEACHER_EVALUATION',
+  TEACHER_INFO = 'TEACHER_INFO',
   ADVISORY = 'ADVISORY',
   LIBRARY = 'LIBRARY',
   CAFETERIA = 'CAFETERIA',
   MAP = 'MAP',
   CAREER_GUIDANCE = 'CAREER_GUIDANCE',
-  ADMIN_DASHBOARD = 'ADMIN_DASHBOARD'
+  ADMIN_DASHBOARD = 'ADMIN_DASHBOARD',
+  GAMES = 'GAMES'
+}
+
+export interface User {
+  id: string;
+  username: string;
+  password?: string; // Optional for mock/teacher
+  name: string;
+  role: 'ADMIN' | 'TEACHER' | 'STUDENT';
+  career?: string; // Only for students
 }
 
 export interface NewsItem {
@@ -36,6 +47,9 @@ export interface UniversityEvent {
   date: Date; // ISO String or Date object
   type: EventType;
   location?: string;
+  career?: string; // New: Event specific to a career
+  subject?: string; // New: Event specific to a subject
+  authorId?: string; // New: Who created it
 }
 
 export interface Teacher {
@@ -43,6 +57,9 @@ export interface Teacher {
   name: string;
   department: string;
   photoUrl: string;
+  career?: string;
+  specialty?: string;
+  studies?: string;
 }
 
 export interface AbsenceRecord {

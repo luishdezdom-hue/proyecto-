@@ -17,7 +17,9 @@ import {
   Briefcase,
   Compass,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  Gamepad2,
+  Info
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -80,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
               >
                 <button
                   className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    [ViewState.ATTENDANCE, ViewState.TEACHER_EVALUATION].includes(currentView) 
+                    [ViewState.ATTENDANCE, ViewState.TEACHER_EVALUATION, ViewState.TEACHER_INFO].includes(currentView) 
                       ? 'bg-white/30 text-white shadow-md' 
                       : 'text-white/80 hover:bg-white/20 hover:text-white'
                   }`}
@@ -93,6 +95,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
                 {/* Dropdown Menu */}
                 <div className={`absolute left-0 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-200 origin-top-left ${teachersDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
                   <div className="py-1">
+                    <button
+                      onClick={() => handleNavigate(ViewState.TEACHER_INFO)}
+                      className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
+                    >
+                      <Info className="h-4 w-4 mr-2 text-slate-400 group-hover:text-[#d147a3]" />
+                      Inf. Docente
+                    </button>
                     <button
                       onClick={() => handleNavigate(ViewState.ATTENDANCE)}
                       className="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-pink-50 hover:text-[#d147a3] w-full text-left"
@@ -175,6 +184,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
                 <Compass className="h-4 w-4 mr-2" />
                 Orientación
               </button>
+
+              {!isAdmin && (
+                <button
+                  onClick={() => handleNavigate(ViewState.GAMES)}
+                  className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    currentView === ViewState.GAMES ? 'bg-white/30 text-white shadow-md' : 'text-white/80 hover:bg-white/20 hover:text-white'
+                  }`}
+                >
+                  <Gamepad2 className="h-4 w-4 mr-2" />
+                  Juegos
+                </button>
+              )}
               
               {isAdmin && (
                   <button
@@ -250,6 +271,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
             <div className="space-y-1 pl-4 border-l-2 border-white/20 ml-2">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider pl-3">Docentes</span>
               <button
+                onClick={() => handleNavigate(ViewState.TEACHER_INFO)}
+                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+              >
+                <Info className="h-5 w-5 mr-3" />
+                Inf. Docente
+              </button>
+              <button
                 onClick={() => handleNavigate(ViewState.ATTENDANCE)}
                 className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
               >
@@ -306,6 +334,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
               <Compass className="h-5 w-5 mr-3" />
               Orientación Laboral
             </button>
+
+            {!isAdmin && (
+              <button
+                onClick={() => handleNavigate(ViewState.GAMES)}
+                className="flex items-center w-full px-3 py-3 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+              >
+                <Gamepad2 className="h-5 w-5 mr-3" />
+                Juegos
+              </button>
+            )}
           </div>
         </div>
       )}

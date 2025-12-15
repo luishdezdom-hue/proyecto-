@@ -9,11 +9,8 @@ const LOCATIONS = [
   { id: 5, name: 'Canchas Deportivas', icon: Activity, desc: 'Fútbol, Básquetbol y Gimnasio.', color: 'bg-red-500' },
   { id: 6, name: 'Cafetería', icon: MapPin, desc: 'Área de comida y esparcimiento.', color: 'bg-pink-500' },
   { id: 7, name: 'Auditorio', icon: Presentation, desc: 'Conferencias y eventos culturales.', color: 'bg-indigo-500' },
-  { id: 8, name: 'Enfermería', icon: HeartPulse, desc: 'Atención primeros auxilios.', color: 'bg-rose-500' },
   { id: 9, name: 'Papelería', icon: Printer, desc: 'Impresiones y material escolar.', color: 'bg-yellow-600' },
-  { id: 10, name: 'Sala de Juicios Orales', icon: Gavel, desc: 'Prácticas de Licenciatura en Derecho.', color: 'bg-stone-500' },
   { id: 11, name: 'Centro de Cómputo', icon: Monitor, desc: 'Equipos especializados para Ingeniería.', color: 'bg-cyan-600' },
-  { id: 12, name: 'Taller de Industrial', icon: Cog, desc: 'Maquinaria y procesos de manufactura.', color: 'bg-slate-600' },
 ];
 
 export const CampusMap: React.FC = () => {
@@ -31,7 +28,7 @@ export const CampusMap: React.FC = () => {
             
             {/* 
                 Grid Layout: 5 columns
-                Col 1: Cafeteria (Full Height)
+                Col 1: Papelería (Top) + Cafeteria (Bottom)
                 Col 2: Edificio B
                 Col 3: Explanada
                 Col 4: Edificio A
@@ -40,8 +37,14 @@ export const CampusMap: React.FC = () => {
             */}
             <div className="grid grid-cols-5 grid-rows-4 gap-4 h-full relative z-10 min-h-[450px]">
                 
-                {/* Leftmost Column - Cafeteria (Full Height) */}
-                <div className="col-span-1 row-span-4 bg-pink-100 border-2 border-pink-400 border-r-4 border-r-pink-300/50 border-dashed rounded-lg flex items-center justify-center p-2 text-center text-xs font-bold text-pink-800 shadow-sm flex-col relative">
+                {/* Papelería - Top of Col 1 */}
+                <div className="col-span-1 row-span-1 bg-yellow-100 border-2 border-yellow-400 rounded-lg flex items-center justify-center p-2 text-center text-xs font-bold text-yellow-800 shadow-sm flex-col">
+                    <Printer className="w-5 h-5 mb-1 opacity-50" />
+                    Papelería
+                </div>
+
+                {/* Cafeteria - Bottom of Col 1 (Reduced height to fit Papeleria) */}
+                <div className="col-span-1 row-span-3 bg-pink-100 border-2 border-pink-400 border-r-4 border-r-pink-300/50 border-dashed rounded-lg flex items-center justify-center p-2 text-center text-xs font-bold text-pink-800 shadow-sm flex-col relative">
                     <div className="absolute right-[-18px] top-0 bottom-0 w-1 border-r-2 border-slate-300 border-dashed h-full"></div>
                     <MapPin className="w-6 h-6 mb-2 opacity-50" />
                     Cafetería

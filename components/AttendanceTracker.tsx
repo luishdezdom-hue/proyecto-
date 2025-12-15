@@ -25,6 +25,14 @@ export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, 
     );
   };
 
+  // Group teachers by career
+  const groupedTeachers = {
+    "Ingeniería en TIC'S": filteredTeachers.filter(t => t.career === "Ingeniería en TIC'S"),
+    "Ingeniería Industrial": filteredTeachers.filter(t => t.career === "Ingeniería Industrial"),
+    "Licenciatura en Derecho": filteredTeachers.filter(t => t.career === "Licenciatura en Derecho"),
+    "Otros": filteredTeachers.filter(t => !t.career)
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -50,45 +58,54 @@ export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTeachers.map(teacher => {
-          const absent = isAbsentToday(teacher.id);
-          
-          return (
-            <div key={teacher.id} className={`bg-white rounded-xl shadow-sm border p-4 flex items-center justify-between transition-all duration-200
-              ${absent ? 'border-red-200 bg-red-50/30' : 'border-slate-100'}
-            `}>
-              <div className="flex items-center space-x-4">
-                <img src={teacher.photoUrl} alt={teacher.name} className="w-12 h-12 rounded-full object-cover shadow-sm" />
-                <div>
-                  <h3 className="font-semibold text-slate-800 text-sm">{teacher.name}</h3>
-                  <p className="text-xs text-slate-500">{teacher.department}</p>
-                  {absent && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">Ausente hoy</span>}
-                </div>
-              </div>
+      {Object.entries(groupedTeachers).map(([career, careerTeachers]) => {
+        if (careerTeachers.length === 0) return null;
 
-              {!readOnly ? (
-                <button
-                    onClick={() => onToggleAbsence(teacher.id, today, absent ? undefined : "Asuntos personales")}
-                    className={`p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
-                    ${absent 
-                        ? 'bg-red-100 text-red-600 hover:bg-red-200 focus:ring-red-500' 
-                        : 'bg-green-100 text-green-600 hover:bg-green-200 focus:ring-green-500'
-                    }
-                    `}
-                    title={absent ? "Marcar Presente" : "Marcar Ausente"}
-                >
-                    {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
-                </button>
-              ) : (
-                <div className={`p-2 rounded-full ${absent ? 'text-red-400' : 'text-green-400 opacity-20'}`}>
-                    {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
-                </div>
-              )}
+        return (
+          <div key={career} className="mb-10">
+            <h3 className="text-xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">{career}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {careerTeachers.map(teacher => {
+                const absent = isAbsentToday(teacher.id);
+                
+                return (
+                  <div key={teacher.id} className={`bg-white rounded-xl shadow-sm border p-4 flex items-center justify-between transition-all duration-200
+                    ${absent ? 'border-red-200 bg-red-50/30' : 'border-slate-100'}
+                  `}>
+                    <div className="flex items-center space-x-4">
+                      <img src={teacher.photoUrl} alt={teacher.name} className="w-12 h-12 rounded-full object-cover shadow-sm" />
+                      <div>
+                        <h3 className="font-semibold text-slate-800 text-sm">{teacher.name}</h3>
+                        <p className="text-xs text-slate-500">{teacher.department}</p>
+                        {absent && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">Ausente hoy</span>}
+                      </div>
+                    </div>
+
+                    {!readOnly ? (
+                      <button
+                          onClick={() => onToggleAbsence(teacher.id, today, absent ? undefined : "Asuntos personales")}
+                          className={`p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
+                          ${absent 
+                              ? 'bg-red-100 text-red-600 hover:bg-red-200 focus:ring-red-500' 
+                              : 'bg-green-100 text-green-600 hover:bg-green-200 focus:ring-green-500'
+                          }
+                          `}
+                          title={absent ? "Marcar Presente" : "Marcar Ausente"}
+                      >
+                          {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
+                      </button>
+                    ) : (
+                      <div className={`p-2 rounded-full ${absent ? 'text-red-400' : 'text-green-400 opacity-20'}`}>
+                          {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
       
       {filteredTeachers.length === 0 && (
         <div className="text-center py-12 text-slate-400">
