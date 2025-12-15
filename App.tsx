@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { NewsSection } from './components/NewsSection';
 import { CalendarSection } from './components/CalendarSection';
 import { AttendanceTracker } from './components/AttendanceTracker';
+import { TeacherEvaluation } from './components/TeacherEvaluation';
 import { Tournaments } from './components/Tournaments';
 import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType } from './types';
 import { generateUniversityInsights } from './services/geminiService';
@@ -10,11 +11,13 @@ import { Bot, X } from 'lucide-react';
 
 // --- MOCK DATA SEEDING ---
 const MOCK_TEACHERS: Teacher[] = [
-  { id: '1', name: 'Dr. Alberto Ruiz', department: 'Ingeniería', photoUrl: 'https://picsum.photos/seed/doc1/100' },
-  { id: '2', name: 'Mtra. Sofia Lopez', department: 'Artes', photoUrl: 'https://picsum.photos/seed/doc2/100' },
-  { id: '3', name: 'Lic. Juan Perez', department: 'Derecho', photoUrl: 'https://picsum.photos/seed/doc3/100' },
-  { id: '4', name: 'Dr. Emily Chen', department: 'Medicina', photoUrl: 'https://picsum.photos/seed/doc4/100' },
-  { id: '5', name: 'Mtro. Carlos Vega', department: 'Deportes', photoUrl: 'https://picsum.photos/seed/doc5/100' },
+  { id: '1', name: 'ZARCO CARRILLO FRANCISCO JAVIER', department: 'FUNDAMENTOS DE REDES DE COMPUTADORAS', photoUrl: 'https://picsum.photos/seed/zarco/100' },
+  { id: '2', name: 'SANDOVAL ARGAEZ BERENICE DAFNE', department: 'INGENIERÍA FINANCIERA', photoUrl: 'https://picsum.photos/seed/sandoval/100' },
+  { id: '3', name: 'MARTINEZ AVILA YADHEE', department: 'INVESTIGACIÓN DE OPERACIONES I', photoUrl: 'https://picsum.photos/seed/martinez/100' },
+  { id: '4', name: 'ARIAS PERALTA HUMBERTO', department: 'COMUNICACIÓN ANALÓGICA Y DIGITAL', photoUrl: 'https://picsum.photos/seed/arias/100' },
+  { id: '5', name: 'COUTIÑO DIAZ EMILIO ALFONSO', department: 'TALLER DE INVESTIGACIÓN I', photoUrl: 'https://picsum.photos/seed/coutino/100' },
+  { id: '6', name: 'ALTAMIRANO ORTEGA DALIA', department: 'INGLÉS V', photoUrl: 'https://picsum.photos/seed/altamirano/100' },
+  { id: '7', name: 'HERNANDEZ LARA DERLIS', department: 'ANÁLISIS Y DISEÑO DE CIRCUITOS DIGITALES', photoUrl: 'https://picsum.photos/seed/hernandez/100' },
 ];
 
 const MOCK_EVENTS: UniversityEvent[] = [
@@ -75,6 +78,8 @@ const App: React.FC = () => {
         return <CalendarSection events={events} absences={absences} teachers={teachers} onAddEvent={handleAddEvent} />;
       case ViewState.ATTENDANCE:
         return <AttendanceTracker teachers={teachers} absences={absences} onToggleAbsence={handleToggleAbsence} />;
+      case ViewState.TEACHER_EVALUATION:
+        return <TeacherEvaluation teachers={teachers} />;
       case ViewState.TOURNAMENTS:
         return <Tournaments />;
       default:
