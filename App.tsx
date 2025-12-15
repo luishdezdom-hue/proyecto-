@@ -4,10 +4,11 @@ import { NewsSection } from './components/NewsSection';
 import { CalendarSection } from './components/CalendarSection';
 import { AttendanceTracker } from './components/AttendanceTracker';
 import { TeacherEvaluation } from './components/TeacherEvaluation';
-import { Tournaments } from './components/Tournaments';
+import { AdvisorySection } from './components/AdvisorySection';
 import { LibrarySection } from './components/LibrarySection';
 import { CafeteriaSection } from './components/CafeteriaSection';
 import { CampusMap } from './components/CampusMap';
+import { CareerGuidanceSection } from './components/CareerGuidanceSection';
 import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType } from './types';
 import { generateUniversityInsights } from './services/geminiService';
 import { Bot, X } from 'lucide-react';
@@ -83,14 +84,16 @@ const App: React.FC = () => {
         return <AttendanceTracker teachers={teachers} absences={absences} onToggleAbsence={handleToggleAbsence} />;
       case ViewState.TEACHER_EVALUATION:
         return <TeacherEvaluation teachers={teachers} />;
-      case ViewState.TOURNAMENTS:
-        return <Tournaments />;
+      case ViewState.ADVISORY:
+        return <AdvisorySection />;
       case ViewState.LIBRARY:
         return <LibrarySection />;
       case ViewState.CAFETERIA:
         return <CafeteriaSection />;
       case ViewState.MAP:
         return <CampusMap />;
+      case ViewState.CAREER_GUIDANCE:
+        return <CareerGuidanceSection />;
       default:
         return <NewsSection />;
     }

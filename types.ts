@@ -3,10 +3,11 @@ export enum ViewState {
   CALENDAR = 'CALENDAR',
   ATTENDANCE = 'ATTENDANCE',
   TEACHER_EVALUATION = 'TEACHER_EVALUATION',
-  TOURNAMENTS = 'TOURNAMENTS',
+  ADVISORY = 'ADVISORY',
   LIBRARY = 'LIBRARY',
   CAFETERIA = 'CAFETERIA',
-  MAP = 'MAP'
+  MAP = 'MAP',
+  CAREER_GUIDANCE = 'CAREER_GUIDANCE'
 }
 
 export interface NewsItem {
@@ -54,7 +55,7 @@ export interface Tournament {
   id: string;
   name: string;
   sport: string;
-  status: 'Upcoming' | 'Live' | 'Completed';
+  status: 'Live' | 'Upcoming' | 'Completed';
   startDate: string;
   teams: string[];
   currentRound: string;

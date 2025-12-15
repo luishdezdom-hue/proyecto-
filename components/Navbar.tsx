@@ -4,7 +4,7 @@ import {
   Newspaper, 
   CalendarDays, 
   UserX, 
-  Trophy, 
+  Brain, 
   GraduationCap,
   Menu,
   X,
@@ -14,7 +14,8 @@ import {
   BookOpen,
   Coffee,
   Map,
-  Briefcase
+  Briefcase,
+  Compass
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -107,13 +108,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               </div>
 
               <button
-                onClick={() => handleNavigate(ViewState.TOURNAMENTS)}
+                onClick={() => handleNavigate(ViewState.ADVISORY)}
                 className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  currentView === ViewState.TOURNAMENTS ? 'bg-white/30 text-white shadow-md' : 'text-white/80 hover:bg-white/20 hover:text-white'
+                  currentView === ViewState.ADVISORY ? 'bg-white/30 text-white shadow-md' : 'text-white/80 hover:bg-white/20 hover:text-white'
                 }`}
               >
-                <Trophy className="h-4 w-4 mr-2" />
-                Torneos
+                <Brain className="h-4 w-4 mr-2" />
+                Asesorías
               </button>
 
               {/* Servicios Dropdown */}
@@ -160,6 +161,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                   </div>
                 </div>
               </div>
+
+               <button
+                onClick={() => handleNavigate(ViewState.CAREER_GUIDANCE)}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  currentView === ViewState.CAREER_GUIDANCE ? 'bg-white/30 text-white shadow-md' : 'text-white/80 hover:bg-white/20 hover:text-white'
+                }`}
+              >
+                <Compass className="h-4 w-4 mr-2" />
+                Orientación
+              </button>
 
             </div>
           </div>
@@ -215,11 +226,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             </div>
 
             <button
-              onClick={() => handleNavigate(ViewState.TOURNAMENTS)}
+              onClick={() => handleNavigate(ViewState.ADVISORY)}
               className="flex items-center w-full px-3 py-3 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
             >
-              <Trophy className="h-5 w-5 mr-3" />
-              Torneos
+              <Brain className="h-5 w-5 mr-3" />
+              Asesorías
             </button>
 
             {/* Servicios Mobile Group */}
@@ -247,6 +258,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 Mapa
               </button>
             </div>
+
+            <button
+              onClick={() => handleNavigate(ViewState.CAREER_GUIDANCE)}
+              className="flex items-center w-full px-3 py-3 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
+            >
+              <Compass className="h-5 w-5 mr-3" />
+              Orientación Laboral
+            </button>
           </div>
         </div>
       )}
