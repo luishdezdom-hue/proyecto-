@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NewsItem } from '../types';
 import { generateNewsSummary } from '../services/geminiService';
-import { Sparkles, ArrowRight, ArrowLeft, Clock, Tag } from 'lucide-react';
+import { Sparkles, ArrowRight, ArrowLeft, Clock, Tag, Globe, GraduationCap } from 'lucide-react';
 
-const MOCK_NEWS: NewsItem[] = [
+const MOCK_INTERNAL_NEWS: NewsItem[] = [
   {
     id: '1',
     title: 'Villancicos',
@@ -59,22 +59,65 @@ Con esta actividad se sigue impulsando el dominio del idioma inglés entre nuest
 #OrgullosamenteUMB
 #TodosSomosUMB`,
     date: '2025-01-12',
-    imageUrl: 'https://picsum.photos/800/600?random=3',
+    imageUrl: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=800&auto=format&fit=crop',
     category: 'Academic'
   }
 ];
 
+const MOCK_EXTERNAL_NEWS: NewsItem[] = [
+  {
+    id: 'ext-1',
+    title: 'Bloqueo de carretera',
+    summary: 'Bloqueo total en la carretera federal Texcoco-Lechería por manifestación. Tome vías alternas.',
+    content: `Atención comunidad:
+
+Se reporta un bloqueo total en la carretera federal Texcoco-Lechería a la altura del kilómetro 25, debido a una manifestación de pobladores locales.
+
+El tránsito se encuentra detenido en ambos sentidos. Se recomienda utilizar la autopista Peñón-Texcoco o vías alternas por zonas urbanas para llegar a tiempo a sus destinos.
+
+Autoridades estiman que el bloqueo podría mantenerse durante varias horas. Se otorgará tolerancia en el ingreso a clases para alumnos y docentes afectados.`,
+    date: '2025-10-12',
+    imageUrl: 'https://images.unsplash.com/photo-1547638375-ebf04735d792?q=80&w=800&auto=format&fit=crop',
+    category: 'Campus'
+  },
+  {
+    id: 'ext-2',
+    title: 'No hay paso en las vias del tren',
+    summary: 'Mantenimiento urgente en el cruce ferroviario principal. Acceso restringido por 48 horas.',
+    content: `Aviso Importante:
+
+Debido a trabajos de mantenimiento urgente por parte de la empresa ferroviaria, el cruce de las vías del tren que da acceso a la zona norte del municipio permanecerá cerrado.
+
+No habrá paso para vehículos ni peatones durante las próximas 48 horas. Se ha habilitado un desvío provisional a 500 metros.
+
+Por favor, anticipe sus tiempos de traslado para evitar retrasos.`,
+    date: '2025-10-12',
+    imageUrl: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?q=80&w=800&auto=format&fit=crop',
+    category: 'Campus'
+  }
+];
+
 export const NewsSection: React.FC = () => {
-  const [news, setNews] = useState<NewsItem[]>(MOCK_NEWS);
+  const [activeTab, setActiveTab] = useState<'INTERNAL' | 'EXTERNAL'>('INTERNAL');
+  const [internalNews, setInternalNews] = useState<NewsItem[]>(MOCK_INTERNAL_NEWS);
+  const [externalNews, setExternalNews] = useState<NewsItem[]>(MOCK_EXTERNAL_NEWS);
   const [loadingAi, setLoadingAi] = useState<string | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   const handleEnhanceSummary = async (id: string, title: string) => {
     setLoadingAi(id);
     const newSummary = await generateNewsSummary(title);
-    setNews(prev => prev.map(n => n.id === id ? { ...n, summary: newSummary } : n));
+    
+    if (activeTab === 'INTERNAL') {
+        setInternalNews(prev => prev.map(n => n.id === id ? { ...n, summary: newSummary } : n));
+    } else {
+        setExternalNews(prev => prev.map(n => n.id === id ? { ...n, summary: newSummary } : n));
+    }
+    
     setLoadingAi(null);
   };
+
+  const currentNews = activeTab === 'INTERNAL' ? internalNews : externalNews;
 
   if (selectedArticle) {
     return (
@@ -122,13 +165,46 @@ export const NewsSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900">Noticias Universitarias</h2>
-          <p className="text-slate-500 mt-2">Mantente al día con lo último del campus.</p>
+          <h2 className="text-3xl font-bold text-slate-900">Noticias y Avisos</h2>
+          <p className="text-slate-500 mt-2">Mantente informado de lo que sucede dentro y fuera del campus.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {news.map((item) => (
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-4 mb-8 border-b border-slate-200">
+        <button
+          onClick={() => setActiveTab('INTERNAL')}
+          className={`pb-3 px-1 text-sm font-bold transition-all flex items-center relative ${
+            activeTab === 'INTERNAL'
+              ? 'text-[#FF8FE9]'
+              : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          <GraduationCap className="w-5 h-5 mr-2" />
+          Noticias Universitarias
+          {activeTab === 'INTERNAL' && (
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8FE9] rounded-t-full"></span>
+          )}
+        </button>
+        
+        <button
+          onClick={() => setActiveTab('EXTERNAL')}
+          className={`pb-3 px-1 text-sm font-bold transition-all flex items-center relative ${
+            activeTab === 'EXTERNAL'
+              ? 'text-[#FF8FE9]'
+              : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          <Globe className="w-5 h-5 mr-2" />
+          Noticias Externas
+          {activeTab === 'EXTERNAL' && (
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8FE9] rounded-t-full"></span>
+          )}
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
+        {currentNews.map((item) => (
           <div key={item.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-full border border-slate-100">
             <div className="relative h-48 overflow-hidden">
               <img 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Book, BookOpen, Clock, AlertCircle, X, CheckCircle2, User, GraduationCap, FileBadge } from 'lucide-react';
+import { LibraryReservation } from '../types';
 
 interface BookItem {
   id: string;
@@ -8,6 +9,10 @@ interface BookItem {
   category: string;
   available: boolean;
   coverUrl: string;
+}
+
+interface LibrarySectionProps {
+    onReserve?: (data: Omit<LibraryReservation, 'id' | 'timestamp'>) => void;
 }
 
 const MOCK_BOOKS: BookItem[] = [
@@ -25,7 +30,7 @@ const MOCK_BOOKS: BookItem[] = [
   { id: '12', title: 'Mecánica Vectorial para Ingenieros', author: 'Beer & Johnston', category: 'Ingeniería', available: true, coverUrl: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=300' },
 ];
 
-export const LibrarySection: React.FC = () => {
+export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('All');
   
@@ -62,8 +67,16 @@ export const LibrarySection: React.FC = () => {
 
   const handleSubmitReservation = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate API call
-    console.log("Reserving:", { book: selectedBook?.title, ...formData });
+    
+    if (onReserve && selectedBook) {
+        onReserve({
+            studentName: formData.name,
+            matricula: formData.matricula,
+            career: formData.career,
+            bookTitle: selectedBook.title,
+            bookAuthor: selectedBook.author
+        });
+    }
     
     // Show success state
     setIsModalOpen(false);

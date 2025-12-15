@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, Users, Clock, CalendarCheck, Brain, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Users, Clock, CalendarCheck, Brain, ArrowRight, CheckCircle2, X, User, Hash, GraduationCap } from 'lucide-react';
+import { AdvisoryRegistration } from '../types';
 
 const CAREERS = ["Ingeniería en TIC'S", "Ingeniería Industrial", "Licenciatura en Derecho"];
 
@@ -24,13 +25,70 @@ const ADVISORIES: Record<string, { subject: string; tutor: string; time: string;
   ]
 };
 
-export const AdvisorySection: React.FC = () => {
+interface AdvisorySectionProps {
+    onRegister?: (data: Omit<AdvisoryRegistration, 'id' | 'timestamp'>) => void;
+}
+
+export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister }) => {
   const [selectedCareer, setSelectedCareer] = useState<string>("Ingeniería en TIC'S");
   const [requestStatus, setRequestStatus] = useState<string | null>(null);
 
-  const handleRequest = (subject: string) => {
-    setRequestStatus(`Solicitud enviada para ${subject}`);
-    setTimeout(() => setRequestStatus(null), 3000);
+  // Form State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<{ subject: string; tutor: string } | null>(null);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    group: '',
+    matricula: '',
+    selectedTime: ''
+  });
+
+  const generateRandomSlots = () => {
+    const slots: string[] = [];
+    const usedHours = new Set<number>();
+    
+    // Generate 3 unique slots between 7am (7) and 7pm (19)
+    while (slots.length < 3) {
+      // Random hour between 7 and 18 (so the slot ends at 19 max)
+      const startHour = Math.floor(Math.random() * (18 - 7 + 1)) + 7;
+      
+      if (!usedHours.has(startHour)) {
+        usedHours.add(startHour);
+        // Format: "08:00 - 09:00"
+        const endHour = startHour + 1;
+        const startStr = startHour.toString().padStart(2, '0') + ':00';
+        const endStr = endHour.toString().padStart(2, '0') + ':00';
+        slots.push(`${startStr} - ${endStr}`);
+      }
+    }
+    // Sort times chronologically
+    return slots.sort();
+  };
+
+  const handleOpenModal = (item: { subject: string; tutor: string }) => {
+    setSelectedSubject(item);
+    setAvailableTimes(generateRandomSlots());
+    setFormData({ fullName: '', group: '', matricula: '', selectedTime: '' });
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onRegister && selectedSubject) {
+        onRegister({
+            studentName: formData.fullName,
+            matricula: formData.matricula,
+            group: formData.group,
+            subject: selectedSubject.subject,
+            tutor: selectedSubject.tutor,
+            time: formData.selectedTime
+        });
+    }
+
+    setIsModalOpen(false);
+    setRequestStatus(`Solicitud enviada exitosamente para ${selectedSubject?.subject} a las ${formData.selectedTime}`);
+    setTimeout(() => setRequestStatus(null), 4000);
   };
 
   return (
@@ -41,6 +99,117 @@ export const AdvisorySection: React.FC = () => {
             <span className="font-bold">{requestStatus}</span>
             </div>
         )}
+
+      {/* Registration Modal */}
+      {isModalOpen && selectedSubject && (
+        <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
+            <div className="bg-[#FF8FE9] p-4 flex justify-between items-center text-white">
+              <h3 className="font-bold text-lg flex items-center">
+                <Brain className="w-5 h-5 mr-2" />
+                Inscripción a Asesoría
+              </h3>
+              <button onClick={() => setIsModalOpen(false)} className="hover:bg-white/20 p-1 rounded-full transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[80vh]">
+              <div className="mb-2">
+                <h4 className="text-xl font-bold text-slate-800">{selectedSubject.subject}</h4>
+                <p className="text-sm text-slate-500">Tutor: {selectedSubject.tutor}</p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center">
+                    <User className="w-4 h-4 mr-1 text-slate-400" /> Nombre Completo
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    value={formData.fullName}
+                    onChange={e => setFormData({...formData, fullName: e.target.value})}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                    placeholder="Ej. María González López"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center">
+                      <GraduationCap className="w-4 h-4 mr-1 text-slate-400" /> Grupo
+                    </label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.group}
+                      onChange={e => setFormData({...formData, group: e.target.value})}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                      placeholder="Ej. 1801"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center">
+                      <Hash className="w-4 h-4 mr-1 text-slate-400" /> Matrícula
+                    </label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.matricula}
+                      onChange={e => setFormData({...formData, matricula: e.target.value})}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#FF8FE9] focus:outline-none text-sm"
+                      placeholder="Ej. 20210045"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center">
+                    <Clock className="w-4 h-4 mr-1 text-slate-400" /> Selecciona un Horario
+                  </label>
+                  <div className="grid grid-cols-1 gap-2">
+                    {availableTimes.map((time) => (
+                      <button
+                        key={time}
+                        type="button"
+                        onClick={() => setFormData({...formData, selectedTime: time})}
+                        className={`px-4 py-3 rounded-lg border text-sm font-medium transition-all text-left flex justify-between items-center
+                          ${formData.selectedTime === time 
+                            ? 'border-[#FF8FE9] bg-pink-50 text-[#d147a3] ring-1 ring-[#FF8FE9]' 
+                            : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          }
+                        `}
+                      >
+                        <span>{time}</span>
+                        {formData.selectedTime === time && <CheckCircle2 className="w-4 h-4 text-[#FF8FE9]" />}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-2 text-center">Duración de la sesión: 1 hora</p>
+                </div>
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <button 
+                  type="button" 
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex-1 py-2.5 border border-slate-200 text-slate-600 rounded-xl font-medium hover:bg-slate-50 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit"
+                  disabled={!formData.fullName || !formData.group || !formData.matricula || !formData.selectedTime}
+                  className="flex-1 py-2.5 bg-[#FF8FE9] text-white rounded-xl font-bold shadow-md hover:bg-[#ff76e5] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <div className="text-center mb-10">
         <h2 className="text-4xl font-extrabold text-slate-900 flex items-center justify-center">
@@ -83,7 +252,7 @@ export const AdvisorySection: React.FC = () => {
                             {item.room}
                         </div>
                         <button 
-                            onClick={() => handleRequest(item.subject)}
+                            onClick={() => handleOpenModal(item)}
                             className="text-sm font-semibold text-[#FF8FE9] hover:text-[#d147a3] flex items-center bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all"
                         >
                             Inscribirse <ArrowRight className="w-4 h-4 ml-1" />

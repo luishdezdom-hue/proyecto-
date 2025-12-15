@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Teacher } from '../types';
+import { Teacher, TeacherRating } from '../types';
 import { Star, Send, CheckCircle2 } from 'lucide-react';
 
 interface TeacherEvaluationProps {
   teachers: Teacher[];
+  onSubmitEvaluation?: (data: TeacherRating) => void;
 }
 
 const QUESTIONS = [
@@ -24,7 +25,7 @@ const QUESTIONS = [
   "15. Satisfacción general con el docente"
 ];
 
-export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers }) => {
+export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers, onSubmitEvaluation }) => {
   const [selectedTeacherId, setSelectedTeacherId] = useState<string>('');
   const [ratings, setRatings] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -39,8 +40,13 @@ export const TeacherEvaluation: React.FC<TeacherEvaluationProps> = ({ teachers }
   };
 
   const handleSubmit = () => {
-    // Mock submission
-    console.log("Evaluation Submitted", { teacherId: selectedTeacherId, ratings });
+    if (onSubmitEvaluation && selectedTeacherId) {
+        onSubmitEvaluation({
+            teacherId: selectedTeacherId,
+            ratings: ratings
+        });
+    }
+    
     setSubmitted(true);
     // Reset after 3 seconds
     setTimeout(() => {

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Teacher, AbsenceRecord } from '../types';
-import { Search, UserMinus, CheckCircle } from 'lucide-react';
+import { Search, UserMinus, CheckCircle, Lock } from 'lucide-react';
 
 interface AttendanceTrackerProps {
   teachers: Teacher[];
   absences: AbsenceRecord[];
   onToggleAbsence: (teacherId: string, date: Date, reason?: string) => void;
+  readOnly?: boolean;
 }
 
-export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, absences, onToggleAbsence }) => {
+export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, absences, onToggleAbsence, readOnly = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const today = new Date();
 
@@ -30,6 +31,11 @@ export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, 
         <div>
           <h2 className="text-3xl font-bold text-slate-900">Control de Asistencia Docente</h2>
           <p className="text-slate-500 mt-1">Marcar inasistencias para hoy: <span className="font-semibold text-[#d147a3]">{today.toLocaleDateString()}</span></p>
+          {readOnly && (
+            <p className="text-xs text-orange-600 font-bold mt-1 flex items-center">
+               <Lock className="w-3 h-3 mr-1" /> Vista de Alumno (Solo lectura)
+            </p>
+          )}
         </div>
         
         <div className="relative w-full md:w-72">
@@ -57,21 +63,28 @@ export const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ teachers, 
                 <div>
                   <h3 className="font-semibold text-slate-800 text-sm">{teacher.name}</h3>
                   <p className="text-xs text-slate-500">{teacher.department}</p>
+                  {absent && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">Ausente hoy</span>}
                 </div>
               </div>
 
-              <button
-                onClick={() => onToggleAbsence(teacher.id, today, absent ? undefined : "Asuntos personales")}
-                className={`p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
-                  ${absent 
-                    ? 'bg-red-100 text-red-600 hover:bg-red-200 focus:ring-red-500' 
-                    : 'bg-green-100 text-green-600 hover:bg-green-200 focus:ring-green-500'
-                  }
-                `}
-                title={absent ? "Marcar Presente" : "Marcar Ausente"}
-              >
-                {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
-              </button>
+              {!readOnly ? (
+                <button
+                    onClick={() => onToggleAbsence(teacher.id, today, absent ? undefined : "Asuntos personales")}
+                    className={`p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
+                    ${absent 
+                        ? 'bg-red-100 text-red-600 hover:bg-red-200 focus:ring-red-500' 
+                        : 'bg-green-100 text-green-600 hover:bg-green-200 focus:ring-green-500'
+                    }
+                    `}
+                    title={absent ? "Marcar Presente" : "Marcar Ausente"}
+                >
+                    {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
+                </button>
+              ) : (
+                <div className={`p-2 rounded-full ${absent ? 'text-red-400' : 'text-green-400 opacity-20'}`}>
+                    {absent ? <UserMinus className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
+                </div>
+              )}
             </div>
           );
         })}

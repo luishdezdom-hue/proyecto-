@@ -15,15 +15,19 @@ import {
   Coffee,
   Map,
   Briefcase,
-  Compass
+  Compass,
+  LogOut,
+  ShieldCheck
 } from 'lucide-react';
 
 interface NavbarProps {
   currentView: ViewState;
   onNavigate: (view: ViewState) => void;
+  isAdmin: boolean;
+  onLogout: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [teachersDropdownOpen, setTeachersDropdownOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -171,12 +175,38 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 <Compass className="h-4 w-4 mr-2" />
                 Orientación
               </button>
+              
+              {isAdmin && (
+                  <button
+                    onClick={() => handleNavigate(ViewState.ADMIN_DASHBOARD)}
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-bold border-2 border-white/50 transition-colors duration-200 ${
+                      currentView === ViewState.ADMIN_DASHBOARD ? 'bg-white text-[#d147a3] shadow-md' : 'text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <ShieldCheck className="h-4 w-4 mr-2" />
+                    Panel Admin
+                  </button>
+              )}
+
+              <button
+                onClick={onLogout}
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 ml-4 border-l border-white/20 pl-4"
+                title="Cerrar Sesión"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
 
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="-mr-2 flex md:hidden">
+          <div className="-mr-2 flex md:hidden items-center space-x-2">
+            <button
+                onClick={onLogout}
+                className="p-2 text-white/80 hover:text-white"
+              >
+                <LogOut className="h-5 w-5" />
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="bg-[#ff66d9] inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#ff4dd2] focus:outline-none"
@@ -191,6 +221,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
       {isOpen && (
         <div className="md:hidden bg-[#ff76e5] pb-3 pt-2">
           <div className="px-2 space-y-1 sm:px-3">
+             {isAdmin && (
+                  <button
+                    onClick={() => handleNavigate(ViewState.ADMIN_DASHBOARD)}
+                    className="flex items-center w-full px-3 py-3 rounded-md text-base font-bold bg-white/20 text-white border border-white/30 mb-2"
+                  >
+                    <ShieldCheck className="h-5 w-5 mr-3" />
+                    Panel Admin
+                  </button>
+              )}
+
             <button
               onClick={() => handleNavigate(ViewState.NEWS)}
               className="flex items-center w-full px-3 py-3 rounded-md text-base font-medium text-white/90 hover:bg-white/20"
