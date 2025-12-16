@@ -456,7 +456,12 @@ const App: React.FC = () => {
   // --- LOGIN SCREEN RENDER ---
   if (!isAuthenticated) {
       return (
-          <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
+          <div 
+            className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center"
+            style={{ 
+              backgroundImage: "url('https://floresarchundia.com/wp-content/uploads/2018/05/a7f8788e-5295-4d00-be0b-6c93259adb1b.jpg')" 
+            }}
+          >
               <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
                   <div className="bg-[#41F73B] p-8 text-center">
                       <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">

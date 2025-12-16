@@ -59,7 +59,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, isAdmin
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => handleNavigate(ViewState.NEWS)}>
-            <GraduationCap className="h-8 w-8 text-white" />
+            <img 
+              src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/072016/untitled-1_237.png?itok=LaVxt7WP" 
+              alt="UMB Logo" 
+              className="h-10 w-10 object-contain bg-white rounded-full p-1"
+            />
             <span className="font-bold text-xl tracking-tight text-white">UMB Atenco</span>
           </div>
 
