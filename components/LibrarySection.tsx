@@ -135,7 +135,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm"
+                    className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm bg-white"
                     placeholder="Ej. Juan Pérez"
                   />
                 </div>
@@ -148,7 +148,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.career}
                     onChange={e => setFormData({...formData, career: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm bg-white"
+                    className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm bg-white"
                   >
                     <option value="">Selecciona tu carrera...</option>
                     <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
@@ -166,7 +166,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
                     required
                     value={formData.matricula}
                     onChange={e => setFormData({...formData, matricula: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm"
+                    className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:border-[#41F73B] outline-none transition-all text-sm bg-white"
                     placeholder="Ej. 202300159"
                   />
                 </div>
@@ -209,7 +209,7 @@ export const LibrarySection: React.FC<LibrarySectionProps> = ({ onReserve }) => 
               placeholder="Buscar por título o autor..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm bg-white"
             />
           </div>
         </div>

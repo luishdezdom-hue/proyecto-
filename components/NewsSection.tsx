@@ -1,123 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NewsItem } from '../types';
 import { generateNewsSummary } from '../services/geminiService';
-import { Sparkles, ArrowRight, ArrowLeft, Clock, Tag, Globe, GraduationCap } from 'lucide-react';
+import { Sparkles, ArrowRight, ArrowLeft, Clock, Tag, Globe, GraduationCap, Plus, Trash2, X, Image as ImageIcon, FileText } from 'lucide-react';
 
-const MOCK_INTERNAL_NEWS: NewsItem[] = [
-  {
-    id: '1',
-    title: 'Villancicos',
-    summary: 'En la UES Atenco celebramos con gran entusiasmo nuestra Exposición de Villancicos, el tradicional Encendido del Árbol Navideño y el Concurso de Piñatas.',
-    content: `En la UES Atenco celebramos con gran entusiasmo nuestra Exposición de Villancicos, el tradicional Encendido del Árbol Navideño y el Concurso de Piñatas, actividades que reunieron a estudiantes, docentes y personal administrativo en un ambiente de convivencia y espíritu festivo.
-Estos espacios fortalecen la unión de nuestra comunidad universitaria y nos permiten compartir tradiciones que dan identidad a nuestra institución.
-Agradecemos la participación de todos y reconocemos el esfuerzo y creatividad reflejados en cada presentación y elaboración de piñatas.
-En la UES Atenco seguimos construyendo momentos que nos unen.
-Universidad Mexiquense del Bicentenario
-#ComunidadColibríUMB
-#OrgullosamenteUMB#TodosSomosUMB`,
-    date: '2025-10-12',
-    imageUrl: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=800&auto=format&fit=crop',
-    category: 'Social'
-  },
-  {
-    id: '2',
-    title: 'Competencia de futbol',
-    summary: 'Enhorabuena a la #ComunidadColibríUMB de la UMB UES Atenco por su participación en el Torneo de Fútbol.',
-    content: `Enhorabuena a la #ComunidadColibríUMB de la UMB UES Atenco 🏫 por su participación en el Torneo de Fútbol ⚽️ (varonil y femenil) realizado con la finalidad de fortalecer la actividad deportiva y el trabajo en equipo entre la comunidad universitaria, contribuyendo a fortalecer su formación académica y personal. 
+interface NewsSectionProps {
+  userRole?: string;
+  internalNews: NewsItem[];
+  externalNews: NewsItem[];
+  onAddNews: (item: NewsItem, type: 'INTERNAL' | 'EXTERNAL') => void;
+  onDeleteNews: (id: string, type: 'INTERNAL' | 'EXTERNAL') => void;
+  onUpdateNews: (item: NewsItem, type: 'INTERNAL' | 'EXTERNAL') => void;
+}
 
-¡Somos #OrgullosamenteUMB!`,
-    date: '2025-07-12',
-    imageUrl: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop',
-    category: 'Sports'
-  },
-  {
-    id: '3',
-    title: 'Concurso de spelling',
-    summary: 'Tercer concurso de deletreo en inglés Spelling Bee UMB. Estudiantes de diversas regiones compitieron demostrando su habilidad.',
-    content: `Tercer concurso de deletreo en inglés Spelling Bee UMB (25-26/1)
-
-El día 1° de diciembre, se llevó a cabo el Tercer concurso de deletreo en inglés "Spelling Bee UMB", en el cual participaron los estudiantes finalistas de cada un de las cinco regiones que integran la UMB.
-
-- Región Norte: representada por Daniel Reyes Nieto, estudiante de la UES Ixtlahuaca.
-- Región Valle de Toluca: representada por Armando Alcalá Gaona, estudiante de la UES Huixquilucan.
-- Región Sur: representada por Kevin Kaleb Darío Torres, estudiante de la UES Almoloya de Alquisiras.
-- Región Valle de México: representada por Gael Valencia Argueta, estudiante de la UES Cuautitlán.
-- Región Oriente: representada por Luis Ángel Aceves Hernández, estudiante de la UES Atenco
-
-Asimismo, se contó con la participación del jurado conformado por las docentes Karla Fernanda Fierro Aguirre, de la Ues Tejupilco, y Karen Argelia García Floriano de la UMB Tepotzotlán, así como el docente Eder Efraín Rodríguez Ramírez de la UES Tenango del Valle. De igual manera se contó con el apoyo de la Asistente de idioma inglés, Alessandra Caroline Caceres Torres, quien fungió como pronunciadora de las palabras del concurso.
-
-Después de diversas rondas, los finalistas demostraron su talento y su habilidad para el deletreo en inglés, desempeñándose con inteligencia y destreza, obteniendo los siguientes resultados:
-
-- Primer Lugar: Luis Ángel Aceves Hernández, estudiante de la UES Atenco
-
-- Segundo Lugar: Daniel Reyes Nieto, estudiante de la UES Ixtlahuaca
-
-- Tercer Lugar: Kevin Kaleb Darío Torres, estudiante de la UES Almoloya de Alquisiras
-
-Con esta actividad se sigue impulsando el dominio del idioma inglés entre nuestra comunidad universitaria para el desarrollo de habilidades importantes, así como para la formación integral.
-
-#OrgullosamenteUMB
-#TodosSomosUMB`,
-    date: '2025-01-12',
-    imageUrl: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=800&auto=format&fit=crop',
-    category: 'Academic'
-  }
-];
-
-const MOCK_EXTERNAL_NEWS: NewsItem[] = [
-  {
-    id: 'ext-1',
-    title: 'Bloqueo de carretera',
-    summary: 'Bloqueo total en la carretera federal Texcoco-Lechería por manifestación. Tome vías alternas.',
-    content: `Atención comunidad:
-
-Se reporta un bloqueo total en la carretera federal Texcoco-Lechería a la altura del kilómetro 25, debido a una manifestación de pobladores locales.
-
-El tránsito se encuentra detenido en ambos sentidos. Se recomienda utilizar la autopista Peñón-Texcoco o vías alternas por zonas urbanas para llegar a tiempo a sus destinos.
-
-Autoridades estiman que el bloqueo podría mantenerse durante varias horas. Se otorgará tolerancia en el ingreso a clases para alumnos y docentes afectados.`,
-    date: '2025-10-12',
-    imageUrl: 'https://images.unsplash.com/photo-1547638375-ebf04735d792?q=80&w=800&auto=format&fit=crop',
-    category: 'Campus'
-  },
-  {
-    id: 'ext-2',
-    title: 'No hay paso en las vias del tren',
-    summary: 'Mantenimiento urgente en el cruce ferroviario principal. Acceso restringido por 48 horas.',
-    content: `Aviso Importante:
-
-Debido a trabajos de mantenimiento urgente por parte de la empresa ferroviaria, el cruce de las vías del tren que da acceso a la zona norte del municipio permanecerá cerrado.
-
-No habrá paso para vehículos ni peatones durante las próximas 48 horas. Se ha habilitado un desvío provisional a 500 metros.
-
-Por favor, anticipe sus tiempos de traslado para evitar retrasos.`,
-    date: '2025-10-12',
-    imageUrl: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?q=80&w=800&auto=format&fit=crop',
-    category: 'Campus'
-  }
-];
-
-export const NewsSection: React.FC = () => {
+export const NewsSection: React.FC<NewsSectionProps> = ({ 
+  userRole, 
+  internalNews, 
+  externalNews, 
+  onAddNews, 
+  onDeleteNews,
+  onUpdateNews
+}) => {
   const [activeTab, setActiveTab] = useState<'INTERNAL' | 'EXTERNAL'>('INTERNAL');
-  const [internalNews, setInternalNews] = useState<NewsItem[]>(MOCK_INTERNAL_NEWS);
-  const [externalNews, setExternalNews] = useState<NewsItem[]>(MOCK_EXTERNAL_NEWS);
   const [loadingAi, setLoadingAi] = useState<string | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  // Form State for new news
+  const [newNews, setNewNews] = useState({
+    title: '',
+    summary: '',
+    content: '',
+    imageUrl: '',
+    category: 'Academic' as NewsItem['category']
+  });
 
   const handleEnhanceSummary = async (id: string, title: string) => {
     setLoadingAi(id);
     const newSummary = await generateNewsSummary(title);
     
-    if (activeTab === 'INTERNAL') {
-        setInternalNews(prev => prev.map(n => n.id === id ? { ...n, summary: newSummary } : n));
-    } else {
-        setExternalNews(prev => prev.map(n => n.id === id ? { ...n, summary: newSummary } : n));
+    const article = (activeTab === 'INTERNAL' ? internalNews : externalNews).find(n => n.id === id);
+    if (article) {
+        onUpdateNews({ ...article, summary: newSummary }, activeTab);
     }
     
     setLoadingAi(null);
   };
 
+  const handleAddSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const item: NewsItem = {
+      id: Math.random().toString(36).substr(2, 9),
+      ...newNews,
+      date: new Date().toISOString().split('T')[0]
+    };
+    onAddNews(item, activeTab);
+    setIsAddModalOpen(false);
+    setNewNews({
+        title: '',
+        summary: '',
+        content: '',
+        imageUrl: '',
+        category: 'Academic'
+    });
+  };
+
   const currentNews = activeTab === 'INTERNAL' ? internalNews : externalNews;
+  const isAdmin = userRole === 'ADMIN';
 
   if (selectedArticle) {
     return (
@@ -133,7 +81,7 @@ export const NewsSection: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
           <div className="relative h-64 sm:h-80 md:h-96 w-full">
             <img 
-              src={selectedArticle.imageUrl} 
+              src={selectedArticle.imageUrl || 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=800&auto=format&fit=crop'} 
               alt={selectedArticle.title} 
               className="w-full h-full object-cover"
             />
@@ -150,7 +98,6 @@ export const NewsSection: React.FC = () => {
 
           <div className="p-8 md:p-12">
             <div className="prose prose-slate max-w-none">
-              {/* If content exists, preserve newlines, otherwise show summary */}
               <p className="whitespace-pre-wrap text-slate-700 leading-relaxed text-lg">
                 {selectedArticle.content || selectedArticle.summary}
               </p>
@@ -162,12 +109,112 @@ export const NewsSection: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+      {/* Admin Add Modal */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="bg-slate-900 p-4 flex justify-between items-center text-white shrink-0">
+                <h3 className="font-bold text-lg flex items-center">
+                    <Plus className="w-5 h-5 mr-2 text-[#41F73B]" />
+                    Publicar Nueva Noticia ({activeTab === 'INTERNAL' ? 'UMB' : 'Externa'})
+                </h3>
+                <button onClick={() => setIsAddModalOpen(false)} className="hover:bg-white/20 p-1 rounded-full transition-colors">
+                    <X className="w-5 h-5" />
+                </button>
+            </div>
+
+            <form onSubmit={handleAddSubmit} className="p-6 overflow-y-auto custom-scrollbar space-y-4">
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center">
+                        <FileText className="w-4 h-4 mr-1.5 text-slate-400" /> Título
+                    </label>
+                    <input 
+                        type="text" 
+                        required
+                        value={newNews.title}
+                        onChange={e => setNewNews({...newNews, title: e.target.value})}
+                        className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] outline-none bg-white"
+                        placeholder="Ej. Resultados del Torneo"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Categoría</label>
+                    <select 
+                        value={newNews.category}
+                        onChange={e => setNewNews({...newNews, category: e.target.value as NewsItem['category']})}
+                        className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] outline-none bg-white"
+                    >
+                        <option value="Academic">Académico</option>
+                        <option value="Sports">Deportes</option>
+                        <option value="Social">Social</option>
+                        <option value="Campus">Campus / Vialidad</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center">
+                        <ImageIcon className="w-4 h-4 mr-1.5 text-slate-400" /> URL de Imagen
+                    </label>
+                    <input 
+                        type="url" 
+                        required
+                        value={newNews.imageUrl}
+                        onChange={e => setNewNews({...newNews, imageUrl: e.target.value})}
+                        className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] outline-none bg-white"
+                        placeholder="https://images.unsplash.com/..."
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Resumen Corto</label>
+                    <textarea 
+                        required
+                        value={newNews.summary}
+                        onChange={e => setNewNews({...newNews, summary: e.target.value})}
+                        rows={2}
+                        className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] outline-none resize-none bg-white"
+                        placeholder="Breve descripción para la tarjeta..."
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Contenido Completo</label>
+                    <textarea 
+                        required
+                        value={newNews.content}
+                        onChange={e => setNewNews({...newNews, content: e.target.value})}
+                        rows={5}
+                        className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] outline-none resize-y bg-white"
+                        placeholder="Escribe el artículo completo aquí..."
+                    />
+                </div>
+
+                <button 
+                    type="submit"
+                    className="w-full bg-[#41F73B] hover:bg-green-500 text-white font-bold py-3 rounded-xl shadow-lg transition-transform hover:-translate-y-0.5"
+                >
+                    Publicar Ahora
+                </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between items-end mb-8">
         <div>
           <h2 className="text-3xl font-bold text-slate-900">Noticias y Avisos</h2>
           <p className="text-slate-500 mt-2">Mantente informado de lo que sucede dentro y fuera del campus.</p>
         </div>
+        {isAdmin && (
+            <button 
+                onClick={() => setIsAddModalOpen(true)}
+                className="bg-[#41F73B] hover:bg-green-500 text-white font-bold py-2.5 px-5 rounded-full shadow-lg transition-all transform hover:scale-105 flex items-center"
+            >
+                <Plus className="w-5 h-5 mr-2" /> Agregar Noticia
+            </button>
+        )}
       </div>
 
       {/* Tabs */}
@@ -205,10 +252,25 @@ export const NewsSection: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
         {currentNews.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-full border border-slate-100">
+          <div key={item.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-full border border-slate-100 relative group">
+            {/* Admin Controls */}
+            {isAdmin && (
+                <button 
+                    onClick={() => {
+                        if(window.confirm('¿Seguro que deseas borrar esta noticia?')) {
+                            onDeleteNews(item.id, activeTab);
+                        }
+                    }}
+                    className="absolute top-2 left-2 z-10 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Borrar Noticia"
+                >
+                    <Trash2 className="w-4 h-4" />
+                </button>
+            )}
+
             <div className="relative h-48 overflow-hidden">
               <img 
-                src={item.imageUrl} 
+                src={item.imageUrl || 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=800&auto=format&fit=crop'} 
                 alt={item.title} 
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
               />
@@ -254,6 +316,14 @@ export const NewsSection: React.FC = () => {
           </div>
         ))}
       </div>
+      
+      {currentNews.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200">
+              <FileText className="w-16 h-16 mx-auto mb-4 text-slate-200" />
+              <p className="text-slate-400 font-medium">No hay noticias publicadas en esta sección.</p>
+              {isAdmin && <button onClick={() => setIsAddModalOpen(true)} className="mt-4 text-[#41F73B] font-bold hover:underline">Publicar la primera</button>}
+          </div>
+      )}
     </div>
   );
 };

@@ -51,7 +51,7 @@ export const TeacherInfoSection: React.FC<TeacherInfoSectionProps> = ({ teachers
         <input 
           type="text" 
           placeholder="Buscar profesor por nombre o materia..." 
-          className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm"
+          className="w-full pl-12 pr-4 py-3 border border-black rounded-full focus:outline-none focus:ring-2 focus:ring-[#41F73B] shadow-sm bg-white"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

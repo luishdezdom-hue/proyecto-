@@ -252,7 +252,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                     required
                     value={formData.fullName}
                     onChange={e => setFormData({...formData, fullName: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
+                    className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm bg-white"
                     placeholder="Ej. María González López"
                   />
                 </div>
@@ -267,7 +267,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                       required
                       value={formData.group}
                       onChange={e => setFormData({...formData, group: e.target.value})}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
+                      className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm bg-white"
                       placeholder="Ej. 1801"
                     />
                   </div>
@@ -280,7 +280,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                       required
                       value={formData.matricula}
                       onChange={e => setFormData({...formData, matricula: e.target.value})}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm"
+                      className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none text-sm bg-white"
                       placeholder="Ej. 20210045"
                     />
                   </div>
@@ -296,10 +296,10 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                         key={time}
                         type="button"
                         onClick={() => setFormData({...formData, selectedTime: time})}
-                        className={`px-4 py-3 rounded-lg border text-sm font-medium transition-all text-left flex justify-between items-center
+                        className={`px-4 py-3 rounded-lg border border-black text-sm font-medium transition-all text-left flex justify-between items-center
                           ${formData.selectedTime === time 
-                            ? 'border-[#41F73B] bg-green-50 text-green-700 ring-1 ring-[#41F73B]' 
-                            : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                            ? 'bg-green-50 text-green-700 ring-1 ring-[#41F73B]' 
+                            : 'bg-white text-slate-600 hover:bg-slate-50'
                           }
                         `}
                       >
@@ -376,7 +376,7 @@ export const AdvisorySection: React.FC<AdvisorySectionProps> = ({ onRegister, us
                         </div>
                         <button 
                             onClick={() => handleOpenModal(item)}
-                            className="text-sm font-semibold text-[#41F73B] hover:text-green-700 flex items-center bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                            className="text-sm font-semibold text-[#41F73B] hover:text-green-700 flex items-center bg-white px-3 py-1 rounded-lg border border-black shadow-sm hover:shadow-md transition-all"
                         >
                             Inscribirse <ArrowRight className="w-4 h-4 ml-1" />
                         </button>

@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { UniversityEvent, AbsenceRecord, EventType } from '../types';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Plus, Save, Clock, BookOpen, Briefcase } from 'lucide-react';
@@ -311,7 +312,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                 value={newEventTitle}
                 onChange={(e) => setNewEventTitle(e.target.value)}
                 placeholder="Ej. Entrega Final"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
+                className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
               />
             </div>
 
@@ -320,7 +321,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
               <select 
                 value={newEventType}
                 onChange={(e) => setNewEventType(e.target.value as EventType)}
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
+                className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
               >
                 <option value={EventType.LECTURE}>Clase</option>
                 <option value={EventType.EXAM}>Examen</option>
@@ -340,7 +341,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                     <select 
                         value={eventCareer}
                         onChange={(e) => setEventCareer(e.target.value)}
-                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
+                        className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
                     >
                         <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
                         <option value="Ingeniería Industrial">Ingeniería Industrial</option>
@@ -356,7 +357,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                         value={eventSubject}
                         onChange={(e) => setEventSubject(e.target.value)}
                         placeholder="Ej. Cálculo Diferencial"
-                        className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
+                        className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
                     />
                 </div>
                 </>
@@ -367,14 +368,15 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
               <input 
                 type="text"
                 value={newEventLocation}
+                // Fix: Corrected the setter name from setNewLocation to setNewEventLocation
                 onChange={(e) => setNewEventLocation(e.target.value)}
                 placeholder="Ej. Aula B4"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
+                className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
               />
             </div>
 
             {newEventType === EventType.VACATION && (
-              <div className="bg-green-50 p-3 rounded-lg border border-green-100">
+              <div className="bg-green-50 p-3 rounded-lg border border-black">
                 <label className="block text-xs font-medium text-green-700 mb-1 flex items-center">
                   <Clock className="w-3 h-3 mr-1" />
                   Fecha de Fin
@@ -384,7 +386,7 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ events, absenc
                   value={endDateStr}
                   onChange={(e) => setEndDateStr(e.target.value)}
                   min={selectedDate.toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 text-sm border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
+                  className="w-full px-3 py-2 text-sm border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
                 />
               </div>
             )}

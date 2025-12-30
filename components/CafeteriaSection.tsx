@@ -170,7 +170,7 @@ export const CafeteriaSection: React.FC = () => {
                 <p className="text-slate-600 mb-6 italic">{selectedItem.desc}</p>
                 
                 {selectedItem.prepTime && (
-                    <div className="flex items-center text-slate-700 mb-4 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                    <div className="flex items-center text-slate-700 mb-4 bg-blue-50 p-3 rounded-lg border border-black">
                         <Clock className="w-5 h-5 mr-3 text-blue-600" />
                         <div>
                             <span className="text-xs font-bold text-blue-600 uppercase block">Tiempo Estimado</span>
@@ -234,7 +234,7 @@ export const CafeteriaSection: React.FC = () => {
                                 required
                                 value={userData.name}
                                 onChange={e => setUserData({...userData, name: e.target.value})}
-                                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none"
+                                className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none bg-white"
                                 placeholder="Ej. Ana García"
                             />
                         </div>
@@ -247,7 +247,7 @@ export const CafeteriaSection: React.FC = () => {
                                 required
                                 value={userData.matricula}
                                 onChange={e => setUserData({...userData, matricula: e.target.value})}
-                                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none"
+                                className="w-full px-3 py-2 border border-black rounded-lg focus:ring-2 focus:ring-[#41F73B] focus:outline-none bg-white"
                                 placeholder="Ej. 20214567"
                             />
                         </div>
@@ -285,7 +285,7 @@ export const CafeteriaSection: React.FC = () => {
                     </div>
 
                     {/* Conditional Payment Inputs */}
-                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div className="bg-slate-50 p-4 rounded-xl border border-black">
                         {paymentMethod === 'CASH' && (
                             <div className="flex items-start text-sm text-slate-600">
                                 <Info className="w-5 h-5 text-blue-500 mr-2 shrink-0 mt-0.5" />
@@ -298,7 +298,7 @@ export const CafeteriaSection: React.FC = () => {
                                 <input 
                                     type="text" 
                                     placeholder="Nombre en la tarjeta"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-[#41F73B]"
+                                    className="w-full px-3 py-2 border border-black rounded-lg text-sm focus:outline-none focus:border-[#41F73B] bg-white"
                                     required
                                     value={cardData.name}
                                     onChange={e => setCardData({...cardData, name: e.target.value})}
@@ -307,7 +307,7 @@ export const CafeteriaSection: React.FC = () => {
                                     type="text" 
                                     placeholder="Número de tarjeta"
                                     maxLength={16}
-                                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-[#41F73B]"
+                                    className="w-full px-3 py-2 border border-black rounded-lg text-sm focus:outline-none focus:border-[#41F73B] bg-white"
                                     required
                                     value={cardData.number}
                                     onChange={e => setCardData({...cardData, number: e.target.value})}
@@ -317,7 +317,7 @@ export const CafeteriaSection: React.FC = () => {
                                         type="text" 
                                         placeholder="MM/AA"
                                         maxLength={5}
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-[#41F73B]"
+                                        className="w-full px-3 py-2 border border-black rounded-lg text-sm focus:outline-none focus:border-[#41F73B] bg-white"
                                         required
                                         value={cardData.expiry}
                                         onChange={e => setCardData({...cardData, expiry: e.target.value})}
@@ -326,7 +326,7 @@ export const CafeteriaSection: React.FC = () => {
                                         type="text" 
                                         placeholder="CVC"
                                         maxLength={3}
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-[#41F73B]"
+                                        className="w-full px-3 py-2 border border-black rounded-lg text-sm focus:outline-none focus:border-[#41F73B] bg-white"
                                         required
                                         value={cardData.cvc}
                                         onChange={e => setCardData({...cardData, cvc: e.target.value})}
@@ -345,7 +345,7 @@ export const CafeteriaSection: React.FC = () => {
                                 <input 
                                     type="text" 
                                     placeholder="Ingresa Clave de Rastreo / Referencia"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-[#41F73B]"
+                                    className="w-full px-3 py-2 border border-black rounded-lg text-sm focus:outline-none focus:border-[#41F73B] bg-white"
                                     required
                                     value={transferData.reference}
                                     onChange={e => setTransferData({...transferData, reference: e.target.value})}

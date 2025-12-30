@@ -12,11 +12,105 @@ import { CampusMap } from './components/CampusMap';
 import { CareerGuidanceSection } from './components/CareerGuidanceSection';
 import { AdminDashboard } from './components/AdminDashboard';
 import { GamesSection } from './components/GamesSection';
-import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType, AdvisoryRegistration, LibraryReservation, JobApplication, TeacherRating, User } from './types';
+import { ViewState, Teacher, AbsenceRecord, UniversityEvent, EventType, AdvisoryRegistration, LibraryReservation, JobApplication, TeacherRating, User, NewsItem } from './types';
 import { generateUniversityInsights } from './services/geminiService';
 import { Bot, X, Lock, User as UserIcon, KeyRound, LogIn, UserPlus, GraduationCap, Briefcase } from 'lucide-react';
 
 // --- MOCK DATA SEEDING ---
+const MOCK_INTERNAL_NEWS: NewsItem[] = [
+  {
+    id: '1',
+    title: 'Villancicos',
+    summary: 'En la UES Atenco celebramos con gran entusiasmo nuestra Exposición de Villancicos, el tradicional Encendido del Árbol Navideño y el Concurso de Piñatas.',
+    content: `En la UES Atenco celebramos con gran entusiasmo nuestra Exposición de Villancicos, el tradicional Encendido del Árbol Navideño y el Concurso de Piñatas, actividades que reunieron a estudiantes, docentes y personal administrativo en un ambiente de convivencia y espíritu festivo.
+Estos espacios fortalecen la unión de nuestra comunidad universitaria y nos permiten compartir tradiciones que dan identidad a nuestra institución.
+Agradecemos la participación de todos y reconocemos el esfuerzo y creatividad reflejados en cada presentación y elaboración de piñatas.
+En la UES Atenco seguimos construyendo momentos que nos unen.
+Universidad Mexiquense del Bicentenario
+#ComunidadColibríUMB
+#OrgullosamenteUMB#TodosSomosUMB`,
+    date: '2025-10-12',
+    imageUrl: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=800&auto=format&fit=crop',
+    category: 'Social'
+  },
+  {
+    id: '2',
+    title: 'Competencia de futbol',
+    summary: 'Enhorabuena a la #ComunidadColibríUMB de la UMB UES Atenco por su participación en el Torneo de Fútbol.',
+    content: `Enhorabuena a la #ComunidadColibríUMB de la UMB UES Atenco 🏫 por su participación en el Torneo de Fútbol ⚽️ (varonil y femenil) realizado con la finalidad de fortalecer la actividad deportiva y el trabajo en equipo entre la comunidad universitaria, contribuyendo a fortalecer su formación académica y personal. 
+
+¡Somos #OrgullosamenteUMB!`,
+    date: '2025-07-12',
+    imageUrl: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop',
+    category: 'Sports'
+  },
+  {
+    id: '3',
+    title: 'Concurso de spelling',
+    summary: 'Tercer concurso de deletreo en inglés Spelling Bee UMB. Estudiantes de diversas regiones compitieron demostrando su habilidad.',
+    content: `Tercer concurso de deletreo en inglés Spelling Bee UMB (25-26/1)
+
+El día 1° de diciembre, se llevó a cabo el Tercer concurso de deletreo en inglés "Spelling Bee UMB", en el cual participaron los estudiantes finalistas de cada un de las cinco regiones que integran la UMB.
+
+- Región Norte: representada por Daniel Reyes Nieto, estudiante de la UES Ixtlahuaca.
+- Región Valle de Toluca: representada por Armando Alcalá Gaona, estudiante de la UES Huixquilucan.
+- Región Sur: representada por Kevin Kaleb Darío Torres, estudiante de la UES Almoloya de Alquisiras.
+- Región Valle de México: representada por Gael Valencia Argueta, estudiante de la UES Cuautitlán.
+- Región Oriente: representada por Luis Ángel Aceves Hernández, estudiante de la UES Atenco
+
+Asimismo, se contó con la participación del jurado conformado por las docentes Karla Fernanda Fierro Aguirre, de la Ues Tejupilco, y Karen Argelia García Floriano de la UMB Tepotzotlán, así como el docente Eder Efraín Rodríguez Ramírez de la UES Tenango del Valle. De igual manera se contó con el apoyo de la Asistente de idioma inglés, Alessandra Caroline Caceres Torres, quien fungió como pronunciadora de las palabras del concurso.
+
+Después de diversas rondas, los finalistas demostraron su talento y su habilidad para el deletreo en inglés, desempeñándose con inteligencia y destreza, obteniendo los siguientes resultados:
+
+- Primer Lugar: Luis Ángel Aceves Hernández, estudiante de la UES Atenco
+
+- Segundo Lugar: Daniel Reyes Nieto, estudiante de la UES Ixtlahuaca
+
+- Tercer Lugar: Kevin Kaleb Darío Torres, estudiante de la UES Almoloya de Alquisiras
+
+Con esta actividad se sigue impulsando el dominio del idioma inglés entre nuestra comunidad universitaria para el desarrollo de habilidades importantes, así como para la formación integral.
+
+#OrgullosamenteUMB
+#TodosSomosUMB`,
+    date: '2025-01-12',
+    imageUrl: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=800&auto=format&fit=crop',
+    category: 'Academic'
+  }
+];
+
+const MOCK_EXTERNAL_NEWS: NewsItem[] = [
+  {
+    id: 'ext-1',
+    title: 'Bloqueo de carretera',
+    summary: 'Bloqueo total en la carretera federal Texcoco-Lechería por manifestación. Tome vías alternas.',
+    content: `Atención comunidad:
+
+Se reporta un bloqueo total en la carretera federal Texcoco-Lechería a la altura del kilómetro 25, debido a una manifestación de pobladores locales.
+
+El tránsito se encuentra detenido en ambos sentidos. Se recomienda utilizar la autopista Peñón-Texcoco o vías alternas por zonas urbanas para llegar a tiempo a sus destinos.
+
+Autoridades estiman que el bloqueo podría mantenerse durante varias horas. Se otorgará tolerancia en el ingreso a clases para alumnos y docentes afectados.`,
+    date: '2025-10-12',
+    imageUrl: 'https://images.unsplash.com/photo-1547638375-ebf04735d792?q=80&w=800&auto=format&fit=crop',
+    category: 'Campus'
+  },
+  {
+    id: 'ext-2',
+    title: 'No hay paso en las vias del tren',
+    summary: 'Mantenimiento urgente en el cruce ferroviario principal. Acceso restringido por 48 horas.',
+    content: `Aviso Importante:
+
+Debido a trabajos de mantenimiento urgente por parte de la empresa ferroviaria, el cruce de las vías del tren que da acceso a la zona norte del municipio permanecerá cerrado.
+
+No habrá paso para vehículos ni peatones durante las próximas 48 horas. Se ha habilitado un desvío provisional a 500 metros.
+
+Por favor, anticipe sus tiempos de traslado para evitar retrasos.`,
+    date: '2025-10-12',
+    imageUrl: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?q=80&w=800&auto=format&fit=crop',
+    category: 'Campus'
+  }
+];
+
 const MOCK_TEACHERS: Teacher[] = [
   // TIC'S
   {
@@ -256,6 +350,10 @@ const App: React.FC = () => {
   const [teachers] = useState<Teacher[]>(MOCK_TEACHERS);
   const [absences, setAbsences] = useState<AbsenceRecord[]>([]);
   const [events, setEvents] = useState<UniversityEvent[]>(MOCK_EVENTS);
+  
+  // News State (Lifted for persistence and admin management)
+  const [internalNews, setInternalNews] = useState<NewsItem[]>(MOCK_INTERNAL_NEWS);
+  const [externalNews, setExternalNews] = useState<NewsItem[]>(MOCK_EXTERNAL_NEWS);
 
   // --- ENABLED SECTIONS STATE (ADMIN CONTROL) ---
   const [enabledSections, setEnabledSections] = useState<Record<string, boolean>>({
@@ -384,6 +482,31 @@ const App: React.FC = () => {
       setCurrentView(ViewState.NEWS);
   };
 
+  // --- NEWS HANDLERS ---
+  const handleAddNews = (item: NewsItem, type: 'INTERNAL' | 'EXTERNAL') => {
+    if (type === 'INTERNAL') {
+      setInternalNews([item, ...internalNews]);
+    } else {
+      setExternalNews([item, ...externalNews]);
+    }
+  };
+
+  const handleDeleteNews = (id: string, type: 'INTERNAL' | 'EXTERNAL') => {
+    if (type === 'INTERNAL') {
+      setInternalNews(internalNews.filter(n => n.id !== id));
+    } else {
+      setExternalNews(externalNews.filter(n => n.id !== id));
+    }
+  };
+
+  const handleUpdateNewsItem = (item: NewsItem, type: 'INTERNAL' | 'EXTERNAL') => {
+    if (type === 'INTERNAL') {
+      setInternalNews(internalNews.map(n => n.id === item.id ? item : n));
+    } else {
+      setExternalNews(externalNews.map(n => n.id === item.id ? item : n));
+    }
+  }
+
   // --- DATA HANDLERS ---
   const handleToggleAbsence = (teacherId: string, date: Date, reason?: string) => {
     // Only Admin can modify
@@ -497,23 +620,23 @@ const App: React.FC = () => {
                          <form onSubmit={handleRegisterStudent} className="space-y-4 animate-fade-in">
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre Completo</label>
-                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Carrera</label>
-                                <select value={regCareer} onChange={e => setRegCareer(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required>
+                                <select value={regCareer} onChange={e => setRegCareer(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required>
                                     <option value="Ingeniería en TIC'S">Ingeniería en TIC'S</option>
-                                    <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                                    <option value="Ingeniería Industrial">Ingeniería en Industrial</option>
                                     <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
                                 </select>
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Usuario</label>
-                                <input type="text" value={regUser} onChange={e => setRegUser(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                                <input type="text" value={regUser} onChange={e => setRegUser(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña</label>
-                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
                             <button type="submit" className="w-full bg-[#41F73B] text-white font-bold py-3 rounded-xl hover:bg-green-500">Registrarse</button>
@@ -524,15 +647,15 @@ const App: React.FC = () => {
                          <form onSubmit={handleRegisterTeacher} className="space-y-4 animate-fade-in">
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre Completo</label>
-                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                                <input type="text" value={regName} onChange={e => setRegName(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Matrícula</label>
-                                <input type="text" value={regMatricula} onChange={e => setRegMatricula(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required placeholder="Será tu usuario" />
+                                <input type="text" value={regMatricula} onChange={e => setRegMatricula(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required placeholder="Será tu usuario" />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña</label>
-                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-transparent rounded-xl focus:ring-[#41F73B] outline-none" required />
+                                <input type="password" value={regPass} onChange={e => setRegPass(e.target.value)} className="w-full px-3 py-2 border border-black bg-white rounded-xl focus:ring-[#41F73B] outline-none" required />
                             </div>
                             {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
                             <button type="submit" className="w-full bg-[#41F73B] text-white font-bold py-3 rounded-xl hover:bg-green-500">Registrar Docente</button>
@@ -550,7 +673,7 @@ const App: React.FC = () => {
                                         value={loginUsername}
                                         onChange={(e) => setLoginUsername(e.target.value)}
                                         placeholder="Nombre de usuario"
-                                        className="w-full pl-10 pr-4 py-3 border border-black bg-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
+                                        className="w-full pl-10 pr-4 py-3 border border-black bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
                                         required
                                     />
                                 </div>
@@ -565,7 +688,7 @@ const App: React.FC = () => {
                                         value={loginPassword}
                                         onChange={(e) => setLoginPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full pl-10 pr-4 py-3 border border-black bg-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
+                                        className="w-full pl-10 pr-4 py-3 border border-black bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#41F73B] transition-shadow"
                                     />
                                 </div>
                             </div>
@@ -602,7 +725,14 @@ const App: React.FC = () => {
             onToggleSection={handleToggleSection}
         />;
       case ViewState.NEWS:
-        return <NewsSection />;
+        return <NewsSection 
+            userRole={currentUser?.role} 
+            internalNews={internalNews}
+            externalNews={externalNews}
+            onAddNews={handleAddNews}
+            onDeleteNews={handleDeleteNews}
+            onUpdateNews={handleUpdateNewsItem}
+        />;
       case ViewState.CALENDAR:
         return enabledSections[ViewState.CALENDAR] ? <CalendarSection 
           events={events} 
@@ -611,7 +741,7 @@ const App: React.FC = () => {
           onAddEvent={handleAddEvent} 
           userRole={currentUser?.role}
           userCareer={currentUser?.career}
-        /> : <NewsSection />;
+        /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.ATTENDANCE:
         return enabledSections[ViewState.ATTENDANCE] ? <AttendanceTracker 
             teachers={teachers} 
@@ -619,37 +749,37 @@ const App: React.FC = () => {
             onToggleAbsence={handleToggleAbsence} 
             readOnly={currentUser?.role !== 'ADMIN'} 
             userCareer={userCareer}
-        /> : <NewsSection />;
+        /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.TEACHER_EVALUATION:
         return enabledSections[ViewState.TEACHER_EVALUATION] ? <TeacherEvaluation 
             teachers={teachers} 
             onSubmitEvaluation={handleRateTeacher} 
             userCareer={userCareer}
-        /> : <NewsSection />;
+        /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.TEACHER_INFO:
         return enabledSections[ViewState.TEACHER_INFO] ? <TeacherInfoSection 
           teachers={teachers} 
           userCareer={userCareer}
-        /> : <NewsSection />;
+        /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.ADVISORY:
         return enabledSections[ViewState.ADVISORY] ? <AdvisorySection 
           onRegister={handleRegisterAdvisory} 
           userCareer={userCareer}
           teacherName={currentUser?.role === 'TEACHER' ? currentUser.name : undefined}
           registrations={advisoryRegistrations}
-        /> : <NewsSection />;
+        /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.LIBRARY:
-        return enabledSections[ViewState.LIBRARY] ? <LibrarySection onReserve={handleReserveBook} /> : <NewsSection />;
+        return enabledSections[ViewState.LIBRARY] ? <LibrarySection onReserve={handleReserveBook} /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.CAFETERIA:
-        return enabledSections[ViewState.CAFETERIA] ? <CafeteriaSection /> : <NewsSection />;
+        return enabledSections[ViewState.CAFETERIA] ? <CafeteriaSection /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.MAP:
-        return enabledSections[ViewState.MAP] ? <CampusMap userRole={currentUser?.role} /> : <NewsSection />;
+        return enabledSections[ViewState.MAP] ? <CampusMap userRole={currentUser?.role} /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.CAREER_GUIDANCE:
-        return enabledSections[ViewState.CAREER_GUIDANCE] ? <CareerGuidanceSection onSubmitJobSearch={handleJobApplication} /> : <NewsSection />;
+        return enabledSections[ViewState.CAREER_GUIDANCE] ? <CareerGuidanceSection onSubmitJobSearch={handleJobApplication} /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       case ViewState.GAMES:
-        return enabledSections[ViewState.GAMES] ? <GamesSection /> : <NewsSection />;
+        return enabledSections[ViewState.GAMES] ? <GamesSection /> : <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
       default:
-        return <NewsSection />;
+        return <NewsSection userRole={currentUser?.role} internalNews={internalNews} externalNews={externalNews} onAddNews={handleAddNews} onDeleteNews={handleDeleteNews} onUpdateNews={handleUpdateNewsItem} />;
     }
   };
 
@@ -724,7 +854,7 @@ const App: React.FC = () => {
                 value={chatQuery}
                 onChange={(e) => setChatQuery(e.target.value)}
                 placeholder="Escribe tu pregunta..."
-                className="flex-grow text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#41F73B]"
+                className="flex-grow text-sm border border-black rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#41F73B] bg-white"
               />
               <button 
                 type="submit" 

@@ -149,7 +149,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({ userRole }) => {
         <h2 className="text-3xl font-bold text-slate-900">Mapa del Campus</h2>
         <p className="text-slate-500 mt-2">Ubica fácilmente todos los espacios de la UES Atenco.</p>
         {userRole === 'ADMIN' && (
-          <div className="mt-4 bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm px-4 py-3 rounded-lg inline-block text-left max-w-2xl mx-auto">
+          <div className="mt-4 bg-yellow-50 border border-black text-yellow-800 text-sm px-4 py-3 rounded-lg inline-block text-left max-w-2xl mx-auto">
              <p className="font-bold flex items-center justify-center mb-1"><Edit3 className="w-4 h-4 mr-2"/> Modo Edición Activado</p>
              <ul className="list-disc list-inside text-xs space-y-1">
                 <li><strong>Mover:</strong> Haz clic y arrastra cualquier bloque para cambiar su posición.</li>
@@ -161,7 +161,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({ userRole }) => {
 
       {/* Admin Controls */}
       {userRole === 'ADMIN' && (
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8 shadow-sm">
+        <div className="bg-slate-50 border border-black rounded-xl p-6 mb-8 shadow-sm">
           <h3 className="font-bold text-slate-800 mb-4 flex items-center">
             <Plus className="w-5 h-5 mr-2" />
             Agregar Nueva Ubicación
@@ -173,7 +173,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({ userRole }) => {
                 type="text" 
                 value={newName} 
                 onChange={e => setNewName(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                className="w-full px-3 py-2 border border-black rounded-lg text-sm bg-white"
                 placeholder="Ej. Nuevo Lab"
               />
             </div>
@@ -183,7 +183,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({ userRole }) => {
                 type="text" 
                 value={newDesc} 
                 onChange={e => setNewDesc(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                className="w-full px-3 py-2 border border-black rounded-lg text-sm bg-white"
                 placeholder="Ej. Área de..."
               />
             </div>
@@ -192,7 +192,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({ userRole }) => {
               <select 
                 value={newColor} 
                 onChange={e => setNewColor(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
+                className="w-full px-3 py-2 border border-black rounded-lg text-sm bg-white"
               >
                 {COLORS.map(c => (
                   <option key={c.name} value={c.class}>{c.name}</option>

@@ -32,7 +32,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     let totalQuestions = 0;
 
     ratings.forEach(r => {
-      const values = Object.values(r.ratings);
+      // Fix: Cast Object.values to number[] to resolve 'Operator += cannot be applied to types number and unknown'
+      const values = Object.values(r.ratings) as number[];
       totalStars += values.reduce((a, b) => a + b, 0);
       totalQuestions += values.length;
     });
